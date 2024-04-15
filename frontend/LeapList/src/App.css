@@ -1,0 +1,302 @@
+#root {
+  height: 100%;
+}
+
+.main-container {
+  height: 100%;
+  width: 100%;
+  min-width: 1100px;
+  overflow-y: scroll;
+}
+.main-container::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar {
+  width: 60px;
+  height: 100%;
+  position: fixed;
+  background-color: #bfb29e;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.sidebar.active {
+  width: 250px;
+}
+.sidebar-header {
+  height: 60px;
+  width: 100%;
+}
+.logo {
+  width: 60px;
+  height: 60px;
+}
+.sidebar-header.active {
+  display: flex;
+  height: 60px;
+  width: 100%;
+}
+.sidebar-btn {
+  width: 60px;
+  height: 60px;
+  border: none;
+  padding: 0 !important;
+}
+.sidebar-btn.active {
+  width: 60px;
+  float: right;
+  border: 0px;
+}
+.app-name {
+  width: 120px;
+  text-align: center;
+  font-family: "Indie Flower";
+  font-weight: bold;
+  align-self: center;
+}
+
+.user-lists {
+  width: 230px;
+  height: calc(100% - 130px);
+  margin: 9px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  border: 1px black solid;
+  border-radius: 5px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+}
+.user-lists::-webkit-scrollbar {
+  display: none;
+}
+.list-object {
+  width: 80%;
+  height: 58px;
+  border: gray 1px solid;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding: 10px;
+  border-color: #b1936c;
+}
+.list-object-text-div {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  width: 50%;
+  height: 100%;
+  font-family: "Indie Flower";
+  font-weight: bold;
+  font-size: 1.1rem;
+  line-height: 20px;
+}
+.list-object-text {
+  margin: 0px !important;
+}
+
+.list-object-buttons-date {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: end;
+  width: 50%;
+  height: 100%;
+}
+.list-object-buttons-date-nested {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: end;
+}
+.list-object-date {
+  margin: 0px !important;
+  color: #b1936c;
+  font-weight: bold;
+}
+
+.login {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+}
+.login.active {
+  width: 250px;
+  height: 60px;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+}
+.login-btn {
+  width: 60px;
+  border: 0px;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login-icon {
+  width: 45px;
+  height: 45px;
+}
+.log-out-div {
+  width: calc(100% - 30px);
+  height: 60px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.log-out-btn {
+  height: 30px;
+  color: white;
+  background-color: red;
+  border-radius: 5px;
+  font-weight: bold;
+  box-shadow: 0 0 8px red;
+}
+
+.header-form {
+  height: 65px;
+  max-height: 120px;
+  width: calc(100% - 60px);
+  margin-left: 60px;
+  font-family: "Indie Flower";
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: solid black 2px;
+}
+.header-form.active {
+  width: calc(100% - 250px);
+  margin-left: 250px;
+}
+#main-header {
+  font-size: 2rem;
+  padding-left: 35px;
+}
+.header-right {
+  font-weight: bold;
+  align-items: center;
+  padding-right: 3.5%;
+  font-size: 1.4rem;
+  width: 550px;
+}
+.input-label {
+  margin-right: 10px;
+  font-size: 1.4rem;
+}
+#input-field {
+  width: 60%;
+  font-family: "Indie Flower";
+  font-size: 1.4rem;
+  margin-left: 10px;
+}
+.add-task-btn {
+  font-family: "Indie Flower";
+  font-weight: bold;
+  color: black;
+  border-radius: 3px;
+  font-size: 1.4rem;
+}
+
+.list-body {
+  overflow-y: scroll;
+  height: calc(100% - 62px);
+  width: calc(100% - 250px);
+  float: right;
+}
+.list-body::-webkit-scrollbar {
+  display: none;
+}
+
+.task {
+  float: right;
+  width: calc(100% - 60px);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  font-family: "Indie Flower";
+  font-size: 1.2rem;
+  font-weight: bold;
+  justify-content: space-evenly;
+  margin-top: 5px;
+  border-bottom: solid black 1px;
+}
+.task.active {
+  width: calc(100% - 250px);
+}
+.task-form {
+  align-self: center;
+  width: 90%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.task-btns {
+  min-width: 30px;
+  margin-right: 20px;
+}
+.edit-btn {
+  color: blue;
+  margin-right: 5px;
+  font-weight: bold;
+  font-family: "Segoe UI";
+  font-size: 1.2rem;
+  border-radius: 3px;
+}
+.delete-btn {
+  color: red;
+  font-weight: bold;
+  font-family: "Segoe UI";
+  border-radius: 3px;
+  font-size: 1.2rem;
+}
+.save-btn {
+  color: green;
+  font-weight: bold;
+  margin-right: 5px;
+  font-size: 1.4rem;
+  border-radius: 3px;
+}
+.edit-input {
+  margin-left: 8px;
+  min-width: 70%;
+  font-size: 1.4rem;
+  border-radius: 3px;
+  font-family: "Indie Flower";
+}
+.input-field {
+  margin-left: 8px;
+  width: 70%;
+  font-size: 1.4rem;
+  font-family: "Indie Flower";
+}
+.objective-text {
+  max-width: 60%;
+  max-height: 60px;
+  overflow-y: scroll;
+  overflow-wrap: break-word;
+  border: 0px;
+  background-color: transparent;
+  font-size: 1.4rem;
+  font-family: "Indie Flower";
+  font-weight: bold;
+  text-decoration-thickness: 0.1rem !important;
+  text-decoration-color: red !important;
+}
+.objective-text::-webkit-scrollbar {
+  display: none;
+}
+.objective-text,
+button {
+  cursor: pointer;
+}
