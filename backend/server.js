@@ -81,10 +81,10 @@ app.post("/register", async function (req, res) {
 // POST login
 app.post("/log-in", async function (req, res) {
   try {
-    const { username, password: userEnteredPassword } = req.body;
+    const { username, password: userEnteredPassword, email } = req.body;
 
     const [[user]] = await req.db.query(
-      `SELECT * FROM users WHERE username = :username`,
+      `SELECT * FROM users WHERE username = :username AND email = :email`,
       { username }
     );
 
