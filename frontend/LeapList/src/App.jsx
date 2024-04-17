@@ -6,10 +6,12 @@ import Task from "./Task";
 import Sidebar from "./Sidebar";
 
 function App() {
-  // State for tasks.
+  // State for current tasks to render.
   const [tasks, setTasks] = useState([]);
-  // State for sidebarToggle.
+  // State for checking if sidebar is toggled.
   const [sidebarToggled, setSidebarToggled] = useState(false);
+  // State for checking if user is logged in.
+  const [loggedIn, setLoggedIn] = useState(false);
 
   // Handler function for deleting a task from state.
   function deleteTask(id) {
@@ -71,7 +73,11 @@ function App() {
 
   return (
     <div className="main-container">
-      <Sidebar sendToggleState={getToggleState} toggleState={sidebarToggled} />
+      <Sidebar
+        sendToggleState={getToggleState}
+        toggleState={sidebarToggled}
+        loggedIn={loggedIn}
+      />
 
       <Header onSubmit={handleAddTask} toggleState={sidebarToggled} />
       {tasks.map((taskObj, index) => {

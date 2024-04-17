@@ -11,14 +11,6 @@ function List(props) {
             <button
               className="list-btn"
               type="button"
-              name="edit-list-name"
-              style={{ backgroundColor: "blue", color: "white" }}
-            >
-              <i className="bx bx-edit"></i>
-            </button>
-            <button
-              className="list-btn"
-              type="button"
               name="delete-list-object"
               style={{
                 marginLeft: "2.5px",
@@ -26,6 +18,7 @@ function List(props) {
                 color: "white",
               }}
             >
+              Delete
               <i className="bx bx-trash"></i>
             </button>
           </div>

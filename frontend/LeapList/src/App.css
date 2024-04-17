@@ -118,15 +118,33 @@
 }
 .list-object-date {
   margin: 0px !important;
-  color: #b1936c;
+  color: #8a6330;
   font-weight: bold;
+}
+
+.account {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+}
+.account.active {
+  width: 250px;
+  height: 60px;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+}
+.account.active {
+  display: flex;
+  flex-direction: row;
 }
 
 .login {
   width: 60px;
   height: 60px;
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
 }
 .login.active {
   width: 250px;
@@ -135,7 +153,28 @@
   display: flex;
   align-items: center;
 }
-.login-btn {
+
+.login-link {
+  margin-left: 38px;
+}
+.sign-up-link {
+  margin-left: 7px;
+  line-height: 0px;
+  height: 40px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+.new-user {
+  line-height: 0px;
+}
+
+.log-in-btn {
+  color: white;
+  background-color: blue;
+  height: 35px;
+  width: 60px;
+}
+.account-btn {
   width: 60px;
   border: 0px;
   background-color: transparent;
@@ -143,7 +182,7 @@
   justify-content: center;
   align-items: center;
 }
-.login-icon {
+.account-icon {
   width: 45px;
   height: 45px;
 }

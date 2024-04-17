@@ -39,21 +39,40 @@ function Sidebar(props) {
         </div>
       )}
       {toggleState ? (
-        <div className="login active">
-          <div className="login active">
-            <button onClick={toggleSideBar} className="login-btn">
-              <img src="/login.png" className="login-icon"></img>
-            </button>
-            <p>Username1234!</p>
+        props.loggedIn ? (
+          <div className="account active">
+            <div className="account active">
+              <button onClick={toggleSideBar} className="account-btn">
+                <img src="/login.png" className="account-icon"></img>
+              </button>
+              <p>Username1234!</p>
+            </div>
+            <div className="log-out-div">
+              <button className="log-out-btn">Log Out</button>
+            </div>
           </div>
-          <div className="log-out-div">
-            <button className="log-out-btn">Log Out</button>
+        ) : (
+          <div className="login active container">
+            <div className="login active">
+              <button onClick={toggleSideBar} className="account-btn">
+                <img src="/login.png" className="account-icon"></img>
+              </button>
+              <div className="sign-up-link">
+                <p className="new-user">New User?</p>
+                <a href="">
+                  <p>Sign-Up</p>
+                </a>
+              </div>
+              <div className="login-link">
+                <button className="log-in-btn">Sign In</button>
+              </div>
+            </div>
           </div>
-        </div>
+        )
       ) : (
-        <div className="login">
-          <button onClick={toggleSideBar} className="login-btn">
-            <img src="/login.png" className="login-icon"></img>
+        <div className="account">
+          <button onClick={toggleSideBar} className="account-btn">
+            <img src="/login.png" className="account-icon"></img>
           </button>
         </div>
       )}
