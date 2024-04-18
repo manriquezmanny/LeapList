@@ -9,7 +9,7 @@ function App() {
   // State for current tasks to render.
   const [tasks, setTasks] = useState([]);
   // State for checking if sidebar is toggled.
-  const [sidebarToggled, setSidebarToggled] = useState(false);
+  const [sidebarToggled, setSidebarToggled] = useState();
   // State for checking if user is logged in.
   const [loggedIn, setLoggedIn] = useState(false);
 

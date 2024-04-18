@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import List from "./List";
+import { Link } from "react-router-dom";
 
 function Sidebar(props) {
   const [toggleState, setToggleState] = useState(props.toggleState);
@@ -59,12 +60,14 @@ function Sidebar(props) {
               </button>
               <div className="sign-up-link">
                 <p className="new-user">New User?</p>
-                <a href="">
-                  <p>Sign-Up</p>
-                </a>
+                <Link to="/register">Sign-Up</Link>
               </div>
               <div className="login-link">
-                <button className="log-in-btn">Sign In</button>
+                <button className="log-in-btn">
+                  <Link to="/log-in" className="log-in-btn">
+                    Sign In
+                  </Link>
+                </button>
               </div>
             </div>
           </div>

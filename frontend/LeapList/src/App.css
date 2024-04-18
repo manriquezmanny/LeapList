@@ -343,3 +343,79 @@
 button {
   cursor: pointer;
 }
+
+#root {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 600px;
+  min-width: 1000px;
+}
+
+#register-root {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #bfb29e;
+}
+.register-container {
+  background-color: white;
+  width: 50%;
+  max-height: 1000px;
+  flex-grow: 0.4;
+  border-radius: 30px;
+  box-shadow: 0px 0px 20px black;
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.login-item {
+  width: 70%;
+  flex: 0 0 40px;
+}
+.login-input {
+  border: 1px inset white;
+  box-shadow: inset 0 0 5px #888888;
+  border-radius: 10px;
+  text-indent: 10px;
+}
+
+.register-footer {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-self: end;
+  margin-right: 80px;
+}
+.register-btn {
+  overflow: hidden;
+  color: white;
+  background-color: blue;
+  border-radius: 4px;
+  font-weight: bold;
+  width: 80px;
+  min-width: 80px;
+  height: 90%;
+}
+.register-title {
+  font-family: "Indie Flower";
+  font-size: 2.8rem;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 20px;
+  height: 60%;
+  width: 80%;
+}

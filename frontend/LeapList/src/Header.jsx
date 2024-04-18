@@ -3,9 +3,6 @@ import { useState, useRef } from "react";
 function Header(props) {
   const [task, setTask] = useState();
 
-  // Ref used to reset value after submission.
-  const addInput = useRef(null);
-
   // Updates task state on input change.
   const handleChange = (e) => {
     const newTask = e.target.value;
@@ -15,9 +12,10 @@ function Header(props) {
   // Passes state up to parent component with callback function and resets input value.
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.onSubmit(task);
+    const formData = new FormData(e.target);
+    props.onSubmit(formData.get("objective"));
+    e.target.reset();
     setTask("");
-    addInput.current.value = "";
   };
 
   return (
@@ -33,7 +31,6 @@ function Header(props) {
             <input
               id="input-field"
               onChange={handleChange}
-              ref={addInput}
               type="text"
               name="objective"
             />
