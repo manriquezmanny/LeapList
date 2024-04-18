@@ -256,6 +256,9 @@
 .list-body::-webkit-scrollbar {
   display: none;
 }
+.list-btn {
+  border-radius: 4px;
+}
 
 .task {
   float: right;
