@@ -53,6 +53,37 @@ app.use(async (req, res, next) => {
   }
 });
 
+// Jwt verification checks to see if there is an authorization header with a valid jwt in it.
+app.use(async function verifyJwt(req, res, next) {
+  const { authorization: authHeader } = req.headers;
+
+  if (!authHeader) res.json("Invalid authorization, no authorization headers");
+
+  const [scheme, jwtToken] = authHeader.split(" ");
+
+  if (scheme != "Bearer")
+    res.json("Invalid authorization, invalid authorization scheme");
+
+  try {
+    const decodedJwtObject = jwt.verify(jwtToken, process.env.JWT_KEY);
+    req.user = decodedJwtObject;
+  } catch (e) {
+    console.log(e);
+    if (
+      e.message &&
+      (e.message.toUpperCase() === "INVALID TOKEN" ||
+        e.message.toUpperCase() === "JWT EXPIRED")
+    ) {
+      req.status = e.status || 500;
+      req.body = e.message;
+      req.app.emit("jwt-error", err, req);
+    } else {
+      throw (err.status || 500, e.message);
+    }
+  }
+  await next();
+});
+
 // POST register endpoint
 app.post("/register", async function (req, res) {
   try {
@@ -113,37 +144,6 @@ app.post("/log-in", async function (req, res) {
   } catch (e) {
     console.log("Error in /authenticage", e);
   }
-});
-
-// Jwt verification checks to see if there is an authorization header with a valid jwt in it.
-app.use(async function verifyJwt(req, res, next) {
-  const { authorization: authHeader } = req.headers;
-
-  if (!authHeader) res.json("Invalid authorization, no authorization headers");
-
-  const [scheme, jwtToken] = authHeader.split(" ");
-
-  if (scheme != "Bearer")
-    res.json("Invalid authorization, invalid authorization scheme");
-
-  try {
-    const decodedJwtObject = jwt.verify(jwtToken, process.env.JWT_KEY);
-    req.user = decodedJwtObject;
-  } catch (e) {
-    console.log(e);
-    if (
-      e.message &&
-      (e.message.toUpperCase() === "INVALID TOKEN" ||
-        e.message.toUpperCase() === "JWT EXPIRED")
-    ) {
-      req.status = e.status || 500;
-      req.body = e.message;
-      req.app.emit("jwt-error", err, req);
-    } else {
-      throw (err.status || 500, e.message);
-    }
-  }
-  await next();
 });
 
 // Start express server
