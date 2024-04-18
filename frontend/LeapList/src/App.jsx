@@ -40,7 +40,7 @@ function App() {
 
   // Handler function for adding a new task to state. Task recieved from child component with onSubmit prop.
   const handleAddTask = (task) => {
-    if (task === "") {
+    if (!task) {
       alert("Please write a task.");
       return;
     }
