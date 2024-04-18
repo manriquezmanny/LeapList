@@ -26,7 +26,7 @@ function Header(props) {
       >
         <h2 id="main-header">Current List</h2>
         <div className="header-right">
-          <label classsName="input-label">
+          <label className="input-label">
             To Do:
             <input
               id="input-field"
