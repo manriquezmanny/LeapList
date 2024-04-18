@@ -12,8 +12,7 @@ function Header(props) {
   // Passes state up to parent component with callback function and resets input value.
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    props.onSubmit(formData.get("objective"));
+    props.onSubmit(task);
     e.target.reset();
     setTask("");
   };
