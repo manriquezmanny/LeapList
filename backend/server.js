@@ -40,7 +40,7 @@ app.use(async (req, res, next) => {
     await req.db.query(`SET time_zone = '-8:00'`);
 
     // Moves the request down the line to the next middleware and/or endpoints it's headed to.
-    await next();
+    next();
 
     // After the endpoint has been reached and resolved, disconnects from the database
     req.db.release();
@@ -50,6 +50,78 @@ app.use(async (req, res, next) => {
     // If an error occurs, disconnecting from the database
     if (req.db) req.db.release();
     throw e;
+  }
+});
+
+// POST register endpoint
+app.post("/register", async function (req, res) {
+  try {
+    const { username, password, email } = req.body;
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const [user] = await req.db.query(
+      `INSERT INTO users (username, password, email )
+      VALUES (:username, :hashedPassword, :email);`,
+      { username, hashedPassword, email }
+    );
+
+    const jwtEncodedUser = jwt.sign(
+      { userId: user.insertId, username, email },
+      process.env.JWT_KEY
+    );
+
+    res.json({
+      jwt: jwtEncodedUser,
+      success: true,
+      username: username,
+      email: email,
+    });
+  } catch (e) {
+    console.log("error", e);
+    res.json({ e, success: false });
+  }
+});
+
+// POST login
+app.post("/log-in", async function (req, res) {
+  try {
+    const { email, password } = req.body;
+
+    const [[user]] = await req.db.query(
+      `SELECT * FROM users WHERE email = :email`,
+      { email }
+    );
+
+    if (!user) {
+      console.log("User not found");
+      return res.json({ email: false });
+    }
+
+    const hashedPassword = user.password;
+    const passwordMatches = await bcrypt.compare(password, hashedPassword);
+
+    if (passwordMatches) {
+      const payload = {
+        userId: user.id,
+        username: user.username,
+        email: user.email,
+      };
+      const jwtEncodedUser = jwt.sign(payload, process.env.JWT_KEY);
+      res.json({
+        jwt: jwtEncodedUser,
+        success: true,
+        username: user.username,
+        email: email,
+      });
+    } else {
+      res.json({
+        err: "Password is wrong",
+        success: false,
+      });
+    }
+  } catch (e) {
+    console.log("Error in /authenticage", e);
   }
 });
 
@@ -81,69 +153,53 @@ app.use(async function verifyJwt(req, res, next) {
       throw (err.status || 500, e.message);
     }
   }
-  await next();
+  next();
 });
 
-// POST register endpoint
-app.post("/register", async function (req, res) {
-  try {
-    const { username, password, email } = req.body;
+// Get current user's lists.
+app.get("/lists", async (req, res) => {
+  // Getting user id.
+  const userId = req.user.userId;
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const [user] = await req.db.query(
-      `INSERT INTO users (username, password, email )
-      VALUES (:username, :hashedPassword, :email);`,
-      { username, hashedPassword, email }
-    );
-
-    const jwtEncodedUser = jwt.sign(
-      { userId: user.insertId, ...req.body },
-      process.env.JWT_KEY
-    );
-
-    res.json({ jwt: jwtEncodedUser, success: true });
-  } catch (e) {
-    console.log("error", e);
-    res.json({ e, success: false });
-  }
+  // Getting user's lists with sql query.
+  const [[lists]] = await req.db.query(
+    `SELECT * FROM lists 
+     WHERE user_id = :userId`,
+    { userId }
+  );
+  res.json({ lists: lists });
 });
 
-// POST login
-app.post("/log-in", async function (req, res) {
-  try {
-    const { username, password: userEnteredPassword, email } = req.body;
+// Get selected list's tasks
+app.post("/tasks", async (req, res) => {
+  // Getting posted list id
 
-    const [[user]] = await req.db.query(
-      `SELECT * FROM users WHERE username = :username AND email = :email`,
-      { username }
-    );
+  const list_id = req.body.list_id;
 
-    if (!user) {
-      console.log("User not found");
-      return res.json("Username not found");
-    }
+  // Getting selected list's tasks
+  const [tasks] = await req.db.query(
+    `SELECT * FROM tasks
+    WHERE list_id = :list_id`,
+    { list_id }
+  );
 
-    const hashedPassword = `${user.password}`;
-    const passwordMatches = await bcrypt.compare(
-      userEnteredPassword,
-      hashedPassword
-    );
+  console.log(JSON.stringify(tasks));
+  res.json({ tasks: JSON.stringify(tasks) });
+});
 
-    if (passwordMatches) {
-      const payload = {
-        userId: user.id,
-        username: user.username,
-        email: user.email,
-      };
-      const jwtEncodedUser = jwt.sign(payload, process.env.JWT_KEY);
-      res.json({ jwt: jwtEncodedUser, success: true });
-    } else {
-      res.json({ err: "Password is wrong", success: false });
-    }
-  } catch (e) {
-    console.log("Error in /authenticage", e);
-  }
+app.post("/add", async (req, res) => {
+  console.log("inside");
+  const { list_id, body, complete } = req.body;
+  console.log(list_id, body);
+
+  await req.db.query(
+    `
+  INSERT INTO tasks (list_id, body, complete)
+  VALUES(:list_id, :body, :complete)`,
+    { list_id, body, complete }
+  );
+
+  res.json({ added: "added Task" });
 });
 
 // Start express server
