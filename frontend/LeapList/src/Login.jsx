@@ -29,13 +29,21 @@ function Login() {
     })
       .then((res) => res.json())
       .then((res) => {
+        if (!res.email) {
+          console.log("Condition ran");
+          throw new Error("Email not in database");
+        }
         localStorage.setItem("jwt", res.jwt);
         localStorage.setItem("username", res.username);
         navigate("/");
       })
       .catch((e) => {
-        console.log("Failed to login.", e);
-        alert("Login failed, try again.");
+        if (e.message == "Email not in database") {
+          alert("Email not in database, try again");
+        } else {
+          console.log("Failed to login.", e);
+          alert("Login failed, try again.");
+        }
       });
   };
 
