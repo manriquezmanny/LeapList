@@ -15,14 +15,18 @@ function App() {
     jwt: "",
     username: "",
   });
+  const [userLists, setUserLists] = useState([]);
+  const [selectedList, setSelectedList] = useState(0);
 
   useEffect(() => {
     if (localStorage.getItem("jwt") != null) {
       setLoggedIn({
         jwt: localStorage.getItem("jwt"),
         username: localStorage.getItem("username"),
+        email: localStorage.getItem("email"),
       });
     }
+    getUserLists();
   }, []);
 
   // Handler function for deleting a task from state.
@@ -37,6 +41,21 @@ function App() {
         return current.id === id ? { ...current, edit: true } : current;
       })
     );
+  }
+
+  // Function to get user's lists
+  function getUserLists() {
+    const jwt = localStorage.getItem("jwt");
+
+    fetch("http://localhost:5000/lists", {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${jwt}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => setUserLists([res.lists]))
+      .catch((e) => console.log("Error getting lists", e));
   }
 
   // Handler callback function for saving an edited task in state. Edited task data passed up from child component.
@@ -55,6 +74,7 @@ function App() {
     localStorage.removeItem("jwt");
     localStorage.removeItem("username");
     setLoggedIn({ jwt: "", username: "" });
+    setUserLists([]);
   };
 
   // Handler function for adding a new task to state. Task recieved from child component with onSubmit prop.
@@ -90,14 +110,23 @@ function App() {
     setSidebarToggled(state);
   };
 
+  // Gets selected list.
+  const getSelectedList = (state) => {
+    setSelectedList(state);
+  };
+
+  console.log(userLists);
+
   return (
     <div className="main-container">
       <Sidebar
         sendToggleState={getToggleState}
+        sendSelectedList={getSelectedList}
         handleLogout={handleLogout}
         toggleState={sidebarToggled}
         loggedIn={loggedIn}
         username={loggedIn.username}
+        userLists={userLists}
       />
 
       <Header onSubmit={handleAddTask} toggleState={sidebarToggled} />

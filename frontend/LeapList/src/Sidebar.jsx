@@ -1,19 +1,31 @@
 import { useState, useEffect } from "react";
 import List from "./List";
 import { Link, useNavigate } from "react-router-dom";
+import moment from "moment";
 
 function Sidebar(props) {
   const [toggleState, setToggleState] = useState(true);
+  const [selectedList, setSelectedList] = useState(0);
 
   // Updates the toggleState bool value.
   function toggleSideBar() {
     setToggleState(!toggleState);
   }
 
+  // Updates Selected List.
+  function listSelected(id) {
+    setSelectedList(id);
+  }
+
   // Sends toggleState up to parent component using callback function.
   useEffect(() => {
     props.sendToggleState(toggleState);
   }, [toggleState]);
+
+  // Sends selected List up to parent component when list is selected.
+  useEffect(() => {
+    props.sendSelectedList(selectedList);
+  }, [selectedList]);
 
   const navigate = useNavigate();
 
@@ -40,9 +52,17 @@ function Sidebar(props) {
 
       {toggleState && (
         <div className="user-lists">
-          <List name="Current List" date="01/03/2024"></List>
-          <List name="Other List" date="01/03/2024"></List>
-          <List name="Third List" date="01/03/2024"></List>
+          {props.userLists.map((list) => {
+            return (
+              <List
+                key={list.id}
+                id={list.id}
+                name={list.list_name}
+                date={moment(list.last_edited).format("MMM DD")}
+                handleClick={() => listSelected(list.id)}
+              ></List>
+            );
+          })}
         </div>
       )}
       {toggleState ? (

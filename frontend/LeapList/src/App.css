@@ -247,6 +247,20 @@
   font-size: 1.4rem;
 }
 
+.list-object {
+  cursor: pointer;
+}
+.list-object-buttons-date-nested {
+  font-size: large;
+  display: flex;
+  line-height: 2px;
+}
+.list-object-date {
+  font-family: "Indie Flower";
+}
+#date-text {
+  font-family: "Times New Roman" !important;
+}
 .list-body {
   overflow-y: scroll;
   height: calc(100% - 62px);

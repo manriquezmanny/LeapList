@@ -42,6 +42,7 @@ function Register() {
       .then((res) => {
         localStorage.setItem("jwt", res.jwt);
         localStorage.setItem("username", res.username);
+        localStorage.setItem("email", res.email);
         navigate("/");
       })
       .catch((e) => {
