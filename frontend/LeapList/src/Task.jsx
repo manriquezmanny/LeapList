@@ -33,7 +33,7 @@ function Task(props) {
               onChange={handleChange}
               type="text"
               className="edit-input"
-              defaultValue={props.taskObj.objective}
+              defaultValue={props.taskObj.body}
               id="edit-input"
               autoFocus
               name="edit-input"
@@ -48,7 +48,7 @@ function Task(props) {
             className="objective-text"
             onClick={props.toggleComplete}
           >
-            {props.taskObj.objective}
+            {props.taskObj.body}
           </button>
         )}
         <div>

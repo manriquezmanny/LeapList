@@ -3,14 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 function Register() {
+  const navigate = useNavigate();
+
   const [account, setAccount] = useState({
     email: "",
     username: "",
     password: "",
     confirm: "",
   });
-
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;

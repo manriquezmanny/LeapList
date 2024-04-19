@@ -50,12 +50,12 @@ function Sidebar(props) {
         </div>
       )}
 
-      {toggleState && (
+      {toggleState && props.userLists.length >= 1 && (
         <div className="user-lists">
-          {props.userLists.map((list) => {
+          {props.userLists.map((list, index) => {
             return (
               <List
-                key={list.id}
+                key={index}
                 id={list.id}
                 name={list.list_name}
                 date={moment(list.last_edited).format("MMM DD")}
@@ -75,7 +75,10 @@ function Sidebar(props) {
               <p>{props.username}</p>
             </div>
             <div className="log-out-div">
-              <button className="log-out-btn" onClick={props.handleLogout}>
+              <button
+                className="log-out-btn"
+                onClick={() => props.handleLogout()}
+              >
                 Log Out
               </button>
             </div>

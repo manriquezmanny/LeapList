@@ -4,6 +4,7 @@ import "./App.css";
 import Header from "./Header";
 import Task from "./Task";
 import Sidebar from "./Sidebar";
+import { useNavigate } from "react-router-dom";
 
 function App() {
   // State for current tasks to render.
@@ -11,23 +12,28 @@ function App() {
   // State for checking if sidebar is toggled.
   const [sidebarToggled, setSidebarToggled] = useState(false);
   // State for checking if user is logged in.
-  const [loggedIn, setLoggedIn] = useState({
-    jwt: "",
-    username: "",
-  });
+  const [loggedIn, setLoggedIn] = useState("");
   const [userLists, setUserLists] = useState([]);
   const [selectedList, setSelectedList] = useState(0);
 
+  const navigator = useNavigate();
+
   useEffect(() => {
-    if (localStorage.getItem("jwt") != null) {
+    if (localStorage.getItem("jwt")) {
       setLoggedIn({
         jwt: localStorage.getItem("jwt"),
         username: localStorage.getItem("username"),
         email: localStorage.getItem("email"),
       });
+      getUserLists();
     }
-    getUserLists();
   }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem("jwt")) {
+      getListTasks();
+    }
+  }, [selectedList]);
 
   // Handler function for deleting a task from state.
   function deleteTask(id) {
@@ -54,7 +60,13 @@ function App() {
       },
     })
       .then((res) => res.json())
-      .then((res) => setUserLists([res.lists]))
+      .then((res) => {
+        if (res.lists <= 0 || res.lists == undefined) {
+          setUserLists([]);
+        } else {
+          setUserLists(res.lists);
+        }
+      })
       .catch((e) => console.log("Error getting lists", e));
   }
 
@@ -69,28 +81,60 @@ function App() {
     );
   };
 
+  function getListTasks() {
+    const jwt = localStorage.getItem("jwt");
+
+    fetch("http://localhost:5000/tasks", {
+      method: "POST",
+      headers: {
+        authorization: `Bearer ${jwt}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ list_id: selectedList }),
+    })
+      .then((res) => res.json())
+      .then((res) => setTasks([...JSON.parse(res.tasks)]))
+      .catch((e) => console.log("Error getting tasks", e.message));
+  }
+
   // Handler function for logging out
   const handleLogout = () => {
     localStorage.removeItem("jwt");
     localStorage.removeItem("username");
-    setLoggedIn({ jwt: "", username: "" });
+    localStorage.removeItem("email");
     setUserLists([]);
+    setLoggedIn("");
+    setTasks([]);
+    navigator("/");
   };
 
   // Handler function for adding a new task to state. Task recieved from child component with onSubmit prop.
-  const handleAddTask = (task) => {
+  const handleAddTask = async (task) => {
+    const jwt = localStorage.getItem("jwt");
+
     if (!task) {
       alert("Please write a task.");
       return;
     }
-    const newId = uuidv4();
     const newTaskObject = {
-      id: newId,
-      objective: task,
-      edit: false,
+      list_id: selectedList,
+      body: task,
       complete: false,
     };
 
+    if (loggedIn) {
+      await fetch("http://localhost:5000/add", {
+        method: "POST",
+        headers: {
+          authorization: `Bearer ${jwt}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newTaskObject),
+      })
+        .then((res) => res.json())
+        .then((res) => console.log(res.added))
+        .catch((e) => console.log("Error adding new task", e));
+    }
     setTasks([...tasks, newTaskObject]);
   };
 
@@ -115,8 +159,6 @@ function App() {
     setSelectedList(state);
   };
 
-  console.log(userLists);
-
   return (
     <div className="main-container">
       <Sidebar
@@ -131,9 +173,10 @@ function App() {
 
       <Header onSubmit={handleAddTask} toggleState={sidebarToggled} />
       {tasks.map((taskObj, index) => {
+        console.log;
         return (
           <Task
-            key={taskObj.id}
+            key={index}
             number={index + 1}
             taskObj={taskObj}
             handleDelete={() => deleteTask(taskObj.id)}

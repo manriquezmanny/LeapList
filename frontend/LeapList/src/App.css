@@ -59,6 +59,7 @@
 .user-lists {
   width: 230px;
   height: calc(100% - 130px);
+  min-height: 200px !important;
   margin: 9px;
   margin-top: 0px;
   margin-bottom: 0px;
@@ -76,6 +77,7 @@
 .list-object {
   width: 80%;
   height: 58px;
+  min-height: 50px;
   border: gray 1px solid;
   border-radius: 5px;
   display: flex;
@@ -92,8 +94,7 @@
   width: 50%;
   height: 100%;
   font-family: "Indie Flower";
-  font-weight: bold;
-  font-size: 1.1rem;
+  font-weight: bolder;
   line-height: 20px;
 }
 .list-object-text {
@@ -246,20 +247,17 @@
   border-radius: 3px;
   font-size: 1.4rem;
 }
-
 .list-object {
   cursor: pointer;
+  min-height: 50px;
+}
+.list-object:hover {
+  background-color: #d9c8b1;
 }
 .list-object-buttons-date-nested {
   font-size: large;
   display: flex;
   line-height: 2px;
-}
-.list-object-date {
-  font-family: "Indie Flower";
-}
-#date-text {
-  font-family: "Times New Roman" !important;
 }
 .list-body {
   overflow-y: scroll;

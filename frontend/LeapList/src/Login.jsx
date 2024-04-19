@@ -3,12 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 function Login() {
+  const navigate = useNavigate();
+
   const [login, setLogin] = useState({
     email: "",
     password: "",
   });
-
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,7 +30,6 @@ function Login() {
       .then((res) => res.json())
       .then((res) => {
         if (!res.email) {
-          console.log("Condition ran");
           throw new Error("Email not in database");
         }
         localStorage.setItem("jwt", res.jwt);
