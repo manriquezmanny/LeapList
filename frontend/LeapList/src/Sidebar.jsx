@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import List from "./List";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Sidebar(props) {
-  const [toggleState, setToggleState] = useState(props.toggleState);
+  const [toggleState, setToggleState] = useState(true);
 
   // Updates the toggleState bool value.
   function toggleSideBar() {
@@ -14,6 +14,12 @@ function Sidebar(props) {
   useEffect(() => {
     props.sendToggleState(toggleState);
   }, [toggleState]);
+
+  const navigate = useNavigate();
+
+  const signInBtn = () => {
+    navigate("/log-in");
+  };
 
   return (
     <div className={toggleState ? "sidebar active" : "sidebar"}>
@@ -40,16 +46,18 @@ function Sidebar(props) {
         </div>
       )}
       {toggleState ? (
-        props.loggedIn ? (
+        props.loggedIn.jwt ? (
           <div className="account active">
             <div className="account active">
               <button onClick={toggleSideBar} className="account-btn">
                 <img src="/login.png" className="account-icon"></img>
               </button>
-              <p>Username1234!</p>
+              <p>{props.username}</p>
             </div>
             <div className="log-out-div">
-              <button className="log-out-btn">Log Out</button>
+              <button className="log-out-btn" onClick={props.handleLogout}>
+                Log Out
+              </button>
             </div>
           </div>
         ) : (
@@ -63,10 +71,8 @@ function Sidebar(props) {
                 <Link to="/register">Sign-Up</Link>
               </div>
               <div className="login-link">
-                <button className="log-in-btn">
-                  <Link to="/log-in" className="log-in-btn">
-                    Sign In
-                  </Link>
+                <button className="log-in-btn" onClick={signInBtn}>
+                  Sign In
                 </button>
               </div>
             </div>

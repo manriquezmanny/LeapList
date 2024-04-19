@@ -17,7 +17,26 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate("/");
+
+    const body = { email: login.email, password: login.password };
+
+    fetch("http://localhost:5000/log-in", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        localStorage.setItem("jwt", res.jwt);
+        localStorage.setItem("username", res.username);
+        navigate("/");
+      })
+      .catch((e) => {
+        console.log("Failed to login.", e);
+        alert("Login failed, try again.");
+      });
   };
 
   return (

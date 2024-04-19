@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import "./App.css";
 import Header from "./Header";
@@ -9,9 +9,21 @@ function App() {
   // State for current tasks to render.
   const [tasks, setTasks] = useState([]);
   // State for checking if sidebar is toggled.
-  const [sidebarToggled, setSidebarToggled] = useState();
+  const [sidebarToggled, setSidebarToggled] = useState(false);
   // State for checking if user is logged in.
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState({
+    jwt: "",
+    username: "",
+  });
+
+  useEffect(() => {
+    if (localStorage.getItem("jwt") != null) {
+      setLoggedIn({
+        jwt: localStorage.getItem("jwt"),
+        username: localStorage.getItem("username"),
+      });
+    }
+  }, []);
 
   // Handler function for deleting a task from state.
   function deleteTask(id) {
@@ -36,6 +48,13 @@ function App() {
           : current;
       })
     );
+  };
+
+  // Handler function for logging out
+  const handleLogout = () => {
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("username");
+    setLoggedIn({ jwt: "", username: "" });
   };
 
   // Handler function for adding a new task to state. Task recieved from child component with onSubmit prop.
@@ -75,8 +94,10 @@ function App() {
     <div className="main-container">
       <Sidebar
         sendToggleState={getToggleState}
+        handleLogout={handleLogout}
         toggleState={sidebarToggled}
         loggedIn={loggedIn}
+        username={loggedIn.username}
       />
 
       <Header onSubmit={handleAddTask} toggleState={sidebarToggled} />

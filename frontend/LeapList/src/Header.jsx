@@ -32,6 +32,7 @@ function Header(props) {
               onChange={handleChange}
               type="text"
               name="objective"
+              autoComplete="off"
             />
           </label>
           <button className="add-task-btn">Add</button>

@@ -17,9 +17,37 @@ function Register() {
     setAccount((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate("/");
+
+    if (account.password != account.confirm) {
+      alert("Passwords Must Match");
+      return;
+    }
+
+    const body = {
+      username: account.username,
+      password: account.password,
+      email: account.email,
+    };
+
+    fetch("http://localhost:5000/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        localStorage.setItem("jwt", res.jwt);
+        localStorage.setItem("username", res.username);
+        navigate("/");
+      })
+      .catch((e) => {
+        console.log("Failed to register", e);
+        alert("Registration failed, try again.");
+      });
   };
 
   return (
