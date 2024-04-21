@@ -1,4 +1,23 @@
 function List(props) {
+  function deleteList(listId) {
+    const jwt = localStorage.getItem("jwt");
+    if (confirm("Are you sure you want to delete this list?") == true) {
+      fetch("http://localhost:5000/delete-list", {
+        method: "POST",
+        headers: {
+          authorization: `Bearer ${jwt}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ listId: listId }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res.deleted);
+        })
+        .catch((e) => console.log("Error deleting list: ", e));
+    }
+  }
+
   return (
     <div className="list-object" onClick={props.handleClick}>
       <div className="list-object-text-div">
@@ -21,6 +40,13 @@ function List(props) {
               }}
               onClick={(e) => {
                 e.stopPropagation();
+                deleteList(props.id);
+                props.handleDeletedList(props.id);
+                if (props.id == props.selectedList) {
+                  props.getSelectedList(0);
+                } else {
+                  props.getSelectedList(props.selectedList);
+                }
                 console.log("Delete button Clicked!", props.id);
               }}
             >

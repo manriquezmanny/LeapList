@@ -20,17 +20,6 @@ function App() {
 
   useEffect(() => {
     if (localStorage.getItem("jwt")) {
-      setLoggedIn({
-        jwt: localStorage.getItem("jwt"),
-        username: localStorage.getItem("username"),
-        email: localStorage.getItem("email"),
-      });
-      getUserLists();
-    }
-  }, []);
-
-  useEffect(() => {
-    if (localStorage.getItem("jwt")) {
       getListTasks();
     }
   }, [selectedList]);
@@ -47,27 +36,6 @@ function App() {
         return current.id === id ? { ...current, edit: true } : current;
       })
     );
-  }
-
-  // Function to get user's lists
-  function getUserLists() {
-    const jwt = localStorage.getItem("jwt");
-
-    fetch("http://localhost:5000/lists", {
-      method: "GET",
-      headers: {
-        authorization: `Bearer ${jwt}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.lists <= 0 || res.lists == undefined) {
-          setUserLists([]);
-        } else {
-          setUserLists(res.lists);
-        }
-      })
-      .catch((e) => console.log("Error getting lists", e));
   }
 
   // Handler callback function for saving an edited task in state. Edited task data passed up from child component.
@@ -159,11 +127,21 @@ function App() {
     setSelectedList(state);
   };
 
+  const getUserListsFromChild = (state) => {
+    setUserLists(state);
+  };
+
+  const getLoggedIn = (state) => {
+    setLoggedIn(state);
+  };
+
   return (
     <div className="main-container">
       <Sidebar
         sendToggleState={getToggleState}
         sendSelectedList={getSelectedList}
+        sendUserLists={getUserListsFromChild}
+        sendLoggedIn={getLoggedIn}
         handleLogout={handleLogout}
         toggleState={sidebarToggled}
         loggedIn={loggedIn}
