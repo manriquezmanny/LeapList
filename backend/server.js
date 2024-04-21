@@ -162,7 +162,7 @@ app.get("/lists", async (req, res) => {
   const userId = req.user.userId;
 
   // Getting user's lists with sql query.
-  const [[lists]] = await req.db.query(
+  const [lists] = await req.db.query(
     `SELECT * FROM lists 
      WHERE user_id = :userId`,
     { userId }
@@ -170,7 +170,7 @@ app.get("/lists", async (req, res) => {
   res.json({ lists: lists });
 });
 
-// Get selected list's tasks
+// Get the selected list's tasks
 app.post("/tasks", async (req, res) => {
   // Getting posted list id
 
@@ -182,16 +182,12 @@ app.post("/tasks", async (req, res) => {
     WHERE list_id = :list_id`,
     { list_id }
   );
-
-  console.log(JSON.stringify(tasks));
   res.json({ tasks: JSON.stringify(tasks) });
 });
 
+// Add a task
 app.post("/add", async (req, res) => {
-  console.log("inside");
   const { list_id, body, complete } = req.body;
-  console.log(list_id, body);
-
   await req.db.query(
     `
   INSERT INTO tasks (list_id, body, complete)
@@ -200,6 +196,22 @@ app.post("/add", async (req, res) => {
   );
 
   res.json({ added: "added Task" });
+});
+
+// Delete a list
+// Not using url param, I don't want users deleting lists with url without clicking button.
+app.delete("/delete-list", async (req, res) => {
+  console.log("Made it past verification middleware");
+  const { listId } = req.body;
+
+  try {
+    await req.db.query(`DELETE FROM tasks WHERE list_id= :listId`, { listId });
+    await req.db.query(`DELETE FROM lists WHERE id= :listId`, { listId });
+
+    res.json({ deleted: "Delete Succesful" });
+  } catch (e) {
+    console.log("Error making db query for deleting list", e);
+  }
 });
 
 // Start express server
