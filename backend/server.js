@@ -214,6 +214,36 @@ app.delete("/delete-list", async (req, res) => {
   }
 });
 
+// Delete a task
+// Not using url param, I don't want users deleting lists with url without clicking button.
+app.delete("/delete-task", async (req, res) => {
+  console.log("Made it past verification middleware");
+  const { taskId } = req.body;
+
+  try {
+    await req.db.query(`DELETE FROM tasks WHERE id = :taskId`, { taskId });
+    res.json({ deleted: "Deleted task Succesfully" });
+  } catch (e) {
+    console.log("Error making db query for deleting list", e);
+  }
+});
+
+// Edit completion state of task
+app.put("/toggle-task", async (req, res) => {
+  console.log("Made it past verification middleware");
+  const { newState, taskId } = req.body;
+
+  try {
+    await req.db.query(
+      "UPDATE tasks SET complete = :newState WHERE id = :taskId",
+      { newState, taskId }
+    );
+    res.json({ edited: "Succesfully Edited completion state of task" });
+  } catch (e) {
+    console.log("Error editing completion state of task", e);
+  }
+});
+
 // Start express server
 app.listen(port, () => {
   console.log("Server is running");
