@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import List from "./List";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import moment from "moment";
 
 function Sidebar(props) {

@@ -19,7 +19,13 @@ function List(props) {
   }
 
   return (
-    <div className="list-object" onClick={props.handleClick}>
+    <div
+      className={"list-object"}
+      onClick={props.handleClick}
+      style={{
+        backgroundColor: props.id == props.currentList ? "#d9c8b1" : null,
+      }}
+    >
       <div className="list-object-text-div">
         <h3 className="list-object-text">{props.name}</h3>
       </div>

@@ -261,12 +261,21 @@
   border-radius: 3px;
   font-size: 1.4rem;
 }
+.add-task-btn:hover {
+  box-shadow: 0 0 12px gray !important;
+}
 .list-object {
   cursor: pointer;
   min-height: 50px;
   width: 240px;
 }
 .list-object:hover {
+  background-color: #d9c8b1;
+}
+.list-object.current {
+  cursor: pointer;
+  min-height: 50px;
+  width: 240px;
   background-color: #d9c8b1;
 }
 .list-object-buttons-date-nested {
