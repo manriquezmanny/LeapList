@@ -43,7 +43,7 @@ function Task(props) {
           <button
             type="button"
             style={{
-              textDecoration: props.taskObj.complete ? "line-through" : "none",
+              textDecoration: props.taskObj.complete ? "line-through" : null,
             }}
             className="objective-text"
             onClick={props.toggleComplete}

@@ -96,8 +96,38 @@ function App() {
 
     setTasks([...tasks, newTaskObject]);
   };
-  // Handler function to update state of sidebar toggle.
+  // Handler function to update state task completion.
   const toggleComplete = (id) => {
+    if (loggedIn) {
+      let task;
+      let newState;
+      for (let i = 0; i < tasks.length; i++) {
+        if (tasks[i].id == id) {
+          task = tasks[i];
+        }
+      }
+
+      if (task.complete == 0) {
+        newState = 1;
+      } else {
+        newState = 0;
+      }
+
+      const jwt = localStorage.getItem("jwt");
+
+      fetch("http://localhost:5000/toggle-task", {
+        method: "PUT",
+        headers: {
+          authorization: `Bearer ${jwt}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ newState: newState, taskId: task.id }),
+      })
+        .then((res) => res.json())
+        .then((res) => console.log(res.edited))
+        .catch((e) => console.log("Error editing completion state of task", e));
+    }
+
     setTasks((prevTasks) =>
       prevTasks.map((current) => {
         return current.id === id
@@ -179,8 +209,12 @@ function App() {
         username={loggedIn.username}
         userLists={userLists}
       />
-
-      <Header onSubmit={handleAddTask} toggleState={sidebarToggled} />
+      <Header
+        onSubmit={handleAddTask}
+        toggleState={sidebarToggled}
+        selectedList={selectedList}
+        userLists={userLists}
+      />
       {tasks.map((taskObj, index) => {
         return (
           <Task

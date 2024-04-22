@@ -5,7 +5,7 @@
 .main-container {
   height: 100%;
   width: 100%;
-  min-width: 1100px;
+  min-width: 940px;
   overflow-y: scroll;
 }
 .main-container::-webkit-scrollbar {
@@ -22,7 +22,7 @@
   justify-content: space-between;
 }
 .sidebar.active {
-  width: 250px;
+  width: 230px;
 }
 .sidebar-header {
   height: 60px;
@@ -49,15 +49,16 @@
   border: 0px;
 }
 .app-name {
-  width: 120px;
-  text-align: center;
+  width: 200px;
+  text-align: start;
   font-family: "Indie Flower";
   font-weight: bold;
   align-self: center;
+  font-size: 2.4rem !important;
 }
 
 .user-lists {
-  width: 230px;
+  width: 210px;
   height: calc(100% - 130px);
   min-height: 200px !important;
   margin: 9px;
@@ -75,7 +76,7 @@
   display: none;
 }
 .list-object {
-  width: 80%;
+  width: 170px !important;
   height: 58px;
   min-height: 50px;
   border: gray 1px solid;
@@ -127,36 +128,35 @@
   width: 60px;
   height: 60px;
   display: flex;
-  justify-content: space-between;
+}
+
+.account.active.container {
+  display: flex;
+  width: 100%;
 }
 .account.active {
-  width: 250px;
+  width: 196px;
   height: 60px;
-  justify-self: end;
   display: flex;
   align-items: center;
-}
-.account.active {
-  display: flex;
-  flex-direction: row;
 }
 
 .login {
   width: 60px;
   height: 60px;
   display: flex;
-  justify-content: start;
 }
 .login.active {
-  width: 250px;
+  width: 230px;
   height: 60px;
-  justify-self: end;
   display: flex;
   align-items: center;
 }
 
 .login-link {
-  margin-left: 38px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 .sign-up-link {
   margin-left: 7px;
@@ -166,16 +166,26 @@
   font-weight: bold;
 }
 .new-user {
-  line-height: 0px;
+  line-height: 20px;
+  font-size: 1rem;
 }
 
 .log-in-btn {
   color: white;
   background-color: blue;
   border-radius: 4px;
-  height: 35px;
+  height: 36px;
   width: 60px;
+  margin-right: 10px;
 }
+.sign-up-btn {
+  background-color: black;
+  color: white;
+  margin-right: 10px;
+  border-radius: 4px;
+  width: 85px;
+}
+
 .account-btn {
   width: 60px;
   border: 0px;
@@ -189,18 +199,22 @@
   height: 45px;
 }
 .log-out-div {
-  width: calc(100% - 30px);
+  width: 35%;
   height: 60px;
   display: flex;
-  justify-content: space-around;
   align-items: center;
 }
 .log-out-btn {
+  width: 68px;
   height: 30px;
   color: white;
   background-color: red;
   border-radius: 5px;
   font-weight: bold;
+  box-shadow: 0 0 0px red;
+  margin-right: 10px;
+}
+.log-out-btn:hover {
   box-shadow: 0 0 8px red;
 }
 
@@ -216,8 +230,8 @@
   border-bottom: solid black 2px;
 }
 .header-form.active {
-  width: calc(100% - 250px);
-  margin-left: 250px;
+  width: calc(100% - 230px);
+  margin-left: 230px;
 }
 #main-header {
   font-size: 2rem;
@@ -225,17 +239,17 @@
 }
 .header-right {
   font-weight: bold;
-  align-items: center;
+  align-items: end;
   padding-right: 3.5%;
   font-size: 1.4rem;
-  width: 550px;
+  width: 400px;
 }
 .input-label {
   margin-right: 10px;
   font-size: 1.4rem;
 }
 #input-field {
-  width: 60%;
+  width: 82%;
   font-family: "Indie Flower";
   font-size: 1.4rem;
   margin-left: 10px;
@@ -250,6 +264,7 @@
 .list-object {
   cursor: pointer;
   min-height: 50px;
+  width: 240px;
 }
 .list-object:hover {
   background-color: #d9c8b1;
@@ -262,7 +277,6 @@
 .list-body {
   overflow-y: scroll;
   height: calc(100% - 62px);
-  width: calc(100% - 250px);
   float: right;
 }
 .list-body::-webkit-scrollbar {
@@ -270,6 +284,14 @@
 }
 .list-btn {
   border-radius: 4px;
+}
+.list-btn:hover {
+  box-shadow: 0 0 8px red;
+}
+.username {
+  font-size: 1.3rem;
+  font-family: "Indie Flower";
+  font-weight: bold;
 }
 
 .task {
@@ -286,7 +308,7 @@
   border-bottom: solid black 1px;
 }
 .task.active {
-  width: calc(100% - 250px);
+  width: calc(100% - 230px);
 }
 .task-form {
   align-self: center;
@@ -308,12 +330,18 @@
   font-size: 1.2rem;
   border-radius: 3px;
 }
+.edit-btn:hover {
+  box-shadow: 0 0 8px blue;
+}
 .delete-btn {
   color: red;
   font-weight: bold;
   font-family: "Segoe UI";
   border-radius: 3px;
   font-size: 1.2rem;
+}
+.delete-btn:hover {
+  box-shadow: 0 0 8px red;
 }
 .save-btn {
   color: green;
@@ -347,6 +375,13 @@
   font-weight: bold;
   text-decoration-thickness: 0.1rem !important;
   text-decoration-color: red !important;
+}
+.objective-text.complete {
+  text-decoration: "line-through" !important;
+}
+.objective-text:hover {
+  text-decoration: line-through;
+  text-decoration-color: black !important;
 }
 .objective-text::-webkit-scrollbar {
   display: none;

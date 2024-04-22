@@ -17,24 +17,35 @@ function Header(props) {
     setTask("");
   };
 
+  let listName;
+  if (props.selectedList) {
+    for (let i = 0; i < props.userLists.length; i++) {
+      if (props.userLists[i].id == props.selectedList) {
+        listName = props.userLists[i].list_name;
+      }
+    }
+  }
+
   return (
     <>
       <form
         onSubmit={handleSubmit}
         className={props.toggleState ? "header-form active" : "header-form"}
       >
-        <h2 id="main-header">Current List</h2>
+        {props.selectedList == 0 ? (
+          <h2 id="main-header">New List</h2>
+        ) : (
+          <h2 id="main-header">{listName}</h2>
+        )}
         <div className="header-right">
-          <label className="input-label">
-            To Do:
-            <input
-              id="input-field"
-              onChange={handleChange}
-              type="text"
-              name="objective"
-              autoComplete="off"
-            />
-          </label>
+          <input
+            id="input-field"
+            onChange={handleChange}
+            type="text"
+            name="objective"
+            autoComplete="off"
+            placeholder="Add task"
+          />
           <button className="add-task-btn">Add</button>
         </div>
       </form>

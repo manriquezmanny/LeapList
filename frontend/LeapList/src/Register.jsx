@@ -74,6 +74,7 @@ function Register() {
             placeholder="Username"
             className="login-item login-input"
             onChange={handleChange}
+            maxLength={"9"}
           ></input>
           <input
             type="password"

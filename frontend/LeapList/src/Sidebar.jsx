@@ -91,6 +91,10 @@ function Sidebar(props) {
     navigate("/log-in");
   };
 
+  const registerBtn = () => {
+    navigate("/register");
+  };
+
   return (
     <div className={toggleState ? "sidebar active" : "sidebar"}>
       {toggleState ? (
@@ -128,12 +132,12 @@ function Sidebar(props) {
       )}
       {toggleState ? (
         props.loggedIn.jwt ? (
-          <div className="account active">
+          <div className="account active container">
             <div className="account active">
               <button onClick={toggleSideBar} className="account-btn">
                 <img src="/login.png" className="account-icon"></img>
               </button>
-              <p>{props.username}</p>
+              <p className="username">{props.username}</p>
             </div>
             <div className="log-out-div">
               <button
@@ -150,11 +154,11 @@ function Sidebar(props) {
               <button onClick={toggleSideBar} className="account-btn">
                 <img src="/login.png" className="account-icon"></img>
               </button>
-              <div className="sign-up-link">
-                <p className="new-user">New User?</p>
-                <Link to="/register">Sign-Up</Link>
-              </div>
+              <div className="sign-up-link"></div>
               <div className="login-link">
+                <button className="sign-up-btn" onClick={registerBtn}>
+                  New? Register!
+                </button>
                 <button className="log-in-btn" onClick={signInBtn}>
                   Sign In
                 </button>
