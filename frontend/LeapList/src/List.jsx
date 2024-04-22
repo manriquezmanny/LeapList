@@ -3,7 +3,7 @@ function List(props) {
     const jwt = localStorage.getItem("jwt");
     if (confirm("Are you sure you want to delete this list?") == true) {
       fetch("http://localhost:5000/delete-list", {
-        method: "POST",
+        method: "DELETE",
         headers: {
           authorization: `Bearer ${jwt}`,
           "Content-Type": "application/json",
@@ -43,9 +43,7 @@ function List(props) {
                 deleteList(props.id);
                 props.handleDeletedList(props.id);
                 if (props.id == props.selectedList) {
-                  props.getSelectedList(0);
-                } else {
-                  props.getSelectedList(props.selectedList);
+                  props.sendSelectedList(0);
                 }
                 console.log("Delete button Clicked!", props.id);
               }}

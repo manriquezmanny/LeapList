@@ -10,9 +10,7 @@ function Sidebar(props) {
   const [loggedIn, setLoggedIn] = useState("");
 
   function handleDeletedList(id) {
-    console.log("Filtered lists when new list deleted");
     setUserLists(userLists.filter((list) => list.id != id));
-    console.log("New lists...");
   }
 
   // Function to get user's lists
@@ -62,13 +60,6 @@ function Sidebar(props) {
   useEffect(() => {
     props.sendSelectedList(selectedList);
   }, [selectedList]);
-
-  console.log(props.userLists);
-
-  // Gets selected list.
-  const getSelectedList = (state) => {
-    setSelectedList(state);
-  };
 
   const getUserListsFromChild = (state) => {
     setUserLists(state);
@@ -128,7 +119,6 @@ function Sidebar(props) {
                 date={moment(list.last_edited).format("MMM DD")}
                 handleClick={() => listSelected(list.id)}
                 handleDeletedList={handleDeletedList}
-                getSelectedList={getSelectedList}
                 getUserLists={getUserListsFromChild}
                 currentList={selectedList}
               ></List>
