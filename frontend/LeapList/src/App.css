@@ -2,6 +2,40 @@
   height: 100%;
 }
 
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(0deg);
+  }
+  15% {
+    transform: rotate(5deg);
+  }
+  20% {
+    transform: rotate(-5deg);
+  }
+  25% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes gelatine {
+  from,
+  to {
+    transform: scale(1, 1);
+  }
+  25% {
+    transform: scale(0.9, 1.05);
+  }
+  50% {
+    transform: scale(1.05, 0.9);
+  }
+  75% {
+    transform: scale(0.95, 1.05);
+  }
+}
+
 .main-container {
   height: 100%;
   width: 100%;
@@ -31,6 +65,10 @@
 .logo {
   width: 60px;
   height: 60px;
+  background-color: transparent !important;
+}
+.logo:hover {
+  animation: wiggle 1s infinite;
 }
 .sidebar-header.active {
   display: flex;
@@ -42,6 +80,7 @@
   height: 60px;
   border: none;
   padding: 0 !important;
+  background-color: transparent !important;
 }
 .sidebar-btn.active {
   width: 60px;
@@ -55,6 +94,7 @@
   font-weight: bold;
   align-self: center;
   font-size: 2.4rem !important;
+  text-shadow: 2.4px -1px 0.2px rgb(156, 146, 146);
 }
 
 .user-lists {
@@ -177,6 +217,7 @@
   height: 36px;
   width: 60px;
   margin-right: 10px;
+  box-shadow: 0 0 2px blue;
 }
 .sign-up-btn {
   background-color: black;
@@ -197,6 +238,10 @@
 .account-icon {
   width: 45px;
   height: 45px;
+  filter: drop-shadow(3px 2px 3px gray);
+}
+.account-icon:hover {
+  animation: gelatine 1s infinite;
 }
 .log-out-div {
   width: 35%;
@@ -213,9 +258,10 @@
   font-weight: bold;
   box-shadow: 0 0 0px red;
   margin-right: 10px;
+  box-shadow: 0 0 3px red;
 }
 .log-out-btn:hover {
-  box-shadow: 0 0 8px red;
+  box-shadow: 0 0 6px red;
 }
 
 .header-form {
@@ -236,6 +282,7 @@
 #main-header {
   font-size: 2rem;
   padding-left: 35px;
+  text-shadow: 1.5px -1px 0.2px rgb(156, 146, 146);
 }
 .header-right {
   font-weight: bold;
@@ -253,6 +300,8 @@
   font-family: "Indie Flower";
   font-size: 1.4rem;
   margin-left: 10px;
+  box-shadow: 0 0 10px gray;
+  border-radius: 5px;
 }
 .add-task-btn {
   font-family: "Indie Flower";
@@ -260,10 +309,36 @@
   color: black;
   border-radius: 3px;
   font-size: 1.4rem;
+  box-shadow: 0 0 8px gray;
 }
 .add-task-btn:hover {
-  box-shadow: 0 0 12px gray !important;
+  box-shadow: 0 0 14px gray !important;
 }
+
+.add-list-form {
+  width: 190px;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+#add-list-input {
+  max-width: 70%;
+  height: 30px;
+  box-shadow: 0 0 10px gray;
+  font-family: "Indie Flower";
+  font-size: 1.2rem;
+}
+.add-list-btn {
+  height: 35px;
+  font-family: "Indie Flower";
+  font-size: 1.2rem;
+  font-weight: bolder;
+  box-shadow: 0 0 10px gray;
+}
+.add-list-btn:hover {
+  box-shadow: 0 0 14 gray;
+}
+
 .list-object {
   cursor: pointer;
   min-height: 50px;
@@ -301,6 +376,7 @@
   font-size: 1.3rem;
   font-family: "Indie Flower";
   font-weight: bold;
+  text-shadow: 1.8px -1px 0.2px rgb(156, 146, 146);
 }
 
 .task {
@@ -450,6 +526,7 @@ button {
   width: 80px;
   min-width: 80px;
   height: 90%;
+  box-shadow: 0 0 6px gray;
 }
 .register-title {
   font-family: "Indie Flower";

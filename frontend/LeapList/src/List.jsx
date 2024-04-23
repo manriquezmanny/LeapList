@@ -23,7 +23,8 @@ function List(props) {
       className={"list-object"}
       onClick={props.handleClick}
       style={{
-        backgroundColor: props.id == props.currentList ? "#c9ac83" : null,
+        backgroundColor: props.id == props.currentList ? "#c9ae87" : null,
+        boxShadow: props.id == props.currentList ? "0 0 16px gray" : null,
       }}
     >
       <div className="list-object-text-div">

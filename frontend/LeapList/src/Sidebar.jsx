@@ -100,20 +100,29 @@ function Sidebar(props) {
       {toggleState ? (
         <div className="sidebar-header active">
           <button onClick={toggleSideBar} className="sidebar-btn active">
-            <img src="/listLeap.png" className="logo"></img>
+            <img src="/listLeapPng.png" className="logo"></img>
           </button>
           <h1 className="app-name">LeapList</h1>
         </div>
       ) : (
         <div className="sidebar-header">
           <button onClick={toggleSideBar} className="sidebar-btn">
-            <img src="/listLeap.png" className="logo"></img>
+            <img src="/listLeapPng.png" className="logo"></img>
           </button>
         </div>
       )}
 
       {toggleState && props.userLists.length >= 1 && (
         <div className="user-lists">
+          <form className="add-list-form">
+            <input
+              id="add-list-input"
+              type="text"
+              placeholder="Add List"
+              maxLength="15"
+            ></input>
+            <button className="add-list-btn">Add</button>
+          </form>
           {userLists.map((list, index) => {
             return (
               <List
