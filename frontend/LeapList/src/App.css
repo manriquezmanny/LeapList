@@ -465,6 +465,7 @@
   font-family: "Indie Flower";
   font-weight: bold;
   text-align: start;
+  line-height: 24px;
   text-decoration-thickness: 0.1rem !important;
   text-decoration-color: red !important;
 }

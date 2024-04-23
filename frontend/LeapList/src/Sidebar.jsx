@@ -29,26 +29,34 @@ function Sidebar(props) {
         if (res.lists <= 0 || res.lists == undefined) {
           setUserLists([]);
         } else {
-          setUserLists(res.lists);
+          setUserLists(
+            res.lists
+              .sort(
+                (a, b) => Date.parse(a.last_edited) - Date.parse(b.last_edited)
+              )
+              .reverse()
+          );
         }
       })
       .catch((e) => console.log("Error getting lists", e));
   }
   // Gets the current user's id.
-  async function getUserId() {
-    if (loggedIn) {
+  function getUserId() {
+    if (loggedIn != 0) {
       const jwt = localStorage.getItem("jwt");
       const username = localStorage.getItem("username");
+      const email = localStorage.getItem("email");
 
-      const userId = await fetch("http://localhost:5000/get-user-id", {
+      const userId = fetch("http://localhost:5000/get-user-id", {
         method: "POST",
         headers: {
           authorization: `Bearer ${jwt}`,
           "Content-Type": "application/json",
         },
-        body: { username, email },
+        body: JSON.stringify({ username, email }),
       })
         .then((res) => res.json())
+        .then((res) => res.id.id)
         .catch((e) => console.log("Error getting user ID", e));
       return userId;
     } else {
@@ -56,28 +64,33 @@ function Sidebar(props) {
     }
   }
   // Adds a list to the database and state.
-  async function addList() {
+  const addList = async (e) => {
+    e.preventDefault();
     const userId = await getUserId();
-
-    if (userId) {
-      fetch("http://localhost:5000/add-user-list", {
+    const jwt = localStorage.getItem("jwt");
+    if (userId != 0) {
+      const newListRes = await fetch("http://localhost:5000/add-user-list", {
         method: "POST",
         headers: {
-          authorization: `Bearer ${jst}`,
+          authorization: `Bearer ${jwt}`,
           "Content-Type": "application/json",
         },
-        body: { id: id, body: newList },
+        body: JSON.stringify({ userId: userId, listName: newList.listName }),
       })
         .then((res) => res.json())
-        .then(console.log(res.added))
+        .then((res) => res.newListRes)
         .catch((e) => console.log("Error adding list to db: ", e));
+      setUserLists(new Array(newListRes, ...userLists));
+      setSelectedList(newListRes.id);
+      e.target.reset();
     }
-  }
+  };
+
   // Updates state of object that will be used to edit data.
   const handleChange = (e) => {
     const editInputValue = e.target.value;
     setNewList((prev) => {
-      return { ...prev, objective: editInputValue };
+      return { ...prev, listName: editInputValue };
     });
   };
   // Handles updating the toggleState bool value.
