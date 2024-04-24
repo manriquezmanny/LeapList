@@ -170,6 +170,45 @@ app.get("/lists", async (req, res) => {
   res.json({ lists: lists });
 });
 
+// Gets current user's Id
+app.post("/get-user-id", async (req, res) => {
+  const { username, email } = req.body;
+
+  // Getting the id from db
+  const [[id]] = await req.db.query(
+    `
+  SELECT id FROM users
+  WHERE username= :username AND email= :email`,
+    { username, email }
+  );
+
+  res.json({ id: id });
+});
+
+// Adds new list to db
+app.post("/add-user-list", async (req, res) => {
+  const { userId, listName } = req.body;
+  try {
+    await req.db.query(
+      `INSERT INTO lists(user_id, list_name) VALUES(:userId, :listName)`,
+      { userId, listName }
+    );
+    console.log("Added list to db.");
+  } catch (e) {
+    console.log("Error adding new list into db: ", e);
+  }
+
+  try {
+    const [newListRes] = await req.db.query(
+      `SELECT * FROM lists WHERE user_id = :userId AND list_name = :listName ORDER BY id DESC`,
+      { userId, listName }
+    );
+    res.json({ newListRes: newListRes[0] });
+  } catch (e) {
+    console.log("Error getting the new list from db", e);
+  }
+});
+
 // Get the selected list's tasks
 app.post("/tasks", async (req, res) => {
   // Getting posted list id
@@ -201,7 +240,6 @@ app.post("/add", async (req, res) => {
 // Delete a list
 // Not using url param, I don't want users deleting lists with url without clicking button.
 app.delete("/delete-list", async (req, res) => {
-  console.log("Made it past verification middleware");
   const { listId } = req.body;
 
   try {
@@ -217,7 +255,6 @@ app.delete("/delete-list", async (req, res) => {
 // Delete a task
 // Not using url param, I don't want users deleting lists with url without clicking button.
 app.delete("/delete-task", async (req, res) => {
-  console.log("Made it past verification middleware");
   const { taskId } = req.body;
 
   try {
@@ -230,7 +267,6 @@ app.delete("/delete-task", async (req, res) => {
 
 // Edit completion state of task
 app.put("/toggle-task", async (req, res) => {
-  console.log("Made it past verification middleware");
   const { newState, taskId } = req.body;
 
   try {
@@ -241,6 +277,34 @@ app.put("/toggle-task", async (req, res) => {
     res.json({ edited: "Succesfully Edited completion state of task" });
   } catch (e) {
     console.log("Error editing completion state of task", e);
+  }
+});
+
+// Edit a task
+app.put("/edit-task", async (req, res) => {
+  const { taskId, newText, listId, newTime } = req.body;
+
+  try {
+    await req.db.query(`UPDATE tasks SET body = :newText WHERE id = :taskId`, {
+      newText,
+      taskId,
+    });
+    console.log("Succesfully updated task");
+  } catch (e) {
+    console.log("Error updating task: ", e);
+  }
+
+  try {
+    await req.db.query(
+      `UPDATE lists SET last_edited = :newTime WHERE id = :listId`,
+      {
+        newTime,
+        listId,
+      }
+    );
+    console.log("Succesfully edited task and updated list");
+  } catch (e) {
+    console.log("Error updating last edited time for list", e);
   }
 });
 
