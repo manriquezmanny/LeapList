@@ -187,7 +187,8 @@ app.post("/get-user-id", async (req, res) => {
 
 // Adds new list to db
 app.post("/add-user-list", async (req, res) => {
-  const { userId, listName } = req.body;
+  const { listName } = req.body;
+  const userId = req.user.userId;
   try {
     await req.db.query(
       `INSERT INTO lists(user_id, list_name) VALUES(:userId, :listName)`,
@@ -234,7 +235,12 @@ app.post("/add", async (req, res) => {
     { list_id, body, complete }
   );
 
-  res.json({ added: "added Task" });
+  const [newTaskId] = await req.db.query(
+    `SELECT id FROM tasks WHERE body= :body and list_id = :list_id ORDER BY id DESC`,
+    { body, list_id }
+  );
+
+  res.json({ newId: newTaskId[0] });
 });
 
 // Delete a list
@@ -282,7 +288,7 @@ app.put("/toggle-task", async (req, res) => {
 
 // Edit a task
 app.put("/edit-task", async (req, res) => {
-  const { taskId, newText, listId, newTime } = req.body;
+  const { taskId, newText, listId } = req.body;
 
   try {
     await req.db.query(`UPDATE tasks SET body = :newText WHERE id = :taskId`, {
@@ -296,9 +302,8 @@ app.put("/edit-task", async (req, res) => {
 
   try {
     await req.db.query(
-      `UPDATE lists SET last_edited = :newTime WHERE id = :listId`,
+      `UPDATE lists SET last_edited = NOW() WHERE id = :listId`,
       {
-        newTime,
         listId,
       }
     );
