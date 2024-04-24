@@ -39,15 +39,39 @@ function App() {
       })
     );
   }
+
   // Handler function for saving an edited task in state. Edited task data passed up from child component.
   const handleSave = (editedObject) => {
     setTasks((prevTasks) =>
       prevTasks.map((current) => {
         return current.id === editedObject.id
-          ? { ...current, objective: editedObject.objective, edit: false }
+          ? { ...current, body: editedObject.body, edit: false }
           : current;
       })
     );
+
+    if (loggedIn) {
+      const jwt = localStorage.getItem("jwt");
+      const taskId = editedObject.id;
+      const newText = editedObject.body;
+      const listId = editedObject.list_id;
+
+      fetch("http://localhost:5000/edit-task", {
+        method: "PUT",
+        headers: {
+          authorization: `Bearer ${jwt}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          taskId: taskId,
+          newText: newText,
+          listId: listId,
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) => console.log(res.edited))
+        .catch((e) => console.log("Error: ", e));
+    }
   };
   // Handler function for logging out
   const handleLogout = () => {
@@ -68,14 +92,12 @@ function App() {
       return;
     }
 
-    console.log(selectedList.id);
-
     const newTaskObject = {
       list_id: selectedList,
       body: task,
       complete: false,
     };
-    if (selectedList == 0 || !loggedIn) {
+    if (!loggedIn) {
       newTaskObject.id = tasks.length + 1;
     }
 
@@ -89,11 +111,9 @@ function App() {
         body: JSON.stringify(newTaskObject),
       })
         .then((res) => res.json())
-        .then((res) => console.log(res.added))
+        .then((res) => (newTaskObject.id = res.newId.id))
         .catch((e) => console.log("Error adding new task", e));
     }
-    newTaskObject.id = tasks.length + 1;
-
     setTasks([...tasks, newTaskObject]);
   };
   // Handler function to update state task completion.
@@ -192,9 +212,12 @@ function App() {
   const getLoggedIn = (state) => {
     setLoggedIn(state);
   };
+  // Gets task state from child component.
   const getTasks = (state) => {
     setTasks(state);
   };
+
+  console.log(tasks);
 
   return (
     <div className="main-container">
@@ -203,11 +226,13 @@ function App() {
         sendSelectedList={getSelectedList}
         sendUserLists={getUserListsFromChild}
         sendLoggedIn={getLoggedIn}
+        sendTasks={getTasks}
         handleLogout={handleLogout}
         toggleState={sidebarToggled}
         loggedIn={loggedIn}
         username={loggedIn.username}
         userLists={userLists}
+        tasks={tasks}
       />
       <Header
         onSubmit={handleAddTask}

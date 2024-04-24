@@ -40,42 +40,19 @@ function Sidebar(props) {
       })
       .catch((e) => console.log("Error getting lists", e));
   }
-  // Gets the current user's id.
-  function getUserId() {
-    if (loggedIn != 0) {
-      const jwt = localStorage.getItem("jwt");
-      const username = localStorage.getItem("username");
-      const email = localStorage.getItem("email");
 
-      const userId = fetch("http://localhost:5000/get-user-id", {
-        method: "POST",
-        headers: {
-          authorization: `Bearer ${jwt}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, email }),
-      })
-        .then((res) => res.json())
-        .then((res) => res.id.id)
-        .catch((e) => console.log("Error getting user ID", e));
-      return userId;
-    } else {
-      return 0;
-    }
-  }
   // Adds a list to the database and state.
   const addList = async (e) => {
     e.preventDefault();
-    const userId = await getUserId();
     const jwt = localStorage.getItem("jwt");
-    if (userId != 0) {
+    if (loggedIn) {
       const newListRes = await fetch("http://localhost:5000/add-user-list", {
         method: "POST",
         headers: {
           authorization: `Bearer ${jwt}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userId: userId, listName: newList.listName }),
+        body: JSON.stringify({ listName: newList.listName }),
       })
         .then((res) => res.json())
         .then((res) => res.newListRes)
@@ -105,10 +82,6 @@ function Sidebar(props) {
   function handleDeletedList(id) {
     setUserLists(userLists.filter((list) => list.id != id));
   }
-  // Handles getting user's lists state from child component
-  const getUserListsFromChild = (state) => {
-    setUserLists(state);
-  };
   // Handles navigating to log-in page.
   const signInBtn = () => {
     navigate("/log-in");
@@ -142,6 +115,8 @@ function Sidebar(props) {
     props.sendToggleState(toggleState);
   }, [toggleState]);
 
+  console.log(selectedList);
+
   return (
     <div className={toggleState ? "sidebar active" : "sidebar"}>
       {toggleState ? (
@@ -157,6 +132,18 @@ function Sidebar(props) {
             <img src="/listLeapPng.png" className="logo"></img>
           </button>
         </div>
+      )}
+      {props.userLists.length == 0 && (
+        <form className="add-list-form-empty" onSubmit={addList}>
+          <input
+            onChange={handleChange}
+            id="add-list-input"
+            type="text"
+            placeholder="Add List"
+            maxLength="15"
+          ></input>
+          <button className="add-list-btn">Add</button>
+        </form>
       )}
 
       {toggleState && props.userLists.length >= 1 && (
@@ -180,7 +167,6 @@ function Sidebar(props) {
                 date={moment(list.last_edited).format("MMM DD")}
                 handleClick={() => listSelected(list.id)}
                 handleDeletedList={handleDeletedList}
-                getUserLists={getUserListsFromChild}
                 currentList={selectedList}
               ></List>
             );

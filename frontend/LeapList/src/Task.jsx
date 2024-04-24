@@ -1,31 +1,14 @@
 import { useState } from "react";
 
 function Task(props) {
-  // State for tasks to edit.
-  const [toEdit, setToEdit] = useState(props.taskObj);
-
-  // Updates state of object that will be used to edit data.
-  const handleChange = (e) => {
-    const editInputValue = e.target.value;
-    setToEdit((prev) => {
-      return { ...prev, objective: editInputValue };
-    });
-  };
-
   // Passes object that will be used to edit up to parent component and resets form.
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    props.onSubmit(formData.get("edit-input"));
-    setToEdit({ ...props.taskObj, objective: formData.get("edit-input") });
-    props.onSubmit(toEdit);
+    const editedText = formData.get("edit-input");
+    props.handleEdit();
+    props.onSubmit({ ...props.taskObj, body: editedText });
     e.target.reset();
-
-    if (props.loggedIn) {
-      const jwt = localStorage.getItem("jwt");
-      const taskId = props.id;
-      const listId = props.taskObj.list_id;
-    }
   };
 
   return (
@@ -36,7 +19,6 @@ function Task(props) {
           <label>
             Edit:{" "}
             <input
-              onChange={handleChange}
               type="text"
               className="edit-input"
               defaultValue={props.taskObj.body}
