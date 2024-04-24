@@ -37,15 +37,17 @@ function Header(props) {
         ) : (
           <h2 id="main-header">{listName} :</h2>
         )}
-        <input
-          id="input-field"
-          onChange={handleChange}
-          type="text"
-          name="objective"
-          autoComplete="off"
-          placeholder="Add task"
-        />
-        <button className="add-task-btn">Add</button>
+        <div className="input-and-button">
+          <input
+            id="input-field"
+            onChange={handleChange}
+            type="text"
+            name="objective"
+            autoComplete="off"
+            placeholder="Add task"
+          />
+          <button className="add-task-btn">Add</button>
+        </div>
       </form>
     </>
   );

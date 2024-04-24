@@ -329,7 +329,7 @@ body #root .root {
 
 .header-form {
   height: 112px;
-  max-height: 120px;
+  max-height: 112px;
   width: calc(100% - 60px);
   margin-left: 60px;
   font-family: "Indie Flower";
@@ -343,26 +343,26 @@ body #root .root {
   margin-left: 230px;
 }
 #main-header {
-  font-size: 2.2rem;
+  font-size: 1.8rem;
   text-shadow: 1.5px -1px 0.2px rgb(156, 146, 146);
   text-wrap: nowrap;
   margin: 10px;
+  margin-top: 10px;
+  margin-bottom: 0px;
 }
-.header-right {
-  font-weight: bold;
-  align-items: end;
-  padding-right: 3.5%;
-  font-size: 1.4rem;
-  width: 400px;
+.input-and-button {
   display: flex;
-  flex-wrap: nowrap;
+  flex-direction: row;
+  width: 100%;
+  margin-top: 0px;
+  min-width: 166px;
 }
 .input-label {
   margin-right: 10px;
   font-size: 1.4rem;
 }
 #input-field {
-  width: 50%;
+  width: 60%;
   height: 40px;
   font-family: "Indie Flower";
   font-size: 1.4rem;
