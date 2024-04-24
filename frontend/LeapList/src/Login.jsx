@@ -20,7 +20,7 @@ function Login() {
 
     const body = { email: login.email, password: login.password };
 
-    fetch("http://localhost:5000/log-in", {
+    fetch("https://leaplist-production.up.railway.app/log-in", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
