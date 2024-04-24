@@ -193,9 +193,6 @@ body #root .root {
   border-color: #b1936c;
 }
 .list-object-text-div {
-  display: flex;
-  justify-content: start;
-  align-items: start;
   width: 50%;
   height: 100%;
   font-family: "Indie Flower";
@@ -204,7 +201,7 @@ body #root .root {
 }
 .list-object-text {
   margin: 0px !important;
-  text-shadow: 0.4px -1px 0.2px rgb(156, 146, 146);
+  text-shadow: 0.2px -1px 0.2px rgb(156, 146, 146);
 }
 
 .list-object-buttons-date {
@@ -331,14 +328,14 @@ body #root .root {
 }
 
 .header-form {
-  height: 65px;
+  height: 112px;
   max-height: 120px;
   width: calc(100% - 60px);
   margin-left: 60px;
   font-family: "Indie Flower";
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: start;
+  align-items: start;
   border-bottom: solid black 2px;
 }
 .header-form.active {
@@ -346,11 +343,10 @@ body #root .root {
   margin-left: 230px;
 }
 #main-header {
-  font-size: 2rem;
-  padding-left: 35px;
+  font-size: 2.2rem;
   text-shadow: 1.5px -1px 0.2px rgb(156, 146, 146);
   text-wrap: nowrap;
-  padding-right: 10px;
+  margin: 10px;
 }
 .header-right {
   font-weight: bold;
@@ -366,12 +362,14 @@ body #root .root {
   font-size: 1.4rem;
 }
 #input-field {
-  width: 82%;
+  width: 50%;
+  height: 40px;
   font-family: "Indie Flower";
   font-size: 1.4rem;
-  margin-left: 10px;
+  margin-left: 0px;
   box-shadow: 0 0 10px gray;
   border-radius: 5px;
+  margin-top: 15px;
 }
 .add-task-btn {
   font-family: "Indie Flower";
@@ -380,13 +378,14 @@ body #root .root {
   border-radius: 3px;
   font-size: 1.4rem;
   box-shadow: 0 0 8px gray;
-  height: 38px;
+  height: 45px;
   width: 60px;
-  align-self: center;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-left: 5px;
+  margin-top: 15px;
+  margin-right: 10px;
 }
 .add-task-btn:hover {
   box-shadow: 0 0 14px gray !important;
@@ -399,12 +398,13 @@ body #root .root {
   margin-top: 10px;
 }
 .add-list-form-empty {
-  width: 100%;
-  height: 100%;
+  width: 93%;
   display: flex;
   align-items: start;
+  align-self: center;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 5px;
+  padding-bottom: 10px;
 }
 #add-list-input {
   max-width: 72%;
@@ -535,10 +535,9 @@ body #root .root {
 }
 .objective-text {
   color: black;
-  max-width: 60%;
-  max-height: 60px;
+  height: 100%;
+  max-width: 55%;
   overflow-y: scroll;
-  overflow-wrap: break-word;
   border: 0px;
   background-color: transparent;
   font-size: 1.4rem;
@@ -551,6 +550,9 @@ body #root .root {
 }
 .objective-text.complete {
   text-decoration: "line-through" !important;
+}
+.objective-text:active {
+  animation: wiggle 0.4s;
 }
 
 @media (pointer: fine) {

@@ -35,19 +35,17 @@ function Header(props) {
         {props.selectedList == 0 ? (
           <h2 id="main-header">New List</h2>
         ) : (
-          <h2 id="main-header">{listName}</h2>
+          <h2 id="main-header">{listName} :</h2>
         )}
-        <div className="header-right">
-          <input
-            id="input-field"
-            onChange={handleChange}
-            type="text"
-            name="objective"
-            autoComplete="off"
-            placeholder="Add task"
-          />
-          <button className="add-task-btn">Add</button>
-        </div>
+        <input
+          id="input-field"
+          onChange={handleChange}
+          type="text"
+          name="objective"
+          autoComplete="off"
+          placeholder="Add task"
+        />
+        <button className="add-task-btn">Add</button>
       </form>
     </>
   );

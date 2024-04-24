@@ -1,13 +1,11 @@
-import { useState } from "react";
-
 function Task(props) {
   // Passes object that will be used to edit up to parent component and resets form.
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    props.handleEdit();
     const formData = new FormData(e.target);
     const editedText = formData.get("edit-input");
-    props.handleEdit();
-    props.onSubmit({ ...props.taskObj, body: editedText });
+    await props.onSubmit({ ...props.taskObj, body: editedText });
     e.target.reset();
   };
 
@@ -15,7 +13,7 @@ function Task(props) {
     <div className={props.toggleState ? "task active" : "task"}>
       <h3>{props.number}.</h3>
       <form id="edit-form" className="task-form" onSubmit={handleSubmit}>
-        {props.taskObj.edit ? (
+        {props.toEdit == props.taskObj.id ? (
           <label>
             Edit:{" "}
             <input
@@ -40,7 +38,7 @@ function Task(props) {
           </button>
         )}
         <div>
-          {props.taskObj.edit ? (
+          {props.toEdit == props.taskObj.id ? (
             <div className="task-btns">
               <button className="save-btn">
                 Save <i className="bx bx-save" onClick={handleSubmit}></i>

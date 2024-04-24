@@ -101,7 +101,7 @@ function Sidebar(props) {
       });
       getUserLists();
     }
-  }, []);
+  }, [userLists]);
   useEffect(() => {
     props.sendLoggedIn(loggedIn);
   }, [loggedIn]);
@@ -115,7 +115,7 @@ function Sidebar(props) {
     props.sendToggleState(toggleState);
   }, [toggleState]);
 
-  console.log(selectedList);
+  console.log("I re rendered!");
 
   return (
     <div className={toggleState ? "sidebar active" : "sidebar"}>
@@ -133,8 +133,13 @@ function Sidebar(props) {
           </button>
         </div>
       )}
-      {props.userLists.length == 0 && (
-        <form className="add-list-form-empty" onSubmit={addList}>
+
+      {toggleState && (
+        <form
+          className="add-list-form-empty"
+          onSubmit={addList}
+          style={{ marginBottom: userLists.length == 0 ? "auto" : null }}
+        >
           <input
             onChange={handleChange}
             id="add-list-input"
@@ -148,16 +153,6 @@ function Sidebar(props) {
 
       {toggleState && props.userLists.length >= 1 && (
         <div className="user-lists">
-          <form className="add-list-form" onSubmit={addList}>
-            <input
-              onChange={handleChange}
-              id="add-list-input"
-              type="text"
-              placeholder="Add List"
-              maxLength="15"
-            ></input>
-            <button className="add-list-btn">Add</button>
-          </form>
           {userLists.map((list, index) => {
             return (
               <List

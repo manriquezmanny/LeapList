@@ -14,6 +14,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState("");
   const [userLists, setUserLists] = useState([]);
   const [selectedList, setSelectedList] = useState(0);
+  const [toEdit, setToEdit] = useState(0);
 
   // Instantiated react router.
   const navigator = useNavigate();
@@ -33,11 +34,7 @@ function App() {
   }
   // Handler function for editing a task in state.
   function handleEdit(id) {
-    setTasks((prevTasks) =>
-      prevTasks.map((current) => {
-        return current.id === id ? { ...current, edit: true } : current;
-      })
-    );
+    setToEdit(id);
   }
 
   // Handler function for saving an edited task in state. Edited task data passed up from child component.
@@ -49,6 +46,7 @@ function App() {
           : current;
       })
     );
+    setToEdit(0);
 
     if (loggedIn) {
       const jwt = localStorage.getItem("jwt");
@@ -217,8 +215,6 @@ function App() {
     setTasks(state);
   };
 
-  console.log(tasks);
-
   return (
     <div className="main-container">
       <Sidebar
@@ -254,6 +250,7 @@ function App() {
             toggleState={sidebarToggled}
             sendTasks={getTasks}
             loggedIn={loggedIn}
+            toEdit={toEdit}
           />
         );
       })}
