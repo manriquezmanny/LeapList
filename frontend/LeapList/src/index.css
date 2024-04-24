@@ -3,5 +3,7 @@ body,
 #app,
 #app > div {
   height: 100%;
+  min-height: 300px;
+  min-width: 562px;
   margin: 0;
 }

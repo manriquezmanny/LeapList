@@ -20,6 +20,12 @@ function Task(props) {
     setToEdit({ ...props.taskObj, objective: formData.get("edit-input") });
     props.onSubmit(toEdit);
     e.target.reset();
+
+    if (props.loggedIn) {
+      const jwt = localStorage.getItem("jwt");
+      const taskId = props.id;
+      const listId = props.taskObj.list_id;
+    }
   };
 
   return (

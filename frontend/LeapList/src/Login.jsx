@@ -48,36 +48,37 @@ function Login() {
   };
 
   return (
-    <div id="register-root">
-      <div className="register-container">
-        <h1
-          className="login-item register-title"
-          style={{ textAlign: "center" }}
-        >
-          Log In to Account
-        </h1>
-        <form className="register-form" onSubmit={handleSubmit}>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            className="login-item login-input"
-            onChange={handleChange}
-          ></input>
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            className="login-item login-input"
-            onChange={handleChange}
-          ></input>
-          <div className="login-item">
-            <button name="Register" className="register-btn login-item">
-              Log In
-            </button>
-          </div>
-        </form>
-        <Link to="/">Return Home</Link>
+    <div id="root">
+      <div className="register-main-div">
+        <div className="register-container">
+          <h1 className="register-title" style={{ textAlign: "center" }}>
+            Log In to Account
+          </h1>
+          <form className="register-form" onSubmit={handleSubmit}>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              className="login-item login-input"
+              onChange={handleChange}
+            ></input>
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              className="login-item login-input"
+              onChange={handleChange}
+            ></input>
+            <div className="login-item">
+              <button name="Register" className="register-btn login-item">
+                Log In
+              </button>
+            </div>
+          </form>
+          <Link to="/" style={{ marginBottom: "10px" }}>
+            Return Home
+          </Link>
+        </div>
       </div>
     </div>
   );

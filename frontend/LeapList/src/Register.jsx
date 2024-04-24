@@ -52,15 +52,12 @@ function Register() {
   };
 
   return (
-    <div id="register-root">
+    <div className="register-main-div">
       <div className="register-container">
-        <h1
-          className="login-item register-title"
-          style={{ textAlign: "center" }}
-        >
+        <h1 className="register-title" style={{ textAlign: "center" }}>
           Make an Account
         </h1>
-        <form className="register-form" onSubmit={handleSubmit}>
+        <form className="register-form-register" onSubmit={handleSubmit}>
           <input
             type="email"
             name="email"
@@ -96,7 +93,9 @@ function Register() {
             </button>
           </div>
         </form>
-        <Link to="/">Return Home</Link>
+        <Link to="/" style={{ alignSelf: "center", marginTop: "20px" }}>
+          Return Home
+        </Link>
       </div>
     </div>
   );

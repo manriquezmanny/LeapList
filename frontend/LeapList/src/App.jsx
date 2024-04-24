@@ -218,7 +218,7 @@ function App() {
       {tasks.map((taskObj, index) => {
         return (
           <Task
-            id={index}
+            id={taskObj.id}
             key={index}
             number={index + 1}
             taskObj={taskObj}
@@ -228,6 +228,7 @@ function App() {
             onSubmit={handleSave}
             toggleState={sidebarToggled}
             sendTasks={getTasks}
+            loggedIn={loggedIn}
           />
         );
       })}
