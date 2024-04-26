@@ -29,12 +29,7 @@ function App() {
         email: localStorage.getItem("email"),
       });
       getUserLists();
-    }
-  }, []);
-  // Use effect for getting user lists at start.
-  useEffect(() => {
-    if (loggedIn) {
-      getUserLists();
+      getListTasks();
     }
   }, []);
 

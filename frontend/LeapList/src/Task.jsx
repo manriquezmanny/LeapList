@@ -1,11 +1,11 @@
 function Task(props) {
   // Passes object that will be used to edit up to parent component and resets form.
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     props.handleEdit();
     const formData = new FormData(e.target);
     const editedText = formData.get("edit-input");
-    await props.onSubmit({ ...props.taskObj, body: editedText });
+    props.onSubmit({ ...props.taskObj, body: editedText });
     e.target.reset();
   };
 
