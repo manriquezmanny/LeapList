@@ -33,7 +33,7 @@ function Header(props) {
         className={props.toggleState ? "header-form active" : "header-form"}
       >
         {props.selectedList == 0 ? (
-          <h2 id="main-header">New List</h2>
+          <h2 id="main-header">New List :</h2>
         ) : (
           <h2 id="main-header">{listName} :</h2>
         )}

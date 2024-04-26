@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import moment from "moment";
 
 function Sidebar(props) {
-  const [toggleState, setToggleState] = useState(true);
   const [selectedList, setSelectedList] = useState(0);
   const [userLists, setUserLists] = useState(props.userLists);
   const [loggedIn, setLoggedIn] = useState("");
@@ -72,7 +71,8 @@ function Sidebar(props) {
   };
   // Handles updating the toggleState bool value.
   function toggleSideBar() {
-    setToggleState(!toggleState);
+    //setToggleState(!toggleState);
+    props.sendToggleState(!props.toggleState);
   }
   // Handles updating the currently selected List.
   function listSelected(id) {
@@ -111,15 +111,18 @@ function Sidebar(props) {
   useEffect(() => {
     props.sendSelectedList(selectedList);
   }, [selectedList]);
+
+  /*
   useEffect(() => {
     props.sendToggleState(toggleState);
   }, [toggleState]);
+  */
 
   console.log("I re rendered!");
 
   return (
-    <div className={toggleState ? "sidebar active" : "sidebar"}>
-      {toggleState ? (
+    <div className={props.toggleState ? "sidebar active" : "sidebar"}>
+      {props.toggleState ? (
         <div className="sidebar-header active">
           <button onClick={toggleSideBar} className="sidebar-btn active">
             <img src="/listLeapPng.png" className="logo"></img>
@@ -134,7 +137,7 @@ function Sidebar(props) {
         </div>
       )}
 
-      {toggleState && (
+      {props.toggleState && (
         <form
           className="add-list-form-empty"
           onSubmit={addList}
@@ -151,7 +154,7 @@ function Sidebar(props) {
         </form>
       )}
 
-      {toggleState && props.userLists.length >= 1 && (
+      {props.toggleState && props.userLists.length >= 1 && (
         <div className="user-lists">
           {userLists.map((list, index) => {
             return (
@@ -168,7 +171,7 @@ function Sidebar(props) {
           })}
         </div>
       )}
-      {toggleState ? (
+      {props.toggleState ? (
         props.loggedIn.jwt ? (
           <div className="account active container">
             <div className="account active">

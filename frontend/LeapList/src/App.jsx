@@ -5,6 +5,7 @@ import Task from "./Task";
 import Sidebar from "./Sidebar";
 import { useNavigate } from "react-router-dom";
 
+// Main app component
 function App() {
   // State for current tasks to render.
   const [tasks, setTasks] = useState([]);
