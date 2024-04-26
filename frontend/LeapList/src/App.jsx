@@ -20,15 +20,25 @@ function App() {
   // Instantiated react router.
   const navigator = useNavigate();
 
-  // Use effect for updating tasks list.
+  // Use effect for checking if logged in at start from localStorage.
   useEffect(() => {
-    if (localStorage.getItem("jwt") && selectedList != 0) {
-      getListTasks();
+    if (localStorage.getItem("jwt")) {
+      setLoggedIn({
+        jwt: localStorage.getItem("jwt"),
+        username: localStorage.getItem("username"),
+        email: localStorage.getItem("email"),
+      });
+      getUserLists();
     }
-  }, [selectedList]);
+  }, []);
+  // Use effect for getting user lists at start.
+  useEffect(() => {
+    if (loggedIn) {
+      getUserLists();
+    }
+  }, []);
 
   //// Handler Functions////
-
   // Handler function for deleting a task from state.
   function deleteTask(id) {
     setTasks((prevTasks) => prevTasks.filter((current) => current.id != id));
@@ -37,7 +47,10 @@ function App() {
   function handleEdit(id) {
     setToEdit(id);
   }
-
+  // Handle deleting a list from state.
+  function handleDeletedList(id) {
+    setUserLists(userLists.filter((list) => list.id != id));
+  }
   // Handler function for saving an edited task in state. Edited task data passed up from child component.
   const handleSave = (editedObject) => {
     setTasks((prevTasks) =>
@@ -115,7 +128,7 @@ function App() {
     }
     setTasks([...tasks, newTaskObject]);
   };
-  // Handler function to update state task completion.
+  // Handler function and PUT req to update state task completion.
   const toggleComplete = (id) => {
     if (loggedIn) {
       let task;
@@ -172,7 +185,33 @@ function App() {
       .then((res) => setTasks([...JSON.parse(res.tasks)]))
       .catch((e) => console.log("Error getting tasks", e.message));
   }
+  // GET req to get user lists.
+  function getUserLists() {
+    const jwt = localStorage.getItem("jwt");
 
+    fetch("http://localhost:5000/lists", {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${jwt}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.lists <= 0 || res.lists == undefined) {
+          setUserLists([]);
+        } else {
+          setUserLists(
+            res.lists
+              .sort(
+                (a, b) => Date.parse(a.last_edited) - Date.parse(b.last_edited)
+              )
+              .reverse()
+          );
+        }
+      })
+      .catch((e) => console.log("Error getting lists", e));
+  }
+  // DELETE req to delete task from db
   function deleteTask(taskId) {
     const jwt = localStorage.getItem("jwt");
     if (confirm("Are you sure you want to delete this task?") == true) {
@@ -204,8 +243,8 @@ function App() {
     setSelectedList(state);
   };
   // Gets user's lists from child component.
-  const getUserListsFromChild = (state) => {
-    setUserLists(state);
+  const getNewListFromChild = (newList) => {
+    setUserLists(new Array(newList, ...userLists));
   };
   // Gets login state from child component.
   const getLoggedIn = (state) => {
@@ -221,15 +260,17 @@ function App() {
       <Sidebar
         sendToggleState={getToggleState}
         sendSelectedList={getSelectedList}
-        sendUserLists={getUserListsFromChild}
+        sendNewList={getNewListFromChild}
         sendLoggedIn={getLoggedIn}
         sendTasks={getTasks}
         handleLogout={handleLogout}
+        handleDelete={handleDeletedList}
         toggleState={sidebarToggled}
         loggedIn={loggedIn}
         username={loggedIn.username}
         userLists={userLists}
         tasks={tasks}
+        selectedList={selectedList}
       />
       <Header
         onSubmit={handleAddTask}
