@@ -4,6 +4,7 @@ import Header from "./Header";
 import Task from "./Task";
 import Sidebar from "./Sidebar";
 import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 // Main app component
 function App() {
@@ -37,7 +38,12 @@ function App() {
   }, []);
 
   useEffect(() => {
-    getListTasks();
+    async function getData() {
+      const newTasks = await getListTasks();
+      console.log(newTasks);
+      setTasks(newTasks);
+    }
+    getData();
   }, [selectedList]);
 
   //// Handler Functions////
@@ -55,6 +61,7 @@ function App() {
   }
   // Handler function for saving an edited task in state. Edited task data passed up from child component.
   const handleSave = (editedObject) => {
+    setToEdit(0);
     if (loggedIn) {
       const jwt = localStorage.getItem("jwt");
       const taskId = editedObject.id;
@@ -74,22 +81,8 @@ function App() {
         }),
       })
         .then((res) => res.json())
-        .then((res) =>
-          res.lists.sort(
-            (a, b) =>
-              Date.parse(a.last_edited) - Date.parse(b.last_edited).reverse()
-          )
-        )
         .catch((e) => console.log("Error: ", e));
     }
-    setTasks((prevTasks) =>
-      prevTasks.map((current) => {
-        return current.id === editedObject.id
-          ? { ...current, body: editedObject.body, edit: false }
-          : current;
-      })
-    );
-    setToEdit(0);
   };
   // Handler function for logging out
   const handleLogout = () => {
@@ -176,10 +169,10 @@ function App() {
   };
 
   // POST req to db for getting list of tasks
-  function getListTasks() {
+  async function getListTasks() {
     const jwt = localStorage.getItem("jwt");
 
-    fetch("http://localhost:5000/tasks", {
+    const tasks = await fetch("http://localhost:5000/tasks", {
       method: "POST",
       headers: {
         authorization: `Bearer ${jwt}`,
@@ -188,8 +181,10 @@ function App() {
       body: JSON.stringify({ list_id: selectedList }),
     })
       .then((res) => res.json())
-      .then((res) => setTasks([...JSON.parse(res.tasks)]))
+      .then((res) => [...JSON.parse(res.tasks)])
       .catch((e) => console.log("Error getting tasks", e.message));
+
+    return tasks;
   }
   // GET req to get user lists.
   async function getUserLists() {
@@ -241,7 +236,7 @@ function App() {
     setSidebarToggled(state);
   };
   // Gets currently selected list from child component.
-  const getSelectedList = (state) => {
+  const getSelectedList = async (state) => {
     setSelectedList(state);
   };
   // Gets user's lists from child component.
@@ -257,7 +252,8 @@ function App() {
     setTasks(state);
   };
 
-  console.log(userLists);
+  console.log(selectedList);
+  console.log(tasks);
 
   return (
     <div className="main-container">
@@ -286,7 +282,7 @@ function App() {
         return (
           <Task
             id={taskObj.id}
-            key={index}
+            key={uuidv4()}
             number={index + 1}
             taskObj={taskObj}
             handleDelete={() => deleteTask(taskObj.id)}

@@ -2,6 +2,7 @@ import { useState } from "react";
 import List from "./List";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import { v4 as uuidv4 } from "uuid";
 
 function Sidebar(props) {
   const [newList, setNewList] = useState("");
@@ -96,7 +97,7 @@ function Sidebar(props) {
           {props.userLists.map((list, index) => {
             return (
               <List
-                key={index}
+                key={uuidv4()}
                 id={list.id}
                 name={list.list_name}
                 date={moment(list.last_edited).format("MMM DD")}

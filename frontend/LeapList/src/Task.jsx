@@ -1,12 +1,20 @@
+import { useState } from "react";
+
 function Task(props) {
+  const [userInput, setUserInput] = useState(props.taskObj.body);
   // Passes object that will be used to edit up to parent component and resets form.
   const handleSubmit = (e) => {
     e.preventDefault();
     props.handleEdit();
-    const formData = new FormData(e.target);
-    const editedText = formData.get("edit-input");
-    props.onSubmit({ ...props.taskObj, body: editedText });
-    e.target.reset();
+    props.onSubmit({
+      ...props.taskObj,
+      body: userInput.editInput == undefined ? userInput : userInput.editInput,
+    });
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserInput((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -15,14 +23,14 @@ function Task(props) {
       <form id="edit-form" className="task-form" onSubmit={handleSubmit}>
         {props.toEdit == props.taskObj.id ? (
           <label>
-            Edit:{" "}
+            Edit:
             <input
               type="text"
               className="edit-input"
-              defaultValue={props.taskObj.body}
-              id="edit-input"
+              defaultValue={userInput}
               autoFocus
-              name="edit-input"
+              name="editInput"
+              onChange={handleChange}
             />
           </label>
         ) : (
