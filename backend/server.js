@@ -164,7 +164,7 @@ app.get("/lists", async (req, res) => {
   // Getting user's lists with sql query.
   const [lists] = await req.db.query(
     `SELECT * FROM lists 
-     WHERE user_id = :userId`,
+     WHERE user_id = :userId ORDER BY last_edited DESC`,
     { userId }
   );
   res.json({ lists: lists });
@@ -310,6 +310,19 @@ app.put("/edit-task", async (req, res) => {
     console.log("Succesfully edited task and updated list");
   } catch (e) {
     console.log("Error updating last edited time for list", e);
+  }
+
+  try {
+    const userId = req.user.userId;
+    // Getting user's lists with sql query.
+    const [lists] = await req.db.query(
+      `SELECT * FROM lists 
+       WHERE user_id = :userId ORDER BY last_edited DESC`,
+      { userId }
+    );
+    res.json({ lists: lists });
+  } catch (e) {
+    console.log(e);
   }
 });
 
