@@ -28,10 +28,17 @@ function App() {
         username: localStorage.getItem("username"),
         email: localStorage.getItem("email"),
       });
-      getUserLists();
-      getListTasks();
+      async function getData() {
+        setUserLists(await getUserLists());
+      }
+      getData();
+      setSidebarToggled(true);
     }
   }, []);
+
+  useEffect(() => {
+    getListTasks();
+  }, [selectedList]);
 
   //// Handler Functions////
   // Handler function for deleting a task from state.
@@ -48,15 +55,6 @@ function App() {
   }
   // Handler function for saving an edited task in state. Edited task data passed up from child component.
   const handleSave = (editedObject) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((current) => {
-        return current.id === editedObject.id
-          ? { ...current, body: editedObject.body, edit: false }
-          : current;
-      })
-    );
-    setToEdit(0);
-
     if (loggedIn) {
       const jwt = localStorage.getItem("jwt");
       const taskId = editedObject.id;
@@ -76,9 +74,22 @@ function App() {
         }),
       })
         .then((res) => res.json())
-        .then((res) => console.log(res.edited))
+        .then((res) =>
+          res.lists.sort(
+            (a, b) =>
+              Date.parse(a.last_edited) - Date.parse(b.last_edited).reverse()
+          )
+        )
         .catch((e) => console.log("Error: ", e));
     }
+    setTasks((prevTasks) =>
+      prevTasks.map((current) => {
+        return current.id === editedObject.id
+          ? { ...current, body: editedObject.body, edit: false }
+          : current;
+      })
+    );
+    setToEdit(0);
   };
   // Handler function for logging out
   const handleLogout = () => {
@@ -181,30 +192,26 @@ function App() {
       .catch((e) => console.log("Error getting tasks", e.message));
   }
   // GET req to get user lists.
-  function getUserLists() {
+  async function getUserLists() {
     const jwt = localStorage.getItem("jwt");
 
-    fetch("http://localhost:5000/lists", {
+    const lists = await fetch("http://localhost:5000/lists", {
       method: "GET",
       headers: {
         authorization: `Bearer ${jwt}`,
       },
     })
       .then((res) => res.json())
-      .then((res) => {
-        if (res.lists <= 0 || res.lists == undefined) {
-          setUserLists([]);
-        } else {
-          setUserLists(
-            res.lists
-              .sort(
-                (a, b) => Date.parse(a.last_edited) - Date.parse(b.last_edited)
-              )
-              .reverse()
-          );
-        }
-      })
+      .then((res) => res.lists)
       .catch((e) => console.log("Error getting lists", e));
+
+    console.log(lists);
+    if (lists === 0 || lists == undefined) {
+      return [];
+    }
+    return lists
+      .sort((a, b) => Date.parse(a.last_edited) - Date.parse(b.last_edited))
+      .reverse();
   }
   // DELETE req to delete task from db
   function deleteTask(taskId) {
@@ -249,6 +256,8 @@ function App() {
   const getTasks = (state) => {
     setTasks(state);
   };
+
+  console.log(userLists);
 
   return (
     <div className="main-container">
