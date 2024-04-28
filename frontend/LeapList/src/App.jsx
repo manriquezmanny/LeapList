@@ -39,9 +39,10 @@ function App() {
 
   useEffect(() => {
     async function getData() {
-      const newTasks = await getListTasks();
-      console.log(newTasks);
-      setTasks(newTasks);
+      if (loggedIn) {
+        const newTasks = await getListTasks();
+        setTasks(newTasks);
+      }
     }
     getData();
   }, [selectedList]);
@@ -60,7 +61,7 @@ function App() {
     setUserLists(userLists.filter((list) => list.id != id));
   }
   // Handler function for saving an edited task in state. Edited task data passed up from child component.
-  const handleSave = (editedObject) => {
+  const handleSave = async (editedObject) => {
     setToEdit(0);
     if (loggedIn) {
       const jwt = localStorage.getItem("jwt");
@@ -68,7 +69,7 @@ function App() {
       const newText = editedObject.body;
       const listId = editedObject.list_id;
 
-      fetch("http://localhost:5000/edit-task", {
+      const newLists = await fetch("http://localhost:5000/edit-task", {
         method: "PUT",
         headers: {
           authorization: `Bearer ${jwt}`,
@@ -81,7 +82,20 @@ function App() {
         }),
       })
         .then((res) => res.json())
+        .then((res) => res.lists)
         .catch((e) => console.log("Error: ", e));
+
+      setUserLists(newLists);
+      if (loggedIn) {
+        setTasks(await getListTasks());
+      }
+    } else {
+      const newTasks = tasks.map((current) => {
+        return current.id === editedObject.id
+          ? { ...current, body: editedObject.body }
+          : current;
+      });
+      setTasks(newTasks);
     }
   };
   // Handler function for logging out
@@ -186,6 +200,7 @@ function App() {
 
     return tasks;
   }
+
   // GET req to get user lists.
   async function getUserLists() {
     const jwt = localStorage.getItem("jwt");
@@ -251,9 +266,6 @@ function App() {
   const getTasks = (state) => {
     setTasks(state);
   };
-
-  console.log(selectedList);
-  console.log(tasks);
 
   return (
     <div className="main-container">

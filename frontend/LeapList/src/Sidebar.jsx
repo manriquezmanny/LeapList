@@ -14,8 +14,17 @@ function Sidebar(props) {
   // Adds a list to the database and state.
   const addList = async (e) => {
     e.preventDefault();
+    if (!props.loggedIn) {
+      alert("Please log in to make a list.");
+      e.target.reset();
+      return;
+    }
     const jwt = localStorage.getItem("jwt");
     if (props.loggedIn) {
+      if (!newList.listName) {
+        alert("Please enter a name for your new list");
+        return;
+      }
       const newListRes = await fetch("http://localhost:5000/add-user-list", {
         method: "POST",
         headers: {

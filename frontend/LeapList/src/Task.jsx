@@ -20,7 +20,7 @@ function Task(props) {
   return (
     <div className={props.toggleState ? "task active" : "task"}>
       <h3>{props.number}.</h3>
-      <form id="edit-form" className="task-form" onSubmit={handleSubmit}>
+      <form className="task-form" onSubmit={handleSubmit}>
         {props.toEdit == props.taskObj.id ? (
           <label>
             Edit:
