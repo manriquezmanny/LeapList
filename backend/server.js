@@ -125,6 +125,19 @@ app.post("/log-in", async function (req, res) {
   }
 });
 
+// Delete a task
+// Not using url param, I don't want users deleting lists with url without clicking button.
+app.delete("/delete-task", async (req, res) => {
+  const { taskId } = req.body;
+
+  try {
+    await req.db.query(`DELETE FROM tasks WHERE id = :taskId`, { taskId });
+    res.json({ deleted: "Deleted task Succesfully" });
+  } catch (e) {
+    console.log("Error making db query for deleting list", e);
+  }
+});
+
 // Jwt verification checks to see if there is an authorization header with a valid jwt in it.
 app.use(async function verifyJwt(req, res, next) {
   const { authorization: authHeader } = req.headers;
@@ -164,7 +177,7 @@ app.get("/lists", async (req, res) => {
   // Getting user's lists with sql query.
   const [lists] = await req.db.query(
     `SELECT * FROM lists 
-     WHERE user_id = :userId`,
+     WHERE user_id = :userId ORDER BY last_edited DESC`,
     { userId }
   );
   res.json({ lists: lists });
@@ -258,19 +271,6 @@ app.delete("/delete-list", async (req, res) => {
   }
 });
 
-// Delete a task
-// Not using url param, I don't want users deleting lists with url without clicking button.
-app.delete("/delete-task", async (req, res) => {
-  const { taskId } = req.body;
-
-  try {
-    await req.db.query(`DELETE FROM tasks WHERE id = :taskId`, { taskId });
-    res.json({ deleted: "Deleted task Succesfully" });
-  } catch (e) {
-    console.log("Error making db query for deleting list", e);
-  }
-});
-
 // Edit completion state of task
 app.put("/toggle-task", async (req, res) => {
   const { newState, taskId } = req.body;
@@ -310,6 +310,19 @@ app.put("/edit-task", async (req, res) => {
     console.log("Succesfully edited task and updated list");
   } catch (e) {
     console.log("Error updating last edited time for list", e);
+  }
+
+  try {
+    const userId = req.user.userId;
+    // Getting user's lists with sql query.
+    const [lists] = await req.db.query(
+      `SELECT * FROM lists 
+       WHERE user_id = :userId ORDER BY last_edited DESC`,
+      { userId }
+    );
+    res.json({ lists: lists });
+  } catch (e) {
+    console.log(e);
   }
 });
 

@@ -15,6 +15,7 @@ function List(props) {
           console.log(res.deleted);
         })
         .catch((e) => console.log("Error deleting list: ", e));
+      props.handleDeletedList(props.id);
     }
   }
 
@@ -48,7 +49,6 @@ function List(props) {
               onClick={(e) => {
                 e.stopPropagation();
                 deleteList(props.id);
-                props.handleDeletedList(props.id);
                 if (props.id == props.selectedList) {
                   props.sendSelectedList(0);
                 }

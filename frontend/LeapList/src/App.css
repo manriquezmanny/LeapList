@@ -31,7 +31,7 @@ body #root .root {
   align-items: center;
   justify-content: center;
   row-gap: 20px;
-  height: 35%;
+  height: 25%;
   width: 80%;
 }
 .register-form-register {
@@ -40,13 +40,13 @@ body #root .root {
   align-items: center;
   justify-content: center;
   row-gap: 20px;
-  height: 60%;
+  height: 40%;
   width: 80%;
 }
 
 .login-item {
   width: 70%;
-  flex: 1 1 2px;
+  flex: 0 0 1px;
 }
 .login-item-last {
   width: 70%;
@@ -342,11 +342,11 @@ body #root .root {
   margin-left: 230px;
 }
 #main-header {
-  font-size: 1.8rem;
+  font-size: 2rem;
   text-shadow: 1.5px -1px 0.2px rgb(156, 146, 146);
   text-wrap: nowrap;
   margin: 10px;
-  margin-top: 10px;
+  margin-top: 8px;
   margin-bottom: 0px;
 }
 .input-and-button {
@@ -368,7 +368,7 @@ body #root .root {
   margin-left: 0px;
   box-shadow: 0 0 10px gray;
   border-radius: 5px;
-  margin-top: 15px;
+  margin-top: 8px;
 }
 .add-task-btn {
   font-family: "Indie Flower";
@@ -383,7 +383,7 @@ body #root .root {
   justify-content: center;
   align-items: center;
   margin-left: 5px;
-  margin-top: 15px;
+  margin-top: 8px;
   margin-right: 10px;
 }
 .add-task-btn:hover {

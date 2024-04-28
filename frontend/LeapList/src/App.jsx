@@ -4,7 +4,9 @@ import Header from "./Header";
 import Task from "./Task";
 import Sidebar from "./Sidebar";
 import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
+// Main app component
 function App() {
   // State for current tasks to render.
   const [tasks, setTasks] = useState([]);
@@ -19,15 +21,33 @@ function App() {
   // Instantiated react router.
   const navigator = useNavigate();
 
-  // Use effect for updating tasks list.
+  // Use effect for checking if logged in at start from localStorage.
   useEffect(() => {
-    if (localStorage.getItem("jwt") && selectedList != 0) {
-      getListTasks();
+    if (localStorage.getItem("jwt")) {
+      setLoggedIn({
+        jwt: localStorage.getItem("jwt"),
+        username: localStorage.getItem("username"),
+        email: localStorage.getItem("email"),
+      });
+      async function getData() {
+        setUserLists(await getUserLists());
+      }
+      getData();
+      setSidebarToggled(true);
     }
+  }, []);
+
+  useEffect(() => {
+    async function getData() {
+      if (loggedIn) {
+        const newTasks = await getListTasks();
+        setTasks(newTasks);
+      }
+    }
+    getData();
   }, [selectedList]);
 
   //// Handler Functions////
-
   // Handler function for deleting a task from state.
   function deleteTask(id) {
     setTasks((prevTasks) => prevTasks.filter((current) => current.id != id));
@@ -36,25 +56,20 @@ function App() {
   function handleEdit(id) {
     setToEdit(id);
   }
-
+  // Handle deleting a list from state.
+  function handleDeletedList(id) {
+    setUserLists(userLists.filter((list) => list.id != id));
+  }
   // Handler function for saving an edited task in state. Edited task data passed up from child component.
-  const handleSave = (editedObject) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((current) => {
-        return current.id === editedObject.id
-          ? { ...current, body: editedObject.body, edit: false }
-          : current;
-      })
-    );
+  const handleSave = async (editedObject) => {
     setToEdit(0);
-
     if (loggedIn) {
       const jwt = localStorage.getItem("jwt");
       const taskId = editedObject.id;
       const newText = editedObject.body;
       const listId = editedObject.list_id;
 
-      fetch("http://localhost:5000/edit-task", {
+      const newLists = await fetch("http://localhost:5000/edit-task", {
         method: "PUT",
         headers: {
           authorization: `Bearer ${jwt}`,
@@ -67,8 +82,20 @@ function App() {
         }),
       })
         .then((res) => res.json())
-        .then((res) => console.log(res.edited))
+        .then((res) => res.lists)
         .catch((e) => console.log("Error: ", e));
+
+      setUserLists(newLists);
+      if (loggedIn) {
+        setTasks(await getListTasks());
+      }
+    } else {
+      const newTasks = tasks.map((current) => {
+        return current.id === editedObject.id
+          ? { ...current, body: editedObject.body }
+          : current;
+      });
+      setTasks(newTasks);
     }
   };
   // Handler function for logging out
@@ -114,7 +141,7 @@ function App() {
     }
     setTasks([...tasks, newTaskObject]);
   };
-  // Handler function to update state task completion.
+  // Handler function and PUT req to update state task completion.
   const toggleComplete = (id) => {
     if (loggedIn) {
       let task;
@@ -156,10 +183,10 @@ function App() {
   };
 
   // POST req to db for getting list of tasks
-  function getListTasks() {
+  async function getListTasks() {
     const jwt = localStorage.getItem("jwt");
 
-    fetch("http://localhost:5000/tasks", {
+    const tasks = await fetch("http://localhost:5000/tasks", {
       method: "POST",
       headers: {
         authorization: `Bearer ${jwt}`,
@@ -168,10 +195,35 @@ function App() {
       body: JSON.stringify({ list_id: selectedList }),
     })
       .then((res) => res.json())
-      .then((res) => setTasks([...JSON.parse(res.tasks)]))
+      .then((res) => [...JSON.parse(res.tasks)])
       .catch((e) => console.log("Error getting tasks", e.message));
+
+    return tasks;
   }
 
+  // GET req to get user lists.
+  async function getUserLists() {
+    const jwt = localStorage.getItem("jwt");
+
+    const lists = await fetch("http://localhost:5000/lists", {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${jwt}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => res.lists)
+      .catch((e) => console.log("Error getting lists", e));
+
+    console.log(lists);
+    if (lists === 0 || lists == undefined) {
+      return [];
+    }
+    return lists
+      .sort((a, b) => Date.parse(a.last_edited) - Date.parse(b.last_edited))
+      .reverse();
+  }
+  // DELETE req to delete task from db
   function deleteTask(taskId) {
     const jwt = localStorage.getItem("jwt");
     if (confirm("Are you sure you want to delete this task?") == true) {
@@ -199,12 +251,12 @@ function App() {
     setSidebarToggled(state);
   };
   // Gets currently selected list from child component.
-  const getSelectedList = (state) => {
+  const getSelectedList = async (state) => {
     setSelectedList(state);
   };
   // Gets user's lists from child component.
-  const getUserListsFromChild = (state) => {
-    setUserLists(state);
+  const getNewListFromChild = (newList) => {
+    setUserLists(new Array(newList, ...userLists));
   };
   // Gets login state from child component.
   const getLoggedIn = (state) => {
@@ -220,15 +272,17 @@ function App() {
       <Sidebar
         sendToggleState={getToggleState}
         sendSelectedList={getSelectedList}
-        sendUserLists={getUserListsFromChild}
+        sendNewList={getNewListFromChild}
         sendLoggedIn={getLoggedIn}
         sendTasks={getTasks}
         handleLogout={handleLogout}
+        handleDelete={handleDeletedList}
         toggleState={sidebarToggled}
         loggedIn={loggedIn}
         username={loggedIn.username}
         userLists={userLists}
         tasks={tasks}
+        selectedList={selectedList}
       />
       <Header
         onSubmit={handleAddTask}
@@ -240,7 +294,7 @@ function App() {
         return (
           <Task
             id={taskObj.id}
-            key={index}
+            key={uuidv4()}
             number={index + 1}
             taskObj={taskObj}
             handleDelete={() => deleteTask(taskObj.id)}

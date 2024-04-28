@@ -1,51 +1,30 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import List from "./List";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import { v4 as uuidv4 } from "uuid";
 
 function Sidebar(props) {
-  const [toggleState, setToggleState] = useState(true);
-  const [selectedList, setSelectedList] = useState(0);
-  const [userLists, setUserLists] = useState(props.userLists);
-  const [loggedIn, setLoggedIn] = useState("");
   const [newList, setNewList] = useState("");
 
   // Instanciations //
   const navigate = useNavigate();
 
   //// Functions ////
-  // Gets user's lists
-  function getUserLists() {
-    const jwt = localStorage.getItem("jwt");
-
-    fetch("http://localhost:5000/lists", {
-      method: "GET",
-      headers: {
-        authorization: `Bearer ${jwt}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.lists <= 0 || res.lists == undefined) {
-          setUserLists([]);
-        } else {
-          setUserLists(
-            res.lists
-              .sort(
-                (a, b) => Date.parse(a.last_edited) - Date.parse(b.last_edited)
-              )
-              .reverse()
-          );
-        }
-      })
-      .catch((e) => console.log("Error getting lists", e));
-  }
-
   // Adds a list to the database and state.
   const addList = async (e) => {
     e.preventDefault();
+    if (!props.loggedIn) {
+      alert("Please log in to make a list.");
+      e.target.reset();
+      return;
+    }
     const jwt = localStorage.getItem("jwt");
-    if (loggedIn) {
+    if (props.loggedIn) {
+      if (!newList.listName) {
+        alert("Please enter a name for your new list");
+        return;
+      }
       const newListRes = await fetch("http://localhost:5000/add-user-list", {
         method: "POST",
         headers: {
@@ -57,13 +36,13 @@ function Sidebar(props) {
         .then((res) => res.json())
         .then((res) => res.newListRes)
         .catch((e) => console.log("Error adding list to db: ", e));
-      setUserLists(new Array(newListRes, ...userLists));
-      setSelectedList(newListRes.id);
+      props.sendSelectedList(newListRes.id);
+      props.sendNewList(newListRes);
       e.target.reset();
     }
   };
 
-  // Updates state of object that will be used to edit data.
+  // Handles Updating state of object that will be used to edit data.
   const handleChange = (e) => {
     const editInputValue = e.target.value;
     setNewList((prev) => {
@@ -72,15 +51,12 @@ function Sidebar(props) {
   };
   // Handles updating the toggleState bool value.
   function toggleSideBar() {
-    setToggleState(!toggleState);
+    //setToggleState(!toggleState);
+    props.sendToggleState(!props.toggleState);
   }
   // Handles updating the currently selected List.
   function listSelected(id) {
-    setSelectedList(id);
-  }
-  // Handle's deleted list.
-  function handleDeletedList(id) {
-    setUserLists(userLists.filter((list) => list.id != id));
+    props.sendSelectedList(id);
   }
   // Handles navigating to log-in page.
   const signInBtn = () => {
@@ -91,35 +67,9 @@ function Sidebar(props) {
     navigate("/register");
   };
 
-  //// Use Effects ////
-  useEffect(() => {
-    if (localStorage.getItem("jwt")) {
-      setLoggedIn({
-        jwt: localStorage.getItem("jwt"),
-        username: localStorage.getItem("username"),
-        email: localStorage.getItem("email"),
-      });
-      getUserLists();
-    }
-  }, [userLists]);
-  useEffect(() => {
-    props.sendLoggedIn(loggedIn);
-  }, [loggedIn]);
-  useEffect(() => {
-    props.sendUserLists(userLists);
-  }, [userLists]);
-  useEffect(() => {
-    props.sendSelectedList(selectedList);
-  }, [selectedList]);
-  useEffect(() => {
-    props.sendToggleState(toggleState);
-  }, [toggleState]);
-
-  console.log("I re rendered!");
-
   return (
-    <div className={toggleState ? "sidebar active" : "sidebar"}>
-      {toggleState ? (
+    <div className={props.toggleState ? "sidebar active" : "sidebar"}>
+      {props.toggleState ? (
         <div className="sidebar-header active">
           <button onClick={toggleSideBar} className="sidebar-btn active">
             <img src="/listLeapPng.png" className="logo"></img>
@@ -134,11 +84,11 @@ function Sidebar(props) {
         </div>
       )}
 
-      {toggleState && (
+      {props.toggleState && (
         <form
           className="add-list-form-empty"
           onSubmit={addList}
-          style={{ marginBottom: userLists.length == 0 ? "auto" : null }}
+          style={{ marginBottom: props.userLists.length == 0 ? "auto" : null }}
         >
           <input
             onChange={handleChange}
@@ -151,25 +101,25 @@ function Sidebar(props) {
         </form>
       )}
 
-      {toggleState && props.userLists.length >= 1 && (
+      {props.toggleState && props.userLists.length >= 1 && (
         <div className="user-lists">
-          {userLists.map((list, index) => {
+          {props.userLists.map((list, index) => {
             return (
               <List
-                key={index}
+                key={uuidv4()}
                 id={list.id}
                 name={list.list_name}
                 date={moment(list.last_edited).format("MMM DD")}
                 handleClick={() => listSelected(list.id)}
-                handleDeletedList={handleDeletedList}
-                currentList={selectedList}
+                handleDeletedList={props.handleDelete}
+                currentList={props.selectedList}
               ></List>
             );
           })}
         </div>
       )}
-      {toggleState ? (
-        props.loggedIn.jwt ? (
+      {props.toggleState ? (
+        props.loggedIn ? (
           <div className="account active container">
             <div className="account active">
               <button onClick={toggleSideBar} className="account-btn">
