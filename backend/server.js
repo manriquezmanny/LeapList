@@ -125,6 +125,19 @@ app.post("/log-in", async function (req, res) {
   }
 });
 
+// Delete a task
+// Not using url param, I don't want users deleting lists with url without clicking button.
+app.delete("/delete-task", async (req, res) => {
+  const { taskId } = req.body;
+
+  try {
+    await req.db.query(`DELETE FROM tasks WHERE id = :taskId`, { taskId });
+    res.json({ deleted: "Deleted task Succesfully" });
+  } catch (e) {
+    console.log("Error making db query for deleting list", e);
+  }
+});
+
 // Jwt verification checks to see if there is an authorization header with a valid jwt in it.
 app.use(async function verifyJwt(req, res, next) {
   const { authorization: authHeader } = req.headers;
@@ -253,19 +266,6 @@ app.delete("/delete-list", async (req, res) => {
     await req.db.query(`DELETE FROM lists WHERE id= :listId`, { listId });
 
     res.json({ deleted: "Delete Succesful" });
-  } catch (e) {
-    console.log("Error making db query for deleting list", e);
-  }
-});
-
-// Delete a task
-// Not using url param, I don't want users deleting lists with url without clicking button.
-app.delete("/delete-task", async (req, res) => {
-  const { taskId } = req.body;
-
-  try {
-    await req.db.query(`DELETE FROM tasks WHERE id = :taskId`, { taskId });
-    res.json({ deleted: "Deleted task Succesfully" });
   } catch (e) {
     console.log("Error making db query for deleting list", e);
   }
