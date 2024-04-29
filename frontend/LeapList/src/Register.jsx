@@ -93,7 +93,7 @@ function Register() {
             </button>
           </div>
         </form>
-        <Link to="/" style={{ alignSelf: "center", marginTop: "20px" }}>
+        <Link to="/" style={{ marginTop: "40px" }}>
           Return Home
         </Link>
       </div>

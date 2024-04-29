@@ -75,7 +75,7 @@ function Login() {
               </button>
             </div>
           </form>
-          <Link to="/" style={{ marginBottom: "10px" }}>
+          <Link to="/" style={{ marginTop: "20px" }}>
             Return Home
           </Link>
         </div>
