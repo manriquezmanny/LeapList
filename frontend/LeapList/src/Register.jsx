@@ -1,6 +1,6 @@
+import "./styles/App.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import "./styles/loginRegister.css";
 
 function Register() {
   const navigate = useNavigate();
@@ -40,14 +40,25 @@ function Register() {
     })
       .then((res) => res.json())
       .then((res) => {
-        localStorage.setItem("jwt", res.jwt);
-        localStorage.setItem("username", res.username);
-        localStorage.setItem("email", res.email);
-        navigate("/");
+        if (res.emailExists) {
+          const newErr = new Error("Email already has account!");
+          newErr.name = "Email already has account!";
+          throw newErr;
+        } else {
+          localStorage.setItem("jwt", res.jwt);
+          localStorage.setItem("username", res.username);
+          localStorage.setItem("email", res.email);
+          navigate("/");
+        }
       })
       .catch((e) => {
-        console.log("Failed to register", e);
-        alert("Registration failed, try again.");
+        if (e.name == "Email already has account!") {
+          console.log("Email already Exists!");
+          alert("Email already associated with account!");
+        } else {
+          console.log("Failed to register", e);
+          alert("Registration failed, try again.");
+        }
       });
   };
 

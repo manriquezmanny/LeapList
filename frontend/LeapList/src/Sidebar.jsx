@@ -181,7 +181,7 @@ function Sidebar(props) {
       ) : (
         <div className="account">
           <button onClick={toggleSideBar} className="account-btn">
-            <img src="/login.png" className="account-icon"></img>
+            <img src="../login.png" className="account-icon"></img>
           </button>
         </div>
       )}
