@@ -128,10 +128,16 @@ app.post("/log-in", async function (req, res) {
 // Delete a task
 // Not using url param, I don't want users deleting lists with url without clicking button.
 app.delete("/delete-task", async (req, res) => {
-  const { taskId } = req.body;
+  const { taskId, listId } = req.body;
 
   try {
     await req.db.query(`DELETE FROM tasks WHERE id = :taskId`, { taskId });
+    await req.db.query(
+      `UPDATE lists SET last_edited = NOW() WHERE id = :listId`,
+      {
+        listId,
+      }
+    );
     res.json({ deleted: "Deleted task Succesfully" });
   } catch (e) {
     console.log("Error making db query for deleting list", e);
@@ -253,6 +259,17 @@ app.post("/add", async (req, res) => {
     { body, list_id }
   );
 
+  try {
+    await req.db.query(
+      `UPDATE lists SET last_edited = NOW() WHERE id = :list_id`,
+      {
+        list_id,
+      }
+    );
+  } catch (e) {
+    console.log("Error updating last edited time for list", e);
+  }
+
   res.json({ newId: newTaskId[0] });
 });
 
@@ -273,16 +290,27 @@ app.delete("/delete-list", async (req, res) => {
 
 // Edit completion state of task
 app.put("/toggle-task", async (req, res) => {
-  const { newState, taskId } = req.body;
+  const { newState, taskId, listId } = req.body;
 
   try {
     await req.db.query(
       "UPDATE tasks SET complete = :newState WHERE id = :taskId",
       { newState, taskId }
     );
-    res.json({ edited: "Succesfully Edited completion state of task" });
   } catch (e) {
     console.log("Error editing completion state of task", e);
+  }
+  try {
+    await req.db.query(
+      `UPDATE lists SET last_edited = NOW() WHERE id = :listId`,
+      {
+        listId,
+      }
+    );
+    res.json({ edited: "Succesfully Edited completion state of task" });
+    console.log("Succesfully edited task and updated list");
+  } catch (e) {
+    console.log("Error updating last edited time for list", e);
   }
 });
 
