@@ -59,6 +59,9 @@ function App() {
   // Handle deleting a list from state.
   function handleDeletedList(id) {
     setUserLists(userLists.filter((list) => list.id != id));
+    if (userLists.length == 1 || selectedList == id) {
+      setTasks([]);
+    }
   }
   // Handler function for saving an edited task in state. Edited task data passed up from child component.
   const handleSave = async (editedObject) => {
@@ -226,7 +229,6 @@ function App() {
       .then((res) => res.lists)
       .catch((e) => console.log("Error getting lists", e));
 
-    console.log(lists);
     if (lists === 0 || lists == undefined) {
       return [];
     }
@@ -305,6 +307,7 @@ function App() {
         toggleState={sidebarToggled}
         selectedList={selectedList}
         userLists={userLists}
+        tasks={tasks}
       />
       {tasks.map((taskObj, index) => {
         return (

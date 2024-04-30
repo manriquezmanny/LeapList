@@ -32,7 +32,7 @@ function Header(props) {
         onSubmit={handleSubmit}
         className={props.toggleState ? "header-form active" : "header-form"}
       >
-        {props.selectedList == 0 ? (
+        {props.selectedList == 0 || props.userLists.length == 0 ? (
           <h2 id="main-header">New List :</h2>
         ) : (
           <h2 id="main-header">{listName} :</h2>

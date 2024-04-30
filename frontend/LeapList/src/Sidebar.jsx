@@ -48,10 +48,6 @@ function Sidebar(props) {
       .duration(moment().diff(dateTimeStr))
       .subtract(1, "hours");
 
-    console.log(moment());
-    console.log(moment(dateTimeStr));
-    console.log(difference);
-
     // Quick and dirty fix for wrong timezone with SQL database.
 
     if (difference.minutes() < 1) {
@@ -119,6 +115,7 @@ function Sidebar(props) {
             type="text"
             placeholder="Add List"
             maxLength="15"
+            autoComplete="off"
           ></input>
           <button className="add-list-btn">Add</button>
         </form>
@@ -126,14 +123,16 @@ function Sidebar(props) {
 
       {props.toggleState && props.userLists.length >= 1 && (
         <div className="user-lists">
-          {props.userLists.map((list, index) => {
+          {props.userLists.map((list) => {
             return (
               <List
                 key={uuidv4()}
                 id={list.id}
                 name={list.list_name}
                 last_edited={formatDateTimeToRender(moment(list.last_edited))}
-                published={moment(list.publish_date).format("MM/DD/YYYY")}
+                published={moment(list.publish_date)
+                  .add(1, "hours")
+                  .format("MM/DD/YYYY")}
                 handleClick={() => listSelected(list.id)}
                 handleDeletedList={props.handleDelete}
                 currentList={props.selectedList}
