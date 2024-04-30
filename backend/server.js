@@ -70,7 +70,6 @@ app.post("/register", async function (req, res) {
       { userId: user.insertId, username, email },
       process.env.JWT_KEY
     );
-
     res.json({
       jwt: jwtEncodedUser,
       success: true,
@@ -78,8 +77,11 @@ app.post("/register", async function (req, res) {
       email: email,
     });
   } catch (e) {
-    console.log("error", e);
-    res.json({ e, success: false });
+    if (e.errno == 1062) {
+      res.json({ e, success: false, emailExists: true });
+    } else {
+      res.json({ e, success: false });
+    }
   }
 });
 
