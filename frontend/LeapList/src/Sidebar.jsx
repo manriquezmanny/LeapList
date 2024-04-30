@@ -3,6 +3,7 @@ import List from "./List";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
+import "./styles/Sidebar.css";
 
 function Sidebar(props) {
   const [newList, setNewList] = useState("");

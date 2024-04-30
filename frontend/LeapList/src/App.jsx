@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./App.css";
+import "./styles/App.css";
 import Header from "./Header";
 import Task from "./Task";
 import Sidebar from "./Sidebar";
@@ -129,7 +129,7 @@ function App() {
       newTaskObject.id = tasks.length + 1;
     }
 
-    if (selectedList) {
+    if (selectedList && loggedIn) {
       await fetch("http://localhost:5000/add", {
         method: "POST",
         headers: {
