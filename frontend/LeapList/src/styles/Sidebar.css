@@ -1,0 +1,333 @@
+.sidebar {
+  width: 60px;
+  height: 100%;
+  min-height: 300px;
+  position: fixed;
+  background-color: #bfb29e;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.sidebar.active {
+  width: 230px;
+}
+.sidebar-header {
+  height: 60px;
+  width: 100%;
+}
+.logo {
+  width: 60px;
+  height: 60px;
+  background-color: transparent !important;
+}
+.logo:hover {
+  animation: wiggle 1s infinite;
+}
+.sidebar-header.active {
+  display: flex;
+  height: 60px;
+  width: 100%;
+}
+.sidebar-btn {
+  width: 60px;
+  height: 60px;
+  border: none;
+  padding: 0 !important;
+  background-color: transparent !important;
+}
+.sidebar-btn.active {
+  width: 60px;
+  float: right;
+  border: 0px;
+}
+.app-name {
+  width: 200px;
+  text-align: start;
+  font-family: "Indie Flower";
+  font-weight: bold;
+  align-self: center;
+  font-size: 2.4rem !important;
+  text-shadow: 2.4px -1px 0.2px rgb(156, 146, 146);
+}
+
+.user-lists {
+  width: 210px;
+  height: calc(100% - 130px);
+  min-height: 200px !important;
+  margin: 9px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  border: 1px black solid;
+  border-radius: 5px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+}
+.user-lists::-webkit-scrollbar {
+  display: none;
+}
+.list-object {
+  width: 170px !important;
+  height: 70px;
+  min-height: 50px;
+  border: gray 1px solid;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  padding: 10px;
+  border-color: #b1936c;
+}
+.list-object-text-div {
+  width: 70%;
+  height: 90%;
+  font-family: "Indie Flower";
+  font-weight: bolder;
+  line-height: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.list-object-text {
+  text-shadow: 0.2px -1px 0.2px rgb(156, 146, 146);
+  margin: 0px;
+}
+p.published {
+  line-height: 0px;
+  align-self: start;
+  margin: 0px;
+}
+.list-object-buttons-date {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: end;
+  width: 50%;
+  height: 100%;
+}
+.list-object-buttons-date-nested {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: end;
+}
+.list-object-date {
+  margin: 0px !important;
+  color: #8a6330;
+  font-weight: bold;
+}
+.account {
+  width: 60px;
+  height: 60px;
+  display: flex;
+}
+.account.active.container {
+  display: flex;
+  width: 100%;
+}
+.account.active {
+  width: 196px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.login {
+  width: 60px;
+  height: 60px;
+  display: flex;
+}
+.login.active {
+  width: 230px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.login-link {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.sign-up-link {
+  margin-left: 7px;
+  line-height: 0px;
+  height: 40px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+.new-user {
+  line-height: 20px;
+  font-size: 1rem;
+}
+
+.log-in-btn {
+  color: white;
+  background-color: blue;
+  border-radius: 4px;
+  height: 37px;
+  width: 60px;
+  margin-right: 10px;
+  box-shadow: 0 0 2px blue;
+}
+.sign-up-btn {
+  background-color: black;
+  color: white;
+  margin-right: 10px;
+  border-radius: 4px;
+  width: 85px;
+  height: 37px;
+}
+.account-btn {
+  width: 60px;
+  border: 0px;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.account-icon {
+  width: 45px;
+  height: 45px;
+  filter: drop-shadow(3px 2px 3px gray);
+}
+.account-icon:hover {
+  animation: gelatine 1s infinite;
+}
+.log-out-div {
+  width: 35%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+.log-out-btn {
+  width: 68px;
+  height: 30px;
+  color: white;
+  background-color: red;
+  border-radius: 5px;
+  font-weight: bold;
+  box-shadow: 0 0 0px red;
+  margin-right: 10px;
+  box-shadow: 0 0 3px red;
+}
+.log-out-btn:hover {
+  box-shadow: 0 0 6px red;
+}
+.add-list-form {
+  width: 93%;
+  display: flex;
+  align-items: start;
+  align-self: center;
+  margin-top: 5px;
+  padding-bottom: 10px;
+  margin-top: 10px;
+}
+.add-list-form-empty {
+  width: 93%;
+  display: flex;
+  align-items: start;
+  align-self: center;
+  justify-content: center;
+  margin-top: 5px;
+  padding-bottom: 10px;
+}
+#add-list-input {
+  width: 65%;
+  height: 30px;
+  box-shadow: 0 0 10px gray;
+  font-family: "Indie Flower";
+  font-size: 1.2rem;
+}
+.add-list-btn {
+  height: 35px;
+  width: 25%;
+  font-family: "Indie Flower";
+  font-size: 0.8rem;
+  font-weight: bolder;
+  box-shadow: 0 0 10px gray;
+  border-radius: 2px;
+  align-self: center;
+  margin-left: 4px;
+  font-size: 0.9rem;
+}
+.add-list-btn:hover {
+  box-shadow: 0 0 14 gray;
+}
+.list-object {
+  cursor: pointer;
+  min-height: 50px;
+  width: 240px;
+}
+.list-object:hover {
+  background-color: #d9c8b1;
+}
+.list-object.current {
+  cursor: pointer;
+  min-height: 50px;
+  width: 240px;
+  background-color: #ddb276;
+}
+.list-object-buttons-date-nested {
+  font-size: large;
+  display: flex;
+  line-height: 2px;
+}
+.list-body {
+  overflow-y: scroll;
+  height: calc(100% - 62px);
+  float: right;
+}
+.list-body::-webkit-scrollbar {
+  display: none;
+}
+.list-btn {
+  border-radius: 4px;
+}
+.list-btn:hover {
+  box-shadow: 0 0 8px red;
+}
+.username {
+  font-size: 1.3rem;
+  font-family: "Indie Flower";
+  font-weight: bold;
+  text-shadow: 1.8px -1px 0.2px rgb(156, 146, 146);
+}
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(0deg);
+  }
+  15% {
+    transform: rotate(5deg);
+  }
+  20% {
+    transform: rotate(-5deg);
+  }
+  25% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes gelatine {
+  from,
+  to {
+    transform: scale(1, 1);
+  }
+  25% {
+    transform: scale(0.9, 1.05);
+  }
+  50% {
+    transform: scale(1.05, 0.9);
+  }
+  75% {
+    transform: scale(0.95, 1.05);
+  }
+}

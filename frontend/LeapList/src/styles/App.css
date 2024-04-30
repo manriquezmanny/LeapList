@@ -1,0 +1,129 @@
+html,
+body #root .root {
+  height: 100dvh !important;
+  min-height: 100dvh !important;
+}
+
+.main-container {
+  height: 100%;
+  width: 100%;
+  min-height: 300px;
+  overflow-y: scroll;
+}
+.main-container::-webkit-scrollbar {
+  display: none;
+}
+
+.task {
+  float: right;
+  width: calc(100% - 60px);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  font-family: "Indie Flower";
+  font-size: 1.2rem;
+  font-weight: bold;
+  justify-content: space-evenly;
+  margin-top: 5px;
+  border-bottom: solid black 1px;
+}
+.task.active {
+  width: calc(100% - 230px);
+}
+.task-form {
+  align-self: center;
+  width: 90%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.task-btns {
+  min-width: 30px;
+  margin-right: 20px;
+}
+.edit-btn {
+  color: blue;
+  margin-right: 5px;
+  font-weight: bold;
+  font-family: "Segoe UI";
+  font-size: 1.2rem;
+  border-radius: 3px;
+}
+.edit-btn:hover {
+  box-shadow: 0 0 8px blue;
+}
+.delete-btn {
+  color: red;
+  font-weight: bold;
+  font-family: "Segoe UI";
+  border-radius: 3px;
+  font-size: 1.2rem;
+}
+.delete-btn:hover {
+  box-shadow: 0 0 8px red;
+}
+.save-btn {
+  color: green;
+  font-weight: bold;
+  margin-right: 5px;
+  font-size: 1.4rem;
+  border-radius: 3px;
+}
+.edit-input {
+  margin-left: 8px;
+  min-width: 70%;
+  font-size: 1.4rem;
+  border-radius: 3px;
+  font-family: "Indie Flower";
+}
+.input-field {
+  margin-left: 8px;
+  width: 70%;
+  font-size: 1.4rem;
+  font-family: "Indie Flower";
+}
+.objective-text {
+  color: black;
+  height: 100%;
+  max-width: 55%;
+  overflow-y: scroll;
+  border: 0px;
+  background-color: transparent;
+  font-size: 1.4rem;
+  font-family: "Indie Flower";
+  font-weight: bold;
+  text-align: start;
+  line-height: 24px;
+  text-decoration-thickness: 0.1rem !important;
+  text-decoration-color: red !important;
+}
+.objective-text.complete {
+  text-decoration: "line-through" !important;
+}
+.objective-text:active {
+  animation: wiggle 0.4s;
+}
+
+@media (pointer: fine) {
+  .objective-text:hover {
+    text-decoration: line-through;
+    text-decoration-color: black !important;
+  }
+}
+
+.objective-text::-webkit-scrollbar {
+  display: none;
+}
+.objective-text,
+button {
+  cursor: pointer;
+}
+
+.register-footer {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-self: end;
+  margin-right: 80px;
+}

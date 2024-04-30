@@ -1,0 +1,77 @@
+.register-main-div {
+  height: 100dvh !important;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #bfb29e;
+}
+.register-container {
+  background-color: white;
+  height: 70%;
+  min-height: 600px;
+  width: 60%;
+  max-width: 600px;
+  max-height: 800px;
+  border-radius: 30px;
+  box-shadow: 0px 0px 20px black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.register-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 20px;
+  height: 25%;
+  width: 80%;
+}
+.register-form-register {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 20px;
+  height: 40%;
+  width: 80%;
+}
+
+.login-item {
+  width: 70%;
+  flex: 0 0 1px;
+}
+.login-item-last {
+  width: 70%;
+  display: flex;
+  justify-content: space-between;
+}
+.login-input {
+  border: 1px solid gray;
+  box-shadow: inset 0 0 5px #888888;
+  border-radius: 10px;
+  text-indent: 10px;
+}
+.register-title {
+  font-family: "Indie Flower";
+}
+
+.register-btn {
+  overflow: hidden;
+  color: white;
+  background-color: blue;
+  border-radius: 4px;
+  font-weight: bold;
+  width: 40px !important;
+  min-width: 80px;
+  height: 90%;
+  box-shadow: 0 0 6px gray;
+}
+
+.login-item {
+  width: 70%;
+  flex: 2 10 0;
+  min-height: 35px;
+}

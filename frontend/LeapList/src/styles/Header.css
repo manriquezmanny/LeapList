@@ -1,0 +1,67 @@
+.header-form {
+  height: 112px;
+  max-height: 112px;
+  width: calc(100% - 60px);
+  margin-left: 60px;
+  font-family: "Indie Flower";
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  border-bottom: solid black 2px;
+}
+.header-form.active {
+  width: calc(100% - 230px);
+  margin-left: 230px;
+}
+#main-header {
+  font-size: 2rem;
+  text-shadow: 1.5px -1px 0.2px rgb(156, 146, 146);
+  white-space: nowrap;
+  text-wrap: nowrap;
+  margin: 10px;
+  margin-top: 8px;
+  margin-bottom: 0px;
+}
+.input-and-button {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-top: 15px;
+  min-width: 166px;
+  height: 35px;
+}
+.input-label {
+  margin-right: 10px;
+  font-size: 1.4rem;
+}
+#input-field {
+  width: 60%;
+  font-family: "Indie Flower";
+  margin-left: 0px;
+  box-shadow: 0 0 10px gray;
+  border-radius: 5px;
+  padding-left: 10px;
+  font-size: 1.2rem;
+  height: 90%;
+  align-self: center;
+  display: flex;
+  align-items: center;
+}
+.add-task-btn {
+  font-family: "Indie Flower";
+  font-weight: bold;
+  color: black;
+  border-radius: 3px;
+  box-shadow: 0 0 8px gray;
+  width: 60px;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  align-items: center;
+  height: 100%;
+  font-size: 1.2rem;
+  margin-left: 5px;
+}
+.add-task-btn:hover {
+  box-shadow: 0 0 14px gray !important;
+}
