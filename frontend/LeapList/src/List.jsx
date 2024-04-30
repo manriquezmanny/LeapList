@@ -1,4 +1,5 @@
 function List(props) {
+  // Function for deleting a list.
   function deleteList(listId) {
     const jwt = localStorage.getItem("jwt");
     if (confirm("Are you sure you want to delete this list?") == true) {
@@ -30,11 +31,12 @@ function List(props) {
     >
       <div className="list-object-text-div">
         <h3 className="list-object-text">{props.name}</h3>
+        <p className="published">{props.published}</p>
       </div>
       <div className="list-object-buttons-date">
         <div className="list-object-buttons-date-nested">
           <p className="list-object-date" style={{ paddingTop: "7px" }}>
-            {props.date}
+            {props.last_edited}
           </p>
           <div>
             <button

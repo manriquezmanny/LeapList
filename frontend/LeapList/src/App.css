@@ -181,27 +181,34 @@ body #root .root {
 }
 .list-object {
   width: 170px !important;
-  height: 58px;
+  height: 70px;
   min-height: 50px;
   border: gray 1px solid;
   border-radius: 5px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-top: 10px;
   padding: 10px;
   border-color: #b1936c;
 }
 .list-object-text-div {
-  width: 50%;
-  height: 100%;
+  width: 70%;
+  height: 90%;
   font-family: "Indie Flower";
   font-weight: bolder;
   line-height: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .list-object-text {
-  margin: 0px !important;
   text-shadow: 0.2px -1px 0.2px rgb(156, 146, 146);
+  margin: 0px;
+}
+p.published {
+  line-height: 0px;
+  align-self: start;
+  margin: 0px;
 }
 
 .list-object-buttons-date {
@@ -345,6 +352,7 @@ body #root .root {
 #main-header {
   font-size: 2rem;
   text-shadow: 1.5px -1px 0.2px rgb(156, 146, 146);
+  white-space: nowrap;
   text-wrap: nowrap;
   margin: 10px;
   margin-top: 8px;
@@ -354,8 +362,9 @@ body #root .root {
   display: flex;
   flex-direction: row;
   width: 100%;
-  margin-top: 0px;
+  margin-top: 15px;
   min-width: 166px;
+  height: 35px;
 }
 .input-label {
   margin-right: 10px;
@@ -363,38 +372,43 @@ body #root .root {
 }
 #input-field {
   width: 60%;
-  height: 40px;
   font-family: "Indie Flower";
-  font-size: 1.4rem;
   margin-left: 0px;
   box-shadow: 0 0 10px gray;
   border-radius: 5px;
-  margin-top: 8px;
+  padding-left: 10px;
+  font-size: 1.2rem;
+  height: 90%;
+  align-self: center;
+  display: flex;
+  align-items: center;
 }
 .add-task-btn {
   font-family: "Indie Flower";
   font-weight: bold;
   color: black;
   border-radius: 3px;
-  font-size: 1.4rem;
   box-shadow: 0 0 8px gray;
-  height: 45px;
   width: 60px;
   display: flex;
   justify-content: center;
+  align-self: center;
   align-items: center;
+  height: 100%;
+  font-size: 1.2rem;
   margin-left: 5px;
-  margin-top: 8px;
-  margin-right: 10px;
 }
 .add-task-btn:hover {
   box-shadow: 0 0 14px gray !important;
 }
 
 .add-list-form {
-  width: 190px;
+  width: 93%;
   display: flex;
-  align-items: center;
+  align-items: start;
+  align-self: center;
+  margin-top: 5px;
+  padding-bottom: 10px;
   margin-top: 10px;
 }
 .add-list-form-empty {
@@ -407,7 +421,7 @@ body #root .root {
   padding-bottom: 10px;
 }
 #add-list-input {
-  max-width: 72%;
+  width: 65%;
   height: 30px;
   box-shadow: 0 0 10px gray;
   font-family: "Indie Flower";
@@ -415,12 +429,15 @@ body #root .root {
 }
 .add-list-btn {
   height: 35px;
+  width: 25%;
   font-family: "Indie Flower";
   font-size: 0.8rem;
   font-weight: bolder;
   box-shadow: 0 0 10px gray;
   border-radius: 2px;
-  padding-top: 2px;
+  align-self: center;
+  margin-left: 4px;
+  font-size: 0.9rem;
 }
 .add-list-btn:hover {
   box-shadow: 0 0 14 gray;

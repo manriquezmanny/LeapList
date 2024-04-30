@@ -42,6 +42,29 @@ function Sidebar(props) {
     }
   };
 
+  // Gets a last edited time to render.
+  function formatDateTimeToRender(dateTimeStr) {
+    const difference = moment
+      .duration(moment().diff(dateTimeStr))
+      .subtract(1, "hours");
+
+    console.log(moment());
+    console.log(moment(dateTimeStr));
+    console.log(difference);
+
+    // Quick and dirty fix for wrong timezone with SQL database.
+
+    if (difference.minutes() < 1) {
+      return `0m`;
+    } else if (difference.hours() < 1) {
+      return `${difference.minutes()}m`;
+    } else if (difference.days() < 1) {
+      return `${difference.hours()}h`;
+    } else {
+      return `${difference.days()}d`;
+    }
+  }
+
   // Handles Updating state of object that will be used to edit data.
   const handleChange = (e) => {
     const editInputValue = e.target.value;
@@ -109,7 +132,8 @@ function Sidebar(props) {
                 key={uuidv4()}
                 id={list.id}
                 name={list.list_name}
-                date={moment(list.last_edited).format("MMM DD")}
+                last_edited={formatDateTimeToRender(moment(list.last_edited))}
+                published={moment(list.publish_date).format("MM/DD/YYYY")}
                 handleClick={() => listSelected(list.id)}
                 handleDeletedList={props.handleDelete}
                 currentList={props.selectedList}

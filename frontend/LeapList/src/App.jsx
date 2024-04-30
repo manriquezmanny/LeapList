@@ -140,9 +140,12 @@ function App() {
         .catch((e) => console.log("Error adding new task", e));
     }
     setTasks([...tasks, newTaskObject]);
+    if (loggedIn) {
+      setUserLists(await getUserLists());
+    }
   };
   // Handler function and PUT req to update state task completion.
-  const toggleComplete = (id) => {
+  const toggleComplete = async (id) => {
     if (loggedIn) {
       let task;
       let newState;
@@ -160,13 +163,17 @@ function App() {
 
       const jwt = localStorage.getItem("jwt");
 
-      fetch("http://localhost:5000/toggle-task", {
+      await fetch("http://localhost:5000/toggle-task", {
         method: "PUT",
         headers: {
           authorization: `Bearer ${jwt}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ newState: newState, taskId: task.id }),
+        body: JSON.stringify({
+          newState: newState,
+          taskId: task.id,
+          listId: selectedList,
+        }),
       })
         .then((res) => res.json())
         .then((res) => console.log(res.edited))
@@ -180,6 +187,10 @@ function App() {
           : current;
       })
     );
+
+    if (loggedIn) {
+      setUserLists(await getUserLists());
+    }
   };
 
   // POST req to db for getting list of tasks
@@ -224,16 +235,16 @@ function App() {
       .reverse();
   }
   // DELETE req to delete task from db
-  function deleteTask(taskId) {
+  async function deleteTask(taskId) {
     const jwt = localStorage.getItem("jwt");
     if (confirm("Are you sure you want to delete this task?") == true) {
-      fetch("http://localhost:5000/delete-task", {
+      await fetch("http://localhost:5000/delete-task", {
         method: "DELETE",
         headers: {
           authorization: `Bearer ${jwt}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ taskId: taskId }),
+        body: JSON.stringify({ taskId: taskId, listId: selectedList }),
       })
         .then((res) => res.json())
         .then((res) => {
@@ -244,6 +255,11 @@ function App() {
     setTasks((prevTasks) =>
       prevTasks.filter((current) => current.id != taskId)
     );
+    if (loggedIn) {
+      console.log("ran");
+      const newLists = await getUserLists();
+      setUserLists(newLists);
+    }
   }
 
   // Gets the sidebar toggle state from child component.
