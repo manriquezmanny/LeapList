@@ -7,7 +7,7 @@ import bodyParser from "body-parser";
 import "dotenv/config";
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 const corsOptions = {
   origin: "*",
@@ -52,6 +52,8 @@ app.use(async (req, res, next) => {
     throw e;
   }
 });
+
+console.log("Connected to db!");
 
 // POST register endpoint
 app.post("/register", async function (req, res) {
