@@ -23,8 +23,6 @@ function App() {
 
   const API_HOST = import.meta.env.VITE_API_HOST;
 
-  console.log(API_HOST);
-
   // Use effect for checking if logged in at start from localStorage.
   useEffect(() => {
     if (localStorage.getItem("jwt")) {

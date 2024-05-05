@@ -4,6 +4,7 @@ import "./styles/loginRegister.css";
 
 function Login() {
   const API_HOST = import.meta.env.VITE_API_HOST;
+  console.log(API_HOST);
 
   const navigate = useNavigate();
 
