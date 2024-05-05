@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import bodyParser from "body-parser";
 import "dotenv/config";
+import moment from "moment";
 
 const port = process.env.PORT || 3000;
 
@@ -44,7 +45,8 @@ app.use(async (req, res, next) => {
 
     // Traditional mode ensures not null is respected for unsupplied fields, ensures valid JavaScript dates, etc.
     await req.db.query('SET SESSION sql_mode = "TRADITIONAL"');
-    await req.db.query(`SET time_zone = '+0:00'`);
+    const timeZone = moment.tz(moment.tz.guess()).format("z");
+    await req.db.query(`SET time_zone = '${timeZone}'`);
 
     // Moves the request down the line to the next middleware and/or endpoints it's headed to.
     next();
