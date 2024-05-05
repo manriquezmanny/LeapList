@@ -3,6 +3,8 @@ import { useState } from "react";
 import "./styles/loginRegister.css";
 
 function Login() {
+  const API_HOST = import.meta.env.VITE_API_HOST;
+
   const navigate = useNavigate();
 
   const [login, setLogin] = useState({
@@ -20,7 +22,7 @@ function Login() {
 
     const body = { email: login.email, password: login.password };
 
-    fetch("http://localhost:5000/log-in", {
+    fetch(`${API_HOST}/log-in`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -6,6 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 import "./styles/Sidebar.css";
 
 function Sidebar(props) {
+  const API_HOST = import.meta.env.VITE_API_HOST;
+
   const [newList, setNewList] = useState("");
 
   // Instanciations //
@@ -26,7 +28,7 @@ function Sidebar(props) {
         alert("Please enter a name for your new list");
         return;
       }
-      const newListRes = await fetch("http://localhost:5000/add-user-list", {
+      const newListRes = await fetch(`${API_HOST}/add-user-list`, {
         method: "POST",
         headers: {
           authorization: `Bearer ${jwt}`,

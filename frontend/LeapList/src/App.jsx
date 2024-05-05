@@ -21,6 +21,10 @@ function App() {
   // Instantiated react router.
   const navigator = useNavigate();
 
+  const API_HOST = import.meta.env.VITE_API_HOST;
+
+  console.log(API_HOST);
+
   // Use effect for checking if logged in at start from localStorage.
   useEffect(() => {
     if (localStorage.getItem("jwt")) {
@@ -72,7 +76,7 @@ function App() {
       const newText = editedObject.body;
       const listId = editedObject.list_id;
 
-      const newLists = await fetch("http://localhost:5000/edit-task", {
+      const newLists = await fetch(`${API_HOST}/edit-task`, {
         method: "PUT",
         headers: {
           authorization: `Bearer ${jwt}`,
@@ -130,7 +134,7 @@ function App() {
     }
 
     if (selectedList && loggedIn) {
-      await fetch("http://localhost:5000/add", {
+      await fetch(`${API_HOST}/add`, {
         method: "POST",
         headers: {
           authorization: `Bearer ${jwt}`,
@@ -166,7 +170,7 @@ function App() {
 
       const jwt = localStorage.getItem("jwt");
 
-      await fetch("http://localhost:5000/toggle-task", {
+      await fetch(`${API_HOST}/toggle-task`, {
         method: "PUT",
         headers: {
           authorization: `Bearer ${jwt}`,
@@ -200,7 +204,7 @@ function App() {
   async function getListTasks() {
     const jwt = localStorage.getItem("jwt");
 
-    const tasks = await fetch("http://localhost:5000/tasks", {
+    const tasks = await fetch(`${API_HOST}/tasks`, {
       method: "POST",
       headers: {
         authorization: `Bearer ${jwt}`,
@@ -219,7 +223,7 @@ function App() {
   async function getUserLists() {
     const jwt = localStorage.getItem("jwt");
 
-    const lists = await fetch("http://localhost:5000/lists", {
+    const lists = await fetch(`${API_HOST}/lists`, {
       method: "GET",
       headers: {
         authorization: `Bearer ${jwt}`,
@@ -240,7 +244,7 @@ function App() {
   async function deleteTask(taskId) {
     const jwt = localStorage.getItem("jwt");
     if (confirm("Are you sure you want to delete this task?") == true) {
-      await fetch("http://localhost:5000/delete-task", {
+      await fetch(`${API_HOST}/delete-task`, {
         method: "DELETE",
         headers: {
           authorization: `Bearer ${jwt}`,

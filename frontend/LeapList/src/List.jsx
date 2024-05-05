@@ -1,9 +1,10 @@
 function List(props) {
+  const API_HOST = import.meta.env.VITE_API_HOST;
   // Function for deleting a list.
   function deleteList(listId) {
     const jwt = localStorage.getItem("jwt");
     if (confirm("Are you sure you want to delete this list?") == true) {
-      fetch("http://localhost:5000/delete-list", {
+      fetch(`${API_HOST}/delete-list`, {
         method: "DELETE",
         headers: {
           authorization: `Bearer ${jwt}`,

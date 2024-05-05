@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 function Register() {
+  const API_HOST = import.meta.env.VITE_API_HOST;
+
   const navigate = useNavigate();
 
   const [account, setAccount] = useState({
@@ -31,7 +33,7 @@ function Register() {
       email: account.email,
     };
 
-    fetch("http://localhost:5000/register", {
+    fetch(`${API_HOST}/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
