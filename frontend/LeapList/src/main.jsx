@@ -14,11 +14,11 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: `https://frontend-vite-react-production.up.railway.app/register`,
+    path: `/register`,
     element: <Register />,
   },
   {
-    path: `https://frontend-vite-react-production.up.railway/log-in`,
+    path: `/log-in`,
     element: <Login />,
   },
 ]);
