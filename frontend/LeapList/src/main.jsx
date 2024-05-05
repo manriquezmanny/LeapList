@@ -7,8 +7,6 @@ import App from "./App.jsx";
 import Register from "./Register.jsx";
 import Login from "./Login.jsx";
 
-const API_HOST = import.meta.env.VITE_API_HOST;
-
 // Creating a router with createBrowserRouter
 const router = createBrowserRouter([
   {
@@ -16,11 +14,11 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: `/register`,
+    path: `https://frontend-vite-react-production.up.railway.app/register`,
     element: <Register />,
   },
   {
-    path: `/log-in`,
+    path: `https://frontend-vite-react-production.up.railway/log-in`,
     element: <Login />,
   },
 ]);
