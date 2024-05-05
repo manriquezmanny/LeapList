@@ -59,19 +59,22 @@ console.log("Connected to db!");
 app.post("/register", async function (req, res) {
   try {
     const { username, password, email } = req.body;
-
+    console.log("Got JSON body");
     const hashedPassword = await bcrypt.hash(password, 10);
+    console.log("encrypted password");
 
     const [user] = await req.db.query(
       `INSERT INTO users (username, password, email )
       VALUES (:username, :hashedPassword, :email);`,
       { username, hashedPassword, email }
     );
+    console.log("made db query");
 
     const jwtEncodedUser = jwt.sign(
       { userId: user.insertId, username, email },
       process.env.JWT_KEY
     );
+    console.log("USED JWT_KEY");
     res.json({
       jwt: jwtEncodedUser,
       success: true,
