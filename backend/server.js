@@ -41,12 +41,10 @@ app.use(async (req, res, next) => {
     req.db = await pool.getConnection();
     console.log("Got connection");
     req.db.connection.config.namedPlaceholders = true;
-    console.log("configed named placeholders?");
 
     // Traditional mode ensures not null is respected for unsupplied fields, ensures valid JavaScript dates, etc.
     await req.db.query('SET SESSION sql_mode = "TRADITIONAL"');
     await req.db.query(`SET time_zone = '-8:00'`);
-    console.log("set session modes?");
 
     // Moves the request down the line to the next middleware and/or endpoints it's headed to.
     next();
@@ -62,7 +60,7 @@ app.use(async (req, res, next) => {
   }
 });
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
   res.json({ Hello: "there" });
 });
 
