@@ -47,9 +47,7 @@ function Sidebar(props) {
 
   // Gets a last edited time to render.
   function formatDateTimeToRender(dateTimeStr) {
-    const difference = moment
-      .duration(moment().diff(dateTimeStr))
-      .subtract(1, "hours");
+    const difference = moment.duration(moment().diff(dateTimeStr));
 
     // Quick and dirty fix for wrong timezone with SQL database.
 
@@ -133,9 +131,7 @@ function Sidebar(props) {
                 id={list.id}
                 name={list.list_name}
                 last_edited={formatDateTimeToRender(moment(list.last_edited))}
-                published={moment(list.publish_date)
-                  .add(1, "hours")
-                  .format("MM/DD/YYYY")}
+                published={moment(list.publish_date).format("MM/DD/YYYY")}
                 handleClick={() => listSelected(list.id)}
                 handleDeletedList={props.handleDelete}
                 currentList={props.selectedList}
