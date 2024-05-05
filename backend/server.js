@@ -6,8 +6,9 @@ import bcrypt from "bcrypt";
 import bodyParser from "body-parser";
 import "dotenv/config";
 
-const app = express();
 const port = process.env.PORT || 3000;
+
+const app = express();
 
 const corsOptions = {
   origin: "*",
@@ -366,6 +367,6 @@ app.put("/edit-task", async (req, res) => {
 });
 
 // Start express server
-app.listen(port, "0.0.0.0", () => {
-  console.log("Server is running");
+app.listen(port, "0.0.0.0", function () {
+  console.log(`Server is running on port: ${port}`);
 });
