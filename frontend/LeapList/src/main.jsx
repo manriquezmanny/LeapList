@@ -16,11 +16,11 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: `${API_HOST}/register`,
+    path: `/register`,
     element: <Register />,
   },
   {
-    path: `${API_HOST}/log-in`,
+    path: `/log-in`,
     element: <Login />,
   },
 ]);
