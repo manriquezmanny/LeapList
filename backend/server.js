@@ -55,6 +55,10 @@ app.use(async (req, res, next) => {
 
 console.log("Connected to db!");
 
+app.get("/", (req, res) => {
+  res.json({ Hello: "there" });
+});
+
 // POST register endpoint
 app.post("/register", async function (req, res) {
   try {
@@ -362,6 +366,6 @@ app.put("/edit-task", async (req, res) => {
 });
 
 // Start express server
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log("Server is running");
 });
