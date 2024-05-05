@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import bodyParser from "body-parser";
 import "dotenv/config";
-import moment from "moment";
+import moment from "moment-timezone";
 
 const port = process.env.PORT || 3000;
 
