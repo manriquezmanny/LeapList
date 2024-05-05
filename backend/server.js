@@ -32,13 +32,17 @@ app.use(bodyParser.json());
 // Middleware for connecting to database.
 app.use(async (req, res, next) => {
   try {
+    console.log("attempting to connect to db");
     // Connecting to my SQL db. req gets modified and gets sent to next middleware and endpoint functions.
     req.db = await pool.getConnection();
+    console.log("Got connection");
     req.db.connection.config.namedPlaceholders = true;
+    console.log("configed named placeholders?");
 
     // Traditional mode ensures not null is respected for unsupplied fields, ensures valid JavaScript dates, etc.
     await req.db.query('SET SESSION sql_mode = "TRADITIONAL"');
     await req.db.query(`SET time_zone = '-8:00'`);
+    console.log("set session modes?");
 
     // Moves the request down the line to the next middleware and/or endpoints it's headed to.
     next();
@@ -53,8 +57,6 @@ app.use(async (req, res, next) => {
     throw e;
   }
 });
-
-console.log("Connected to db!");
 
 app.get("/", (req, res) => {
   res.json({ Hello: "there" });
