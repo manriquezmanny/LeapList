@@ -1,6 +1,7 @@
 import "./styles/App.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { nanoid } from "nanoid";
 
 function Register() {
   const API_HOST = import.meta.env.VITE_API_HOST;
@@ -27,10 +28,13 @@ function Register() {
       return;
     }
 
+    const verifyToken = nanoid(10).toString();
+
     const body = {
       username: account.username,
       password: account.password,
       email: account.email,
+      verifyToken: verifyToken,
     };
 
     fetch(`${API_HOST}/register`, {
