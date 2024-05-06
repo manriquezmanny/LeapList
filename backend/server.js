@@ -62,6 +62,14 @@ app.use(async (req, res, next) => {
   }
 });
 
+// Serve static files from the build folder
+app.use(express.static(path.join(__dirname, "build")));
+
+// Wildcard route to serve the index.html file for all other routes
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
 app.get("/", async (req, res) => {
   res.json({ Hello: "there" });
 });
