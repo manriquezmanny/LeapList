@@ -62,9 +62,6 @@ app.use(async (req, res, next) => {
   }
 });
 
-// Serve static files from the build folder
-app.use(express.static(path.join(__dirname, "build")));
-
 app.get("/", async (req, res) => {
   res.json({ Hello: "there" });
 });
@@ -373,11 +370,6 @@ app.put("/edit-task", async (req, res) => {
   } catch (e) {
     console.log(e);
   }
-});
-
-// Wildcard route to serve the index.html file for all other routes
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 // Start express server
