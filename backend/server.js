@@ -124,7 +124,7 @@ app.post("/register", async function (req, res) {
     if (e.errno == 1062) {
       res.json({ e, success: false, emailExists: true });
     } else {
-      res.json({ e, success: false });
+      res.json({ e, success: false, emailExists: true });
     }
   }
 });
