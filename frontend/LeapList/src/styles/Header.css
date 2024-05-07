@@ -37,9 +37,10 @@
   font-size: 1.4rem;
 }
 #input-field {
-  width: 60%;
+  width: 70%;
   font-family: "Indie Flower";
   margin-left: 0px;
+  margin-top: 2px;
   box-shadow: 0 0 2px inset gray;
   border-radius: 5px;
   padding-left: 10px;
