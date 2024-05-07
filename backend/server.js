@@ -143,14 +143,13 @@ app.get(`verify/:verifyToken`, async (req, res) => {
 
 // POST login
 app.post("/log-in", async function (req, res) {
+  console.log("server login endpoint ran");
   try {
     const { email, password } = req.body;
-
     const [[user]] = await req.db.query(
       `SELECT * FROM users WHERE email = :email`,
       { email }
     );
-
     if (!user) {
       console.log("User not found");
       return res.json({ email: false });
