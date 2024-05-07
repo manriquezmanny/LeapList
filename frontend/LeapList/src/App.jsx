@@ -68,7 +68,7 @@ function App() {
   // Handler function for saving an edited task in state. Edited task data passed up from child component.
   const handleSave = async (editedObject) => {
     setToEdit(0);
-    if (loggedIn) {
+    if (loggedIn && selectedList) {
       const jwt = localStorage.getItem("jwt");
       const taskId = editedObject.id;
       const newText = editedObject.body;
@@ -242,27 +242,28 @@ function App() {
   async function deleteTask(taskId) {
     const jwt = localStorage.getItem("jwt");
     if (confirm("Are you sure you want to delete this task?") == true) {
-      await fetch(`${API_HOST}/delete-task`, {
-        method: "DELETE",
-        headers: {
-          authorization: `Bearer ${jwt}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ taskId: taskId, listId: selectedList }),
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          console.log(res.deleted);
+      if (loggedIn && selectedList) {
+        await fetch(`${API_HOST}/delete-task`, {
+          method: "DELETE",
+          headers: {
+            authorization: `Bearer ${jwt}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ taskId: taskId, listId: selectedList }),
         })
-        .catch((e) => console.log("Error deleting list: ", e));
-    }
-    setTasks((prevTasks) =>
-      prevTasks.filter((current) => current.id != taskId)
-    );
-    if (loggedIn) {
-      console.log("ran");
-      const newLists = await getUserLists();
-      setUserLists(newLists);
+          .then((res) => res.json())
+          .then((res) => {
+            console.log(res.deleted);
+          })
+          .catch((e) => console.log("Error deleting list: ", e));
+      }
+      setTasks((prevTasks) =>
+        prevTasks.filter((current) => current.id != taskId)
+      );
+      if (loggedIn) {
+        const newLists = await getUserLists();
+        setUserLists(newLists);
+      }
     }
   }
 
