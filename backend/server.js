@@ -103,20 +103,14 @@ app.post("/register", async function (req, res) {
     sendMail(email, verifyToken);
     console.log("Email verification sent");
 
-    const [user] = await req.db.query(
+    await req.db.query(
       `INSERT INTO users (username, password, email )
       VALUES (:username, :hashedPassword, :email, :verifyToken);`,
       { username, hashedPassword, email, verifyToken }
     );
     console.log("made db query");
 
-    const jwtEncodedUser = jwt.sign(
-      { userId: user.insertId, username, email },
-      process.env.JWT_KEY
-    );
-    console.log("USED JWT_KEY");
     res.json({
-      jwt: jwtEncodedUser,
       success: true,
       username: username,
       email: email,
