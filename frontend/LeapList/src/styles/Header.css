@@ -5,6 +5,7 @@
   margin-left: 60px;
   font-family: "Indie Flower";
   display: flex;
+  flex-direction: column;
   justify-content: start;
   align-items: start;
   border-bottom: solid black 2px;
@@ -25,10 +26,11 @@
 .input-and-button {
   display: flex;
   flex-direction: row;
-  width: 100%;
-  margin-top: 15px;
+  width: 60%;
   min-width: 166px;
   height: 35px;
+  margin-left: 10px;
+  margin-top: 10px;
 }
 .input-label {
   margin-right: 10px;
@@ -38,7 +40,7 @@
   width: 60%;
   font-family: "Indie Flower";
   margin-left: 0px;
-  box-shadow: 0 0 10px gray;
+  box-shadow: 0 0 2px inset gray;
   border-radius: 5px;
   padding-left: 10px;
   font-size: 1.2rem;
@@ -52,8 +54,7 @@
   font-weight: bold;
   color: black;
   border-radius: 3px;
-  box-shadow: 0 0 8px gray;
-  width: 60px;
+  box-shadow: 0 0 2px gray;
   display: flex;
   justify-content: center;
   align-self: center;
@@ -63,5 +64,5 @@
   margin-left: 5px;
 }
 .add-task-btn:hover {
-  box-shadow: 0 0 14px gray !important;
+  box-shadow: 0 0 6px lightgreen !important;
 }

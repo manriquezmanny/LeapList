@@ -70,6 +70,9 @@ body #root .root {
   font-size: 1.4rem;
   border-radius: 3px;
 }
+.save-btn:hover {
+  box-shadow: 0 0 6px lightgreen;
+}
 .edit-input {
   margin-left: 8px;
   min-width: 70%;

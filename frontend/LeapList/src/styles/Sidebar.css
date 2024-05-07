@@ -242,21 +242,21 @@ p.published {
   box-shadow: 0 0 10px gray;
   font-family: "Indie Flower";
   font-size: 1.2rem;
+  padding-left: 10px;
 }
 .add-list-btn {
   height: 35px;
   width: 25%;
   font-family: "Indie Flower";
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: bolder;
   box-shadow: 0 0 10px gray;
   border-radius: 2px;
   align-self: center;
   margin-left: 4px;
-  font-size: 0.9rem;
 }
 .add-list-btn:hover {
-  box-shadow: 0 0 14 gray;
+  box-shadow: 0 0 6px lightgreen;
 }
 .list-object {
   cursor: pointer;

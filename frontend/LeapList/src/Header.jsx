@@ -36,7 +36,7 @@ function Header(props) {
         {props.selectedList == 0 || props.userLists.length == 0 ? (
           <h2 id="main-header">New List :</h2>
         ) : (
-          <h2 id="main-header">{listName} :</h2>
+          <h2 id="main-header">List: {listName}</h2>
         )}
         <div className="input-and-button">
           <input
@@ -45,7 +45,7 @@ function Header(props) {
             type="text"
             name="objective"
             autoComplete="off"
-            placeholder="Add task"
+            placeholder="Add Task to List"
           />
           <button className="add-task-btn">Add</button>
         </div>
