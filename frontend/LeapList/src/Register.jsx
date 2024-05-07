@@ -44,17 +44,17 @@ function Register() {
       },
       body: JSON.stringify(body),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        res.json();
+      })
       .then((res) => {
         if (res.emailExists) {
           const newErr = new Error("Email already has account!");
           newErr.name = "Email already has account!";
           throw newErr;
         } else {
-          localStorage.setItem("jwt", res.jwt);
-          localStorage.setItem("username", res.username);
-          localStorage.setItem("email", res.email);
-          navigate("/");
+          navigate("/log-in");
         }
       })
       .catch((e) => {

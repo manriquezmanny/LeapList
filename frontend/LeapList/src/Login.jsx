@@ -32,13 +32,16 @@ function Login() {
     })
       .then((res) => res.json())
       .then((res) => {
+        console.log(`Response from client:`, res);
         if (!res.email) {
           throw new Error("Email not in database");
         }
-        localStorage.setItem("jwt", res.jwt);
-        localStorage.setItem("username", res.username);
-        localStorage.setItem("email", res.email);
-        navigate("/");
+        if (res.verified) {
+          localStorage.setItem("jwt", res.jwt);
+          localStorage.setItem("username", res.username);
+          localStorage.setItem("email", res.email);
+          navigate("/");
+        }
       })
       .catch((e) => {
         if (e.message == "Email not in database") {
