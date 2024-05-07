@@ -35,7 +35,7 @@ const sendMail = (email, verifyToken) => {
   const Transport = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
-    secure: false,
+    secure: true,
     auth: {
       user: process.env.EMAIL,
       pass: process.env.EMAIL_PASSWORD,
