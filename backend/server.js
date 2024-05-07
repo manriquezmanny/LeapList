@@ -177,6 +177,7 @@ app.post("/log-in", async function (req, res) {
         success: true,
         username: user.username,
         email: email,
+        verified: user.verified,
       });
     } else if (passwordMatches && !user.verified) {
       res.json({ err: "Pleases verify your Email", success: false });
