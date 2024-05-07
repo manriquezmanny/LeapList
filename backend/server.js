@@ -7,6 +7,7 @@ import bodyParser from "body-parser";
 import "dotenv/config";
 import moment from "moment-timezone";
 import nodemailer from "nodemailer";
+import nanoid from "nanoid";
 
 const port = process.env.PORT || 3000;
 
@@ -95,10 +96,13 @@ app.get("/", async (req, res) => {
 // POST register endpoint
 app.post("/register", async function (req, res) {
   try {
-    const { username, password, email, verifyToken } = req.body;
+    const { username, password, email } = req.body;
     console.log("Got JSON body");
     const hashedPassword = await bcrypt.hash(password, 10);
     console.log("encrypted password");
+
+    const verifyToken = nanoid(10).toString();
+    console.log("VerifyToken:", verifyToken);
 
     sendMail(email, verifyToken);
     console.log("Email verification sent");
