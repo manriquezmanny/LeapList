@@ -33,7 +33,9 @@ const pool = mysqlPromise.createPool({
 
 const sendMail = (email, verifyToken) => {
   const Transport = nodemailer.createTransport({
-    service: "Gmail",
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
     auth: {
       user: process.env.EMAIL,
       pass: process.env.EMAIL_PASSWORD,
@@ -105,6 +107,7 @@ app.post("/register", async function (req, res) {
     console.log("VerifyToken:", verifyToken);
 
     sendMail(email, verifyToken);
+
     console.log("Email verification sent");
 
     await req.db.query(
