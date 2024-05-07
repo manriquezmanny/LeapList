@@ -1,7 +1,6 @@
 import "./styles/App.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { nanoid } from "nanoid";
 
 function Register() {
   const API_HOST = import.meta.env.VITE_API_HOST;
@@ -28,13 +27,10 @@ function Register() {
       return;
     }
 
-    const verifyToken = nanoid(10).toString();
-
     const body = {
       username: account.username,
       password: account.password,
       email: account.email,
-      verifyToken: verifyToken,
     };
 
     fetch(`${API_HOST}/register`, {
@@ -44,11 +40,9 @@ function Register() {
       },
       body: JSON.stringify(body),
     })
+      .then((res) => res.json())
       .then((res) => {
         console.log(res);
-        res.json();
-      })
-      .then((res) => {
         if (res.emailExists) {
           const newErr = new Error("Email already has account!");
           newErr.name = "Email already has account!";
