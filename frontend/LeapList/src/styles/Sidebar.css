@@ -64,6 +64,7 @@
   flex-direction: column;
   align-items: center;
   overflow-y: scroll;
+  padding-top: 10px;
 }
 .user-lists::-webkit-scrollbar {
   display: none;
@@ -76,7 +77,7 @@
   border-radius: 5px;
   display: flex;
   align-items: center;
-  margin-top: 10px;
+  margin-bottom: 10px;
   padding: 10px;
   border-color: #b1936c;
 }
