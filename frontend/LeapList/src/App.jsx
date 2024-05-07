@@ -41,7 +41,7 @@ function App() {
 
   useEffect(() => {
     async function getData() {
-      if (loggedIn) {
+      if (loggedIn && selectedList) {
         const newTasks = await getListTasks();
         setTasks(newTasks);
       }
@@ -91,7 +91,7 @@ function App() {
         .catch((e) => console.log("Error: ", e));
 
       setUserLists(newLists);
-      if (loggedIn) {
+      if (loggedIn && selectedList) {
         setTasks(await getListTasks());
       }
     } else {
@@ -193,7 +193,7 @@ function App() {
       })
     );
 
-    if (loggedIn && selectedList) {
+    if (loggedIn) {
       setUserLists(await getUserLists());
     }
   };
@@ -261,7 +261,7 @@ function App() {
     setTasks((prevTasks) =>
       prevTasks.filter((current) => current.id != taskId)
     );
-    if (loggedIn) {
+    if (loggedIn && selectedList) {
       const newLists = await getUserLists();
       setUserLists(newLists);
     }
