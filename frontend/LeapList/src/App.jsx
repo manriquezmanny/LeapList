@@ -151,7 +151,7 @@ function App() {
   };
   // Handler function and PUT req to update state task completion.
   const toggleComplete = async (id) => {
-    if (loggedIn) {
+    if (loggedIn && selectedList) {
       let task;
       let newState;
       for (let i = 0; i < tasks.length; i++) {
@@ -193,7 +193,7 @@ function App() {
       })
     );
 
-    if (loggedIn) {
+    if (loggedIn && selectedList) {
       setUserLists(await getUserLists());
     }
   };
