@@ -118,6 +118,7 @@ app.post("/register", async function (req, res) {
       success: true,
       username: username,
       email: email,
+      emailExists: false,
     });
   } catch (e) {
     if (e.errno == 1062) {
