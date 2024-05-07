@@ -7,7 +7,7 @@ import bodyParser from "body-parser";
 import "dotenv/config";
 import moment from "moment-timezone";
 import nodemailer from "nodemailer";
-import nanoid from "nanoid";
+import { nanoid } from "nanoid";
 
 const port = process.env.PORT || 3000;
 
