@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 import bodyParser from "body-parser";
 import "dotenv/config";
 import moment from "moment-timezone";
+import nodemailer from "nodemailer";
 
 const port = process.env.PORT || 3000;
 
@@ -28,6 +29,31 @@ const pool = mysqlPromise.createPool({
   connectionLimit: 10,
   queueLimit: 0,
 });
+
+const sendMail = (email, verifyToken) => {
+  const Transport = nodemailer.createTransport({
+    service: "Gmail",
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.EMAIL_PASSWORD,
+    },
+  });
+
+  const mailOptions = {
+    from: "Leap List",
+    to: email,
+    subject: "Email Verification",
+    html: `Click <a href=${process.env.CLIENT_HOST}/verify/${verifyToken}> Here </a> to verify your email.`,
+  };
+
+  Transport.sendMail(mailOptions, (error, res) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Verification Email Sent");
+    }
+  });
+};
 
 app.use(cors(corsOptions));
 
@@ -74,10 +100,12 @@ app.post("/register", async function (req, res) {
     const hashedPassword = await bcrypt.hash(password, 10);
     console.log("encrypted password");
 
+    sendMail(email, verifyToken);
+
     const [user] = await req.db.query(
       `INSERT INTO users (username, password, email )
-      VALUES (:username, :hashedPassword, :email);`,
-      { username, hashedPassword, email }
+      VALUES (:username, :hashedPassword, :email, :verifyToken);`,
+      { username, hashedPassword, email, verifyToken }
     );
     console.log("made db query");
 
@@ -99,6 +127,23 @@ app.post("/register", async function (req, res) {
       res.json({ e, success: false });
     }
   }
+});
+
+app.get(`verify/:verifyToken`, async (req, res) => {
+  // Getting the token
+  const { verifyToken } = req.params;
+
+  const [[user]] = await req.db.query(
+    `SELECT * FROM users WHERE verifyToken = :verifyToken`,
+    { verifyToken }
+  );
+
+  if (user) {
+    `UPDATE users SET verified = 1 WHERE verifyToken = :verifyToken`,
+      { verifyToken };
+  }
+
+  res.redirect("/log-in");
 });
 
 // POST login
