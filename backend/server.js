@@ -164,7 +164,7 @@ app.post("/log-in", async function (req, res) {
     const hashedPassword = user.password;
     const passwordMatches = await bcrypt.compare(password, hashedPassword);
 
-    if (passwordMatches) {
+    if (passwordMatches && user.verified) {
       const payload = {
         userId: user.id,
         username: user.username,
@@ -177,14 +177,16 @@ app.post("/log-in", async function (req, res) {
         username: user.username,
         email: email,
       });
+    } else if (passwordMatches && !user.verified) {
+      res.json({ err: "Pleases verify your Email", success: false });
     } else {
       res.json({
-        err: "Password is wrong",
+        err: "Incorrect Password or Email",
         success: false,
       });
     }
   } catch (e) {
-    console.log("Error in /authenticage", e);
+    console.log("Error in /authenticate", e);
   }
 });
 
