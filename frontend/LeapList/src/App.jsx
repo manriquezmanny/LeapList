@@ -257,13 +257,13 @@ function App() {
           })
           .catch((e) => console.log("Error deleting list: ", e));
       }
-      setTasks((prevTasks) =>
-        prevTasks.filter((current) => current.id != taskId)
-      );
-      if (loggedIn) {
-        const newLists = await getUserLists();
-        setUserLists(newLists);
-      }
+    }
+    setTasks((prevTasks) =>
+      prevTasks.filter((current) => current.id != taskId)
+    );
+    if (loggedIn) {
+      const newLists = await getUserLists();
+      setUserLists(newLists);
     }
   }
 
