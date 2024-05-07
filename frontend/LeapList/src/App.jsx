@@ -41,7 +41,7 @@ function App() {
 
   useEffect(() => {
     async function getData() {
-      if (loggedIn && selectedList) {
+      if (loggedIn) {
         const newTasks = await getListTasks();
         setTasks(newTasks);
       }
@@ -91,7 +91,7 @@ function App() {
         .catch((e) => console.log("Error: ", e));
 
       setUserLists(newLists);
-      if (loggedIn && selectedList) {
+      if (loggedIn) {
         setTasks(await getListTasks());
       }
     } else {
@@ -127,8 +127,8 @@ function App() {
       body: task,
       complete: false,
     };
-    if (!loggedIn) {
-      newTaskObject.id = tasks.length + 1;
+    if (!loggedIn || !selectedList) {
+      newTaskObject.id = uuidv4();
     }
 
     if (selectedList && loggedIn) {
@@ -145,22 +145,22 @@ function App() {
         .catch((e) => console.log("Error adding new task", e));
     }
     setTasks([...tasks, newTaskObject]);
-    if (loggedIn) {
+    if (loggedIn && selectedList) {
       setUserLists(await getUserLists());
     }
   };
   // Handler function and PUT req to update state task completion.
   const toggleComplete = async (id) => {
     if (loggedIn && selectedList) {
-      let task;
+      let taskToToggle;
       let newState;
       for (let i = 0; i < tasks.length; i++) {
         if (tasks[i].id == id) {
-          task = tasks[i];
+          taskToToggle = tasks[i];
         }
       }
 
-      if (task.complete == 0) {
+      if (taskToToggle.complete == 0) {
         newState = 1;
       } else {
         newState = 0;
@@ -176,7 +176,7 @@ function App() {
         },
         body: JSON.stringify({
           newState: newState,
-          taskId: task.id,
+          taskId: taskToToggle.id,
           listId: selectedList,
         }),
       })
@@ -193,7 +193,7 @@ function App() {
       })
     );
 
-    if (loggedIn) {
+    if (loggedIn && selectedList) {
       setUserLists(await getUserLists());
     }
   };
@@ -287,6 +287,8 @@ function App() {
   const getTasks = (state) => {
     setTasks(state);
   };
+
+  console.log(tasks);
 
   return (
     <div className="main-container">
