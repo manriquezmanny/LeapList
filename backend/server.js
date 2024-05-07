@@ -101,6 +101,7 @@ app.post("/register", async function (req, res) {
     console.log("encrypted password");
 
     sendMail(email, verifyToken);
+    console.log("Email verification sent");
 
     const [user] = await req.db.query(
       `INSERT INTO users (username, password, email )
@@ -232,9 +233,9 @@ app.use(async function verifyJwt(req, res, next) {
     ) {
       req.status = e.status || 500;
       req.body = e.message;
-      req.app.emit("jwt-error", err, req);
+      req.app.emit("jwt-error", e, req);
     } else {
-      throw (err.status || 500, e.message);
+      throw (e.status || 500, e.message);
     }
   }
   next();
