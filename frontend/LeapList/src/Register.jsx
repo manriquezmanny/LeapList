@@ -2,9 +2,9 @@ import "./styles/App.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-function Register() {
-  const API_HOST = import.meta.env.VITE_API_HOST;
+const API_HOST = import.meta.env.VITE_API_HOST;
 
+function Register() {
   const navigate = useNavigate();
 
   const [account, setAccount] = useState({

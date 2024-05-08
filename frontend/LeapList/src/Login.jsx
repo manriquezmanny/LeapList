@@ -48,7 +48,7 @@ function Login() {
           alert("Email not in database, try again");
         } else {
           console.log("Failed to login.", e);
-          alert("Login failed, try again.");
+          alert(e.message);
         }
       });
   };
