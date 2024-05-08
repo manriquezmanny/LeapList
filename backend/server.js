@@ -100,6 +100,7 @@ app.get("/", async (req, res) => {
 app.post("/register", async function (req, res) {
   try {
     const { username, password, email } = req.body;
+    const verified = false;
     console.log("Got JSON body");
     const hashedPassword = await bcrypt.hash(password, 10);
     console.log("encrypted password");
@@ -113,8 +114,8 @@ app.post("/register", async function (req, res) {
 
     await req.db.query(
       `INSERT INTO users (username, password, email )
-      VALUES (:username, :hashedPassword, :email, :verifyToken);`,
-      { username, hashedPassword, email, verifyToken }
+      VALUES (:username, :hashedPassword, :email, :verified, :verifyToken);`,
+      { username, hashedPassword, email, verified, verifyToken }
     );
     console.log("made db query");
 
@@ -128,7 +129,7 @@ app.post("/register", async function (req, res) {
     if (e.errno == 1062) {
       res.json({ e, success: false, emailExists: true });
     } else {
-      res.json({ e, success: false, emailExists: true });
+      res.json({ e, success: false, emailExists: false });
     }
   }
 });
