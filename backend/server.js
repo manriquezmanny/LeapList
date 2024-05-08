@@ -175,6 +175,7 @@ app.post("/log-in", async function (req, res) {
         email: email,
       };
       const jwtEncodedUser = jwt.sign(payload, process.env.JWT_KEY);
+      console.log(user.verified);
       res.json({
         jwt: jwtEncodedUser,
         success: true,
