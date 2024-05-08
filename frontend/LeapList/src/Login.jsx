@@ -42,7 +42,7 @@ function Login() {
           localStorage.setItem("email", res.email);
           navigate("/");
         } else {
-          alert(e.message);
+          alert(res.message);
         }
       })
       .catch((e) => {
