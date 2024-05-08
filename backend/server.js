@@ -188,11 +188,15 @@ app.post("/log-in", async function (req, res) {
         err: "Pleases verify your Email",
         success: false,
         message: "Please Verify Your Email!",
+        email: email,
+        verified: user.verified,
       });
     } else {
       res.json({
         err: "Incorrect Password or Email",
         success: false,
+        email: email,
+        verified: user.verified,
       });
     }
   } catch (e) {
