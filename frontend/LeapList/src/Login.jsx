@@ -41,6 +41,8 @@ function Login() {
           localStorage.setItem("username", res.username);
           localStorage.setItem("email", res.email);
           navigate("/");
+        } else {
+          alert(e.message);
         }
       })
       .catch((e) => {
