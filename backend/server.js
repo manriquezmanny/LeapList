@@ -172,7 +172,7 @@ app.post("/log-in", async function (req, res) {
       const payload = {
         userId: user.id,
         username: user.username,
-        email: user.email,
+        email: email,
       };
       const jwtEncodedUser = jwt.sign(payload, process.env.JWT_KEY);
       res.json({
