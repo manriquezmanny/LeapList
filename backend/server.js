@@ -113,7 +113,7 @@ app.post("/register", async function (req, res) {
     console.log("Email verification sent");
 
     await req.db.query(
-      `INSERT INTO users (username, password, email )
+      `INSERT INTO users (username, password, email, verified, verifyToken )
       VALUES (:username, :hashedPassword, :email, :verified, :verifyToken);`,
       { username, hashedPassword, email, verified, verifyToken }
     );
