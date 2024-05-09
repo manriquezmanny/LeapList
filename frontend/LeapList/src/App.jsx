@@ -257,6 +257,8 @@ function App() {
           body: JSON.stringify({ taskId: taskId, listId: selectedList }),
         }).catch((e) => console.log("Error deleting list: ", e));
       }
+    } else {
+      return;
     }
     setTasks((prevTasks) =>
       prevTasks.filter((current) => current.id != taskId)
