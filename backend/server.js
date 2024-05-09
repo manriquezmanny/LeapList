@@ -153,7 +153,7 @@ app.get(`/verify/:verifyToken`, async (req, res) => {
     );
   }
 
-  res.redirect(`https://leaplist.net/log-in`);
+  res.redirect(`/log-in`);
 });
 
 // POST login
