@@ -1,12 +1,6 @@
-html,
-body #root .root {
-  height: 100dvh !important;
-  min-height: 100dvh !important;
-}
-
 .main-container {
   height: 100%;
-  width: 100%;
+  width: auto;
   min-height: 300px;
   overflow-y: scroll;
 }
