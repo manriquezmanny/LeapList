@@ -47,13 +47,6 @@ function Register() {
           const newErr = new Error("Email already has account!");
           newErr.name = "Email already has account!";
           throw newErr;
-        } else {
-          let confirm = confirm(
-            "Please verify your Email by clicking on the sent link!"
-          );
-          if (confirm) {
-            navigate("/log-in");
-          }
         }
       })
       .catch((e) => {
@@ -65,6 +58,11 @@ function Register() {
           alert("Registration failed, try again.");
         }
       });
+    if (
+      confirm("Please Verify your account by clicking on sent link!") == true
+    ) {
+      navigate("/log-in");
+    }
   };
 
   return (
