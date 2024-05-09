@@ -134,14 +134,17 @@ app.post("/register", async function (req, res) {
   }
 });
 
-app.get(`verify/:verifyToken`, async (req, res) => {
+app.get(`/verify/:verifyToken`, async (req, res) => {
   // Getting the token
-  const { verifyToken } = req.params;
+  console.log("verification ran");
+  const { verifyToken } = req.params.verifyToken;
+  console.log("Verification token: ", verifyToken);
 
   const [[user]] = await req.db.query(
     `SELECT * FROM users WHERE verifyToken = :verifyToken`,
     { verifyToken }
   );
+  console.log("User: ", user);
 
   if (user) {
     `UPDATE users SET verified = 1 WHERE verifyToken = :verifyToken`,
