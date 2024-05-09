@@ -132,7 +132,6 @@ function App() {
     }
 
     if (selectedList && loggedIn) {
-      console.log(tasks.length);
       if (tasks.length < 50) {
         await fetch(`${API_HOST}/add`, {
           method: "POST",
@@ -188,10 +187,7 @@ function App() {
           taskId: taskToToggle.id,
           listId: selectedList,
         }),
-      })
-        .then((res) => res.json())
-        .then((res) => console.log(res.edited))
-        .catch((e) => console.log("Error editing completion state of task", e));
+      }).catch((e) => console.log("Error editing completion state of task", e));
     }
 
     setTasks((prevTasks) =>
@@ -259,12 +255,7 @@ function App() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ taskId: taskId, listId: selectedList }),
-        })
-          .then((res) => res.json())
-          .then((res) => {
-            console.log(res.deleted);
-          })
-          .catch((e) => console.log("Error deleting list: ", e));
+        }).catch((e) => console.log("Error deleting list: ", e));
       }
     }
     setTasks((prevTasks) =>
@@ -296,8 +287,6 @@ function App() {
   const getTasks = (state) => {
     setTasks(state);
   };
-
-  console.log(tasks);
 
   return (
     <div className="main-container">
