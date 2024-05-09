@@ -28,20 +28,24 @@ function Sidebar(props) {
         alert("Please enter a name for your new list");
         return;
       }
-      const newListRes = await fetch(`${API_HOST}/add-user-list`, {
-        method: "POST",
-        headers: {
-          authorization: `Bearer ${jwt}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ listName: newList.listName }),
-      })
-        .then((res) => res.json())
-        .then((res) => res.newListRes)
-        .catch((e) => console.log("Error adding list to db: ", e));
-      props.sendSelectedList(newListRes.id);
-      props.sendNewList(newListRes);
-      e.target.reset();
+      if (props.userLists.length < 50) {
+        const newListRes = await fetch(`${API_HOST}/add-user-list`, {
+          method: "POST",
+          headers: {
+            authorization: `Bearer ${jwt}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ listName: newList.listName }),
+        })
+          .then((res) => res.json())
+          .then((res) => res.newListRes)
+          .catch((e) => console.log("Error adding list to db: ", e));
+        props.sendSelectedList(newListRes.id);
+        props.sendNewList(newListRes);
+        e.target.reset();
+      } else {
+        alert("List limit reached, delete lists to add new ones!");
+      }
     }
   };
 

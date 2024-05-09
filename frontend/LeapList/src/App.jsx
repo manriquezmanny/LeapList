@@ -132,21 +132,29 @@ function App() {
     }
 
     if (selectedList && loggedIn) {
-      await fetch(`${API_HOST}/add`, {
-        method: "POST",
-        headers: {
-          authorization: `Bearer ${jwt}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newTaskObject),
-      })
-        .then((res) => res.json())
-        .then((res) => (newTaskObject.id = res.newId.id))
-        .catch((e) => console.log("Error adding new task", e));
+      if (tasks.length < 50) {
+        await fetch(`${API_HOST}/add`, {
+          method: "POST",
+          headers: {
+            authorization: `Bearer ${jwt}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newTaskObject),
+        })
+          .then((res) => res.json())
+          .then((res) => (newTaskObject.id = res.newId.id))
+          .catch((e) => console.log("Error adding new task", e));
+      } else {
+        alert("Task limit reached, delete tasks to add new ones.");
+      }
     }
-    setTasks([...tasks, newTaskObject]);
-    if (loggedIn && selectedList) {
-      setUserLists(await getUserLists());
+    if (tasks.length < 50) {
+      setTasks([...tasks, newTaskObject]);
+      if (loggedIn && selectedList) {
+        setUserLists(await getUserLists());
+      }
+    } else {
+      alert("Task limit reached, delete tasks to add new ones.");
     }
   };
   // Handler function and PUT req to update state task completion.
