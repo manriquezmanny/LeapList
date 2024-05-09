@@ -132,6 +132,7 @@ function App() {
     }
 
     if (selectedList && loggedIn) {
+      console.log(tasks.length);
       if (tasks.length < 50) {
         await fetch(`${API_HOST}/add`, {
           method: "POST",
