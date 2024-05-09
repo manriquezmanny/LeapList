@@ -147,11 +147,13 @@ app.get(`/verify/:verifyToken`, async (req, res) => {
   console.log("User: ", user);
 
   if (user) {
-    `UPDATE users SET verified = 1 WHERE verifyToken = :verifyToken`,
-      { verifyToken };
+    await req.db.query(
+      `UPDATE users SET verified = 1 WHERE verifyToken = :verifyToken`,
+      { verifyToken }
+    );
   }
 
-  res.redirect("/log-in");
+  res.redirect(`${process.env.CLIENT_HOST}/log-in`);
 });
 
 // POST login
