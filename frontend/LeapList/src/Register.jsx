@@ -48,6 +48,7 @@ function Register() {
           newErr.name = "Email already has account!";
           throw newErr;
         } else {
+          alert("Please verify your Email by clicking on the sent link!");
           navigate("/log-in");
         }
       })
