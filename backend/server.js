@@ -137,7 +137,7 @@ app.post("/register", async function (req, res) {
 app.get(`/verify/:verifyToken`, async (req, res) => {
   // Getting the token
   console.log("verification ran");
-  const { verifyToken } = req.params.verifyToken;
+  const verifyToken = req.params.verifyToken;
   console.log("Verification token: ", verifyToken);
 
   const [[user]] = await req.db.query(
