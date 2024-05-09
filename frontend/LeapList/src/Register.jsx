@@ -48,10 +48,10 @@ function Register() {
           newErr.name = "Email already has account!";
           throw newErr;
         } else {
-          if (
-            confirm("Please verify your Email by clicking on the sent link!") ==
-            true
-          ) {
+          let confirm = confirm(
+            "Please verify your Email by clicking on the sent link!"
+          );
+          if (confirm) {
             navigate("/log-in");
           }
         }
