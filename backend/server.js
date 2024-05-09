@@ -47,7 +47,7 @@ const sendMail = (email, verifyToken) => {
     from: "Leap List",
     to: email,
     subject: "Email Verification",
-    html: `Click <a href=${process.env.SERVER_HOST}/verify/${verifyToken}> Here </a> to verify your email.`,
+    html: `Click <a href=https://leaplist.net/verify/${verifyToken}> Here </a> to verify your email.`,
   };
 
   Transport.sendMail(mailOptions, (error, res) => {
@@ -153,7 +153,7 @@ app.get(`/verify/:verifyToken`, async (req, res) => {
     );
   }
 
-  res.redirect(`${process.env.CLIENT_HOST}/log-in`);
+  res.redirect(`https://leaplist.net/log-in`);
 });
 
 // POST login
