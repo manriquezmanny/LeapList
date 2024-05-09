@@ -77,6 +77,7 @@ function Register() {
             placeholder="Email"
             className="login-item login-input"
             onChange={handleChange}
+            required
           ></input>
           <input
             type="text"
@@ -85,6 +86,7 @@ function Register() {
             className="login-item login-input"
             onChange={handleChange}
             maxLength={"9"}
+            required
           ></input>
           <input
             type="password"
@@ -92,6 +94,7 @@ function Register() {
             placeholder="Password"
             className="login-item login-input"
             onChange={handleChange}
+            required
           ></input>
           <input
             type="password"
@@ -99,6 +102,7 @@ function Register() {
             placeholder="Confirm Password"
             className="login-item login-input"
             onChange={handleChange}
+            required
           ></input>
           <div className="login-item">
             <button name="Register" className="register-btn login-item">
