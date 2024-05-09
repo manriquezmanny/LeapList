@@ -11,12 +11,7 @@ function List(props) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ listId: listId }),
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          console.log(res.deleted);
-        })
-        .catch((e) => console.log("Error deleting list: ", e));
+      }).catch((e) => console.log("Error deleting list: ", e));
       props.handleDeletedList(props.id);
     }
   }
@@ -55,7 +50,6 @@ function List(props) {
                 if (props.id == props.selectedList) {
                   props.sendSelectedList(0);
                 }
-                console.log("Delete button Clicked!", props.id);
               }}
             >
               Delete

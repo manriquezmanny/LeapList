@@ -42,7 +42,6 @@ function Register() {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
         if (res.emailExists) {
           const newErr = new Error("Email already has account!");
           newErr.name = "Email already has account!";

@@ -4,7 +4,6 @@ import "./styles/loginRegister.css";
 
 function Login() {
   const API_HOST = import.meta.env.VITE_API_HOST;
-  console.log(API_HOST);
 
   const navigate = useNavigate();
 
@@ -32,7 +31,6 @@ function Login() {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(`Response from client:`, res);
         if (!res.email) {
           throw new Error("Email not in database");
         }
