@@ -5,6 +5,7 @@ import Task from "./Task";
 import Sidebar from "./Sidebar";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import { Celebrate, countComplete } from "./features/Confetti";
 
 // Main app component
 function App() {
@@ -159,21 +160,20 @@ function App() {
   };
   // Handler function and PUT req to update state task completion.
   const toggleComplete = async (id) => {
-    if (loggedIn && selectedList) {
-      let taskToToggle;
-      let newState;
-      for (let i = 0; i < tasks.length; i++) {
-        if (tasks[i].id == id) {
-          taskToToggle = tasks[i];
-        }
+    let taskToToggle;
+    let newState;
+    for (let i = 0; i < tasks.length; i++) {
+      if (tasks[i].id == id) {
+        taskToToggle = tasks[i];
       }
+    }
 
+    if (loggedIn && selectedList) {
       if (taskToToggle.complete == 0) {
         newState = 1;
       } else {
         newState = 0;
       }
-
       const jwt = localStorage.getItem("jwt");
 
       await fetch(`${API_HOST}/toggle-task`, {
@@ -188,6 +188,10 @@ function App() {
           listId: selectedList,
         }),
       }).catch((e) => console.log("Error editing completion state of task", e));
+    }
+
+    if (!taskToToggle.complete) {
+      Celebrate(tasks.length, countComplete(tasks) + 1);
     }
 
     setTasks((prevTasks) =>
