@@ -82,6 +82,7 @@ app.use(async (req, res, next) => {
     next();
 
     // After the endpoint has been reached and resolved, disconnects from the database
+    console.log("Testing release");
     req.db.release();
   } catch (e) {
     // If anything dowvnstream throws an error, releasing the connection allocated for the request.
